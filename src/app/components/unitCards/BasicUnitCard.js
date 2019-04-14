@@ -33,7 +33,7 @@ const BasicUnitCard = ({unit, styles, color}) => {
                 experience={unit.experience}
                 equipment={unit.equipment}
                 type={unit.type}/>
-            <p>Well sure, here we are!</p>
+            <p>{unit.lore}</p>
             <div className={'buc-stats'}>
                 <StatLine ll={'Attack'} ld={unit.attack} rl={'Defense'} rd={unit.defense}/>
                 <StatLine ll={'Power'} ld={unit.power} rl={'Toughness'} rd={unit.toughness}/>

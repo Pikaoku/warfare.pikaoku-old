@@ -1,7 +1,9 @@
 import React from 'react';
 import {Button, Form, Grid, Segment} from "semantic-ui-react";
+import {connect} from "react-redux";
+import {updateUnitmakerField} from "../../../../store/actions/unitmaker";
 
-const UnitMakerCore = () => {
+const UnitMakerCore = ({updateUnitmakerField, unit}) => {
     const
         tinkerInputProps = {width: 5, type: 'number', step: 1, defaultValue: 0},
         sizes = [
@@ -19,7 +21,9 @@ const UnitMakerCore = () => {
                     <Grid.Column>
                         <Form>
                             <Form.Group widths={'equal'}>
-                                <Form.Input fluid label={'Unit Name'}/>
+                                <Form.Input
+                                    fluid label={'Unit Name'} value={unit.name}
+                                    onChange={({target}) => updateUnitmakerField('name', target.value)}/>
                                 <Form.Input fluid label={'Commander'}/>
                             </Form.Group>
                             <Form.Field control={'textarea'} label={'Description'} rows={3}/>
@@ -47,4 +51,11 @@ const UnitMakerCore = () => {
     );
 };
 
-export default UnitMakerCore;
+const mapStateToProps = (state, props) => ({
+    unit: state.unitmaker.active
+});
+
+export default connect(
+    mapStateToProps,
+    {updateUnitmakerField}
+)(UnitMakerCore);

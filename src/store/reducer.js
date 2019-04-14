@@ -1,4 +1,6 @@
 import {emptyUnitObject} from "../utils/unitMakerUtils";
+import update from 'immutability-helper';
+
 
 // AUTH
 export const AUTH_HANDLE_CHANGE = 'AUTH HANDLE STATE CHANGE';
@@ -15,6 +17,8 @@ export const ASPECTS_FETCH_SUCCESS = 'ASPECTS FETCH SUCCESS';
 // FIRESTORE
 export const FIRESTORE_REQUEST_FAILURE = 'FIRESTORE REQUEST FAILURE';
 export const FIRESTORE_REQUEST_BEGIN = 'FIRESTORE REQUEST BEGIN';
+
+export const UNITMAKER_FIELD_UPDATE = 'UNITMAKER FIELD UPDATE';
 
 const STATE_FIELD_ASPECTS = 'aspects';
 const STATE_FIELD_FEATURES = 'features';
@@ -38,6 +42,7 @@ const init = {
         active: emptyUnitObject(),
     }
 };
+
 const reducer = (state = init, {type, payload}) => {
     const integrateData = (field, category, values) => {
         let all = [];
@@ -53,6 +58,8 @@ const reducer = (state = init, {type, payload}) => {
     };
 
     switch (type) {
+        case UNITMAKER_FIELD_UPDATE:
+            return update(state, {unitmaker: {active: {[payload.field]: {$set: payload.value}}}});
         case AUTH_SIGN_IN_SUCCESS:
             return {...state, user: payload.user};
         case AUTH_SIGN_OUT:
