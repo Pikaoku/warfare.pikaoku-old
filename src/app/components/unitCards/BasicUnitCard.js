@@ -25,6 +25,7 @@ const StatLine = ({ll, ld, rl, rd}) => (
 );
 
 const BasicUnitCard = ({unit, styles, color}) => {
+    console.log('i rerendered!');
     return (
         <div className={'basic-unit-card ' + styles}>
             <div className={'buc-title'}>{unit.name}</div>

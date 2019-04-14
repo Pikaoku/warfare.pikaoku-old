@@ -14,6 +14,8 @@ const UnitMakerCore = ({updateUnitmakerField, unit}) => {
             {key: 12, value: 12, text: 12}
         ];
 
+    const updateField = (field) => ({target: {value}}) => updateUnitmakerField(field, value);
+
     return (
         <Segment>
             <Grid columns={2} divided doubling>
@@ -22,24 +24,28 @@ const UnitMakerCore = ({updateUnitmakerField, unit}) => {
                         <Form>
                             <Form.Group widths={'equal'}>
                                 <Form.Input
-                                    fluid label={'Unit Name'} value={unit.name}
-                                    onChange={({target}) => updateUnitmakerField('name', target.value)}/>
-                                <Form.Input fluid label={'Commander'}/>
+                                    fluid label={'Unit Name'} value={unit.name} onChange={updateField('name')}/>
+                                <Form.Input
+                                    fluid label={'Commander'} onChange={updateField('commander')}/>
+                                />
                             </Form.Group>
-                            <Form.Field control={'textarea'} label={'Description'} rows={3}/>
+                            <Form.Field control={'textarea'} label={'Description'} rows={3}
+                                        onChange={updateField('lore')}/>
                         </Form>
                     </Grid.Column>
                     <Grid.Column>
                         <Form>
                             <Form.Group unstackable>
-                                <Form.Input label={'Attack'} {...tinkerInputProps}/>
-                                <Form.Input label={'Defense'} {...tinkerInputProps}/>
-                                <Form.Input label={'Morale'} {...tinkerInputProps}/>
+                                <Form.Input onChange={updateField('attack')} label={'Attack'} {...tinkerInputProps}/>
+                                <Form.Input onChange={updateField('defense')} label={'Defense'} {...tinkerInputProps}/>
+                                <Form.Input onChange={updateField('morale')} label={'Morale'} {...tinkerInputProps}/>
                             </Form.Group>
                             <Form.Group unstackable>
-                                <Form.Input label={'Power'} {...tinkerInputProps}/>
-                                <Form.Input label={'Toughness'} {...tinkerInputProps}/>
-                                <Form.Dropdown width={5} label={'Size'} defaultValue={4} selection fluid
+                                <Form.Input onChange={updateField('power')} label={'Power'} {...tinkerInputProps}/>
+                                <Form.Input onChange={updateField('toughness')}
+                                            label={'Toughness'} {...tinkerInputProps}/>
+                                <Form.Dropdown onChange={updateField('size')} width={5} label={'Size'} defaultValue={4}
+                                               selection fluid
                                                options={sizes}/>
                             </Form.Group>
                             <Button fluid content={'Reset'} basic negative size={'tiny'}/>
