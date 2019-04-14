@@ -25,7 +25,6 @@ const StatLine = ({ll, ld, rl, rd}) => (
 );
 
 const BasicUnitCard = ({unit, styles, color}) => {
-    console.log('i rerendered!');
     return (
         <div className={'basic-unit-card ' + styles}>
             <div className={'buc-title'}>{unit.name}</div>
@@ -33,7 +32,7 @@ const BasicUnitCard = ({unit, styles, color}) => {
                 ancestry={unit.ancestry}
                 experience={unit.experience}
                 equipment={unit.equipment}
-                type={unit.type}/>
+                type={unit.type} />
             <p>{unit.lore}</p>
             <div className={'buc-stats'}>
                 <StatLine ll={'Attack'} ld={unit.attack} rl={'Defense'} rd={unit.defense}/>

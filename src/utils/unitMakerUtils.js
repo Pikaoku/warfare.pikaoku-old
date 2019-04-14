@@ -19,7 +19,7 @@ export const composeUnit = (unit) => {
     );
 
     ['attack', 'defense', 'power', 'toughness', 'morale'].map(stat => {
-        let value = unit.ancestry[stat] + unit.experience[stat] + unit.equipment[stat] + unit.type[stat];
+        let value = unit.ancestry[stat] + unit.experience[stat] + unit.equipment[stat] + unit.type[stat] + unit.customization[stat];
         return stats[stat] = (value >= 0 ? '+' + value.toString() : value.toString());
     });
 
@@ -68,7 +68,7 @@ export const emptyUnitObject = () => (
         customization: emptyAspect(),
         size: 4,
         cost: 30,
-        currency: 'GP',
+        currency: 'GP'
     }
 );
 

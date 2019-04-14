@@ -1,9 +1,9 @@
 import React from 'react';
 import {Button, Form, Grid, Segment} from "semantic-ui-react";
 import {connect} from "react-redux";
-import {updateUnitmakerField} from "../../../../store/actions/unitmaker";
+import {updateUnitmakerCustomizationField, updateUnitmakerField} from "../../../../store/actions/unitmaker";
 
-const UnitMakerCore = ({updateUnitmakerField, unit}) => {
+const UnitMakerCore = ({unit, updateUnitmakerField, updateUnitmakerCustomizationField}) => {
     const
         tinkerInputProps = {width: 5, type: 'number', step: 1, defaultValue: 0},
         sizes = [
@@ -15,6 +15,8 @@ const UnitMakerCore = ({updateUnitmakerField, unit}) => {
         ];
 
     const updateField = (field) => ({target: {value}}) => updateUnitmakerField(field, value);
+    const updateCField = (field) => ({target: {value}}) => updateUnitmakerCustomizationField(field, value);
+    const updateSize = (a, b) => updateUnitmakerField(b.value);
 
     return (
         <Segment>
@@ -27,7 +29,6 @@ const UnitMakerCore = ({updateUnitmakerField, unit}) => {
                                     fluid label={'Unit Name'} value={unit.name} onChange={updateField('name')}/>
                                 <Form.Input
                                     fluid label={'Commander'} onChange={updateField('commander')}/>
-                                />
                             </Form.Group>
                             <Form.Field control={'textarea'} label={'Description'} rows={3}
                                         onChange={updateField('lore')}/>
@@ -36,15 +37,15 @@ const UnitMakerCore = ({updateUnitmakerField, unit}) => {
                     <Grid.Column>
                         <Form>
                             <Form.Group unstackable>
-                                <Form.Input onChange={updateField('attack')} label={'Attack'} {...tinkerInputProps}/>
-                                <Form.Input onChange={updateField('defense')} label={'Defense'} {...tinkerInputProps}/>
-                                <Form.Input onChange={updateField('morale')} label={'Morale'} {...tinkerInputProps}/>
+                                <Form.Input onChange={updateCField('attack')} label={'Attack'} {...tinkerInputProps}/>
+                                <Form.Input onChange={updateCField('defense')} label={'Defense'} {...tinkerInputProps}/>
+                                <Form.Input onChange={updateCField('morale')} label={'Morale'} {...tinkerInputProps}/>
                             </Form.Group>
                             <Form.Group unstackable>
-                                <Form.Input onChange={updateField('power')} label={'Power'} {...tinkerInputProps}/>
-                                <Form.Input onChange={updateField('toughness')}
+                                <Form.Input onChange={updateCField('power')} label={'Power'} {...tinkerInputProps}/>
+                                <Form.Input onChange={updateCField('toughness')}
                                             label={'Toughness'} {...tinkerInputProps}/>
-                                <Form.Dropdown onChange={updateField('size')} width={5} label={'Size'} defaultValue={4}
+                                <Form.Dropdown onChange={updateSize} width={5} label={'Size'} defaultValue={4}
                                                selection fluid
                                                options={sizes}/>
                             </Form.Group>
@@ -63,5 +64,5 @@ const mapStateToProps = (state, props) => ({
 
 export default connect(
     mapStateToProps,
-    {updateUnitmakerField}
+    {updateUnitmakerField, updateUnitmakerCustomizationField}
 )(UnitMakerCore);
