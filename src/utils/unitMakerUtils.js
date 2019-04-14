@@ -35,16 +35,16 @@ export const composeUnit = (unit) => {
 
     return {
         name: unit.name || 'Unit Name',
-        description: unit.description || 'Unit Lore',
+        lore: unit.lore || '',
         ...stats,
         size: 'd' + unit.size.toString(),
         cost: calculatedCost,
         currency: unit.currency,
         ...extras,
-        ancestry: unit.ancestry.name,
-        equipment: unit.equipment.name,
-        experience: unit.experience.name,
-        type: unit.type.name,
+        ancestry: unit.ancestry,
+        experience: unit.experience,
+        equipment: unit.equipment,
+        type: unit.type,
     }
 };
 
@@ -61,10 +61,10 @@ export const emptyUnitObject = () => (
         description: '',
         commander: '',
         stats: {},
-        ancestry: emptyAspect(),
-        equipment: emptyAspect(),
-        experience: emptyAspect(),
-        type: emptyAspect(),
+        ancestry: emptyAspect('ancestry'),
+        equipment: emptyAspect('equip'),
+        experience: emptyAspect('exp'),
+        type: emptyAspect('type'),
         customization: emptyAspect(),
         size: 4,
         cost: 30,
@@ -72,8 +72,8 @@ export const emptyUnitObject = () => (
     }
 );
 
-export const emptyAspect = () => ({
-    name: '',
+export const emptyAspect = (type) => ({
+    name: type,
     cost: 0,
     traits: [],
     attachments: [],
@@ -84,3 +84,6 @@ export const emptyAspect = () => ({
     power: 0,
     morale: 0,
 });
+
+export const blurOnKeyDown =
+    e => ((e.keyCode === 27) || (e.keyCode === 13)) && e.target.blur();

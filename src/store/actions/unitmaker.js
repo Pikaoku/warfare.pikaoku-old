@@ -1,17 +1,11 @@
-import {UNITMAKER_FIELD_CUSTOMIZATION_UPDATE, UNITMAKER_FIELD_UPDATE} from "../reducer";
+import {UNITMAKER_FIELD_UPDATE, UNITMAKER_NESTED_FIELD_UPDATE} from "../reducer";
 
-export const updateUnitmakerField = (field, value) => ({
+export const saveUmField = (field, value) => ({
     type: UNITMAKER_FIELD_UPDATE,
-    payload: {
-        field: field,
-        value: value
-    }
+    payload: {field, value}
 });
 
-export const updateUnitmakerCustomizationField = (field, value) => ({
-    type: UNITMAKER_FIELD_CUSTOMIZATION_UPDATE,
-    payload: {
-        field: field,
-        value: value
-    }
+export const saveUmNestedField = (outer, inner, value) => ({
+    type: UNITMAKER_NESTED_FIELD_UPDATE,
+    payload: {outer, inner, value}
 });

@@ -15,15 +15,21 @@
 
 .buc-title {
     font-weight: bold;
-    font-size: x-large;
+    font-size: 20px;
     line-height: 24px;
-    margin: 15px 5px;
+    margin: 0 0 5px;
 }
 
 .buc-subtitle {
     text-align: center;
-    font-size: medium;
-    margin: 5px 5px 10px;
+    font-size: 16px;
+    font-weight: bolder;
+    margin: 0 5px 5px;
+}
+
+.buc-lore {
+    margin-bottom: 5px;
+    font-size: 16px;
 }
 
 .buc-stat-line {

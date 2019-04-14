@@ -1,8 +1,12 @@
 import React from 'react';
 import {Card, Form} from "semantic-ui-react";
 import AspectDropdown from "./AspectDropdown";
+import {connect} from "react-redux";
+import {saveUmNestedField} from "../../../../store/actions/unitmaker";
+import {blurOnKeyDown} from "../../../../utils/unitMakerUtils";
 
-const AspectCard = ({aspect}) => {
+const AspectCard = ({aspect, saveUmNestedField}) => {
+
     return (
         <Card>
             <Card.Content>
@@ -13,11 +17,19 @@ const AspectCard = ({aspect}) => {
             </Card.Content>
             <Card.Content>
                 <Form>
-                    <Form.Input fluid placeholder={'Custom ' + aspect + ' name'}/>
+                    <Form.Input
+                        onBlur={({target: {value}}) => {
+                            saveUmNestedField(aspect, 'name', value)
+                        }}
+                        onKeyDown={blurOnKeyDown}
+                        fluid placeholder={'Custom ' + aspect + ' name'}/>
                 </Form>
             </Card.Content>
         </Card>
     );
 };
 
-export default AspectCard;
+export default connect(
+    null,
+    {saveUmNestedField}
+)(AspectCard);

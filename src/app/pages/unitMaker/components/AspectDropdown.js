@@ -2,10 +2,11 @@ import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {Dropdown, Header} from "semantic-ui-react";
 import {stringifyObjectStats} from "../../../../utils/unitMakerUtils";
+import {saveUmField} from "../../../../store/actions/unitmaker";
 
 class AspectDropdown extends PureComponent {
     render() {
-        const {values, aspect, user} = this.props;
+        const {values, aspect, user, updateUnitmakerField} = this.props;
 
         const options = [];
 
@@ -34,8 +35,11 @@ class AspectDropdown extends PureComponent {
                 />
         }));
 
+        const onChange = (a, {value}) =>
+            updateUnitmakerField(aspect, values.find(x => x.id === value).data());
         return (
-            <Dropdown fluid search selection clearable options={options} placeholder={'Choose ' + aspect}/>
+            <Dropdown fluid search selection clearable options={options}
+                      placeholder={'Choose ' + aspect} onChange={onChange}/>
         );
     }
 }
@@ -47,4 +51,5 @@ const mapStateToProps = (state, props) => ({
 
 export default connect(
     mapStateToProps,
+    {updateUnitmakerField: saveUmField}
 )(AspectDropdown);
