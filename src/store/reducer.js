@@ -1,4 +1,4 @@
-import {emptyUnitObject} from "../utils/unitMakerUtils";
+import {emptyUnitObject, enforceArrayUniqueness} from "../utils/unitMakerUtils";
 import update from 'immutability-helper';
 
 
@@ -59,13 +59,19 @@ const reducer = (state = init, {type, payload}) => {
         };
     };
 
+    const addToFeatures = (newArrElem) => {
+        let arr = state.unitmaker.active['customization'].features;
+        arr.push(newArrElem);
+        return update(state, {unitmaker: {active: {'customization': {features: {$set: enforceArrayUniqueness(arr)}}}}})
+    };
+
     switch (type) {
         case UNITMAKER_FIELD_UPDATE:
             return update(state, {unitmaker: {active: {[payload.field]: {$set: payload.value}}}});
         case UNITMAKER_NESTED_FIELD_UPDATE:
             return update(state, {unitmaker: {active: {[payload.outer]: {[payload.inner]: {$set: payload.value}}}}});
         case UNITMAKER_ADD_FEATURE:
-            return update(state, {unitmaker: {active: {'customization': {features: {$push: [payload.value]}}}}});
+            return addToFeatures(payload.value);
         case AUTH_SIGN_IN_SUCCESS:
             return {...state, user: payload.user};
         case AUTH_SIGN_OUT:

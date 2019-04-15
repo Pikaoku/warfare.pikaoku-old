@@ -53,19 +53,29 @@ const BasicUnitCard = ({unit, features, cost, styles, color}) => {
 
             <div className={'buc-extras'}>
                 {
-                    ['trait', 'action', 'attachment'].map(type =>
-                        <div key={type}>
-                            <div className={'buc-subheader capitalize'}>{type}</div>
-                            {
-                                features.filter(filterByField('type', type)).map(
-                                    ({name, effect, id}) => (
-                                        <div key={name} className={'buc-extras-item'}>
-                                            <span>{name}</span>
-                                            <span>{effect}</span>
-                                        </div>
-                                    ))
+                    ['trait', 'action', 'attachment'].map((type, index) => {
+                            let featuresOfType = features.filter(filterByField('type', type))
+                            if (featuresOfType.length === 0) {
+                                return null;
                             }
-                        </div>
+                            return (
+                                <div key={type}>
+                                    <div
+                                        className={'buc-subheader' + (index === 0 ? ' buc-subheader-first' : '')}>
+                                        {type.toUpperCase() + 'S'}
+                                    </div>
+                                    {
+                                        featuresOfType.map(
+                                            ({name, effect, id}) => (
+                                                <div key={name} className={'buc-extras-item'}>
+                                                    <span>{name}</span>
+                                                    <span>{effect}</span>
+                                                </div>
+                                            ))
+                                    }
+                                </div>
+                            )
+                        }
                     )
                 }
             </div>

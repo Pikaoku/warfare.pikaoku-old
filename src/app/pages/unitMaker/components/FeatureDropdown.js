@@ -4,8 +4,13 @@ import {Dropdown, Header} from "semantic-ui-react";
 import {umAddFeature} from "../../../../store/actions/unitmaker";
 
 class FeatureDropdown extends PureComponent {
+    state = {
+        value: ''
+    };
+
     render() {
         const {features, user, umAddFeature} = this.props;
+        const {search} = this.state;
 
         const options = [];
 
@@ -39,18 +44,24 @@ class FeatureDropdown extends PureComponent {
                     />
             }));
 
-        const onChange = (a, {value}) =>
+        const onChange = (a, {value}) => {
             umAddFeature(features.find(x => x.id === value).data());
+            this.setState({search: ''})
+        };
 
         return (
             <Dropdown
-                fluid
+                button
                 search
+                deburr
                 selection
-                selectOnBlur={false}
-                options={options}
-                placeholder={'Add Existing Feature'}
                 onChange={onChange}
+                searchQuery={search}
+                value={''}
+                options={options}
+                selectOnNavigation={false}
+                selectOnBlur={false}
+                placeholder={'Add Existing Feature'}
             />
         );
     }

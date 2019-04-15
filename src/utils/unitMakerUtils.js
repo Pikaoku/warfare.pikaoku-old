@@ -13,7 +13,7 @@ export const composeUnitFeatures = (unit, uniq = false) => {
 };
 
 export const enforceArrayUniqueness = array =>
-    array.filter((c, i, a) => a.find(x => x.id === c.id).length === 1);
+    array.filter((c, i, a) => a.filter(x => x.name === c.name).length === 1);
 
 export const calculateUnitCost = (unit, features) => {
     return Math.round(
@@ -84,6 +84,7 @@ export const emptyAspect = (type) => ({
 
 export const emptyFeature = (type) => ({
     name: 'new feature',
+    type: type,
     effect: '',
     description: '',
     cost: 0,
