@@ -50,13 +50,22 @@ class CreateAspect extends Component {
     handleType =
         (e, {value}) => this.setState({data: {...this.state.data, type: value}});
 
+    handleFeatures = (a, {value}) => {
+        let newFeatures = [];
+        value.map(
+            v => newFeatures.push(
+                this.props.features.find(x => x.id === v)
+            )
+        );
+        this.setState({data: {...this.state.data, features: newFeatures}})
+    };
+
     render() {
         const {trigger, features} = this.props;
         const {data, existing} = this.state;
 
         const typeOptions = [];
         ASPECT_TYPES.map(type => typeOptions.push({text: type, key: type, value: type}));
-
 
         return (
             <Modal
@@ -99,6 +108,7 @@ class CreateAspect extends Component {
                                         label={'Cost Mod'}/>
                         </Form.Group>
                         <Form.Dropdown
+                            onChange={this.handleFeatures}
                             label={'Features'}
                             fluid
                             multiple
