@@ -1,4 +1,9 @@
-import {ASPECTS_FETCH_SUCCESS, FEATURES_FETCH_SUCCESS, FIRESTORE_REQUEST_FAILURE} from "../reducer";
+import {
+    ASPECTS_FETCH_SUCCESS,
+    FEATURES_FETCH_SUCCESS,
+    FIRESTORE_REQUEST_FAILURE,
+    UNITS_FETCH_SUCCESS
+} from "../reducer";
 import {
     FIRESTORE_COLLECTION_ASPECTS,
     FIRESTORE_COLLECTION_FEATURES,
@@ -102,7 +107,7 @@ export const fetchUnitsUser = userId =>
     fsFetch(
         FIRESTORE_COLLECTION_UNITS,
         ['authorId', '==', userId],
-        FEATURES_FETCH_SUCCESS,
+        UNITS_FETCH_SUCCESS,
         'saved'
     );
 
@@ -110,6 +115,6 @@ export const fetchUnitsSaved = userId =>
     fsFetch(
         FIRESTORE_COLLECTION_UNITS,
         ['savedBy', '==', userId],
-        FEATURES_FETCH_SUCCESS,
+        UNITS_FETCH_SUCCESS,
         'saved'
     );

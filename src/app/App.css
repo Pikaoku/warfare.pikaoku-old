@@ -39,3 +39,7 @@ body {
     top: -30%;
     z-Index: 1000;
 }
+
+.text-teal {
+    color: teal !important;
+}

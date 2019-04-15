@@ -14,6 +14,8 @@ export const FEATURES_FETCH_SUCCESS = 'FEATURES FETCH SUCCESS';
 // ASPECT
 export const ASPECTS_FETCH_SUCCESS = 'ASPECTS FETCH SUCCESS';
 
+export const UNITS_FETCH_SUCCESS = 'UNITS FETCH SUCCESS';
+
 // FIRESTORE
 export const FIRESTORE_REQUEST_FAILURE = 'FIRESTORE REQUEST FAILURE';
 export const FIRESTORE_REQUEST_BEGIN = 'FIRESTORE REQUEST BEGIN';
@@ -22,19 +24,36 @@ export const UNITMAKER_FIELD_UPDATE = 'UNITMAKER FIELD UPDATE';
 export const UNITMAKER_NESTED_FIELD_UPDATE = 'UNITMAKER NESTED FIELD UPDATE';
 export const UNITMAKER_ADD_FEATURE = 'UNITMAKER ADD FEATURE';
 
-const STATE_FIELD_ASPECTS = 'aspects';
-const STATE_FIELD_FEATURES = 'features';
+export const ASPECTS = 'aspects';
+export const FEATURES = 'features';
+export const UNITS = 'units';
+export const USER = 'user';
+export const CORE = 'core';
+export const SAVED = 'saved';
+export const CATEGORIES = [USER, CORE, SAVED];
+
+export const ASPECT_TYPE_ANCESTRY = 'ancestry';
+export const ASPECT_TYPE_EXPERIENCE = 'experience';
+export const ASPECT_TYPE_EQUIPMENT = 'equipment';
+export const ASPECT_TYPE_TYPE = 'type';
+export const ASPECT_TYPES = [ASPECT_TYPE_ANCESTRY, ASPECT_TYPE_EXPERIENCE, ASPECT_TYPE_EQUIPMENT, ASPECT_TYPE_TYPE];
+
+export const CUSTOMIZATION = 'customization';
+
+const categoriesFalsed = {
+    core: false, user: false, saved: false
+};
 
 const init = {
     user: false,
-    units: {},
-    [STATE_FIELD_ASPECTS]: {
+    [UNITS]: {},
+    [ASPECTS]: {
         all: [],
         core: [],
         user: [],
         saved: []
     },
-    [STATE_FIELD_FEATURES]: {
+    [FEATURES]: {
         all: [],
         core: [],
         user: [],
@@ -42,15 +61,17 @@ const init = {
     },
     unitmaker: {
         active: emptyUnitObject(),
-    }
+    },
+    fetched: {[FEATURES]: categoriesFalsed, [ASPECTS]: categoriesFalsed, [UNITS]: categoriesFalsed}
 };
 
 const reducer = (state = init, {type, payload}) => {
     const integrateData = (field, category, values) => {
         let all = [];
-        ['core', 'user', 'saved'].map(key => all = all.concat(key === category ? values : state[field][key]));
+        CATEGORIES.map(key => all = all.concat(key === category ? values : state[field][key]));
         return {
             ...state,
+            fetched: update(state.fetched, {[field]: {[category]: {$set: true}}}),
             [field]: {
                 ...state[field],
                 all,
@@ -60,9 +81,9 @@ const reducer = (state = init, {type, payload}) => {
     };
 
     const addToFeatures = (newArrElem) => {
-        let arr = state.unitmaker.active['customization'].features;
+        let arr = state.unitmaker.active[CUSTOMIZATION].features;
         arr.push(newArrElem);
-        return update(state, {unitmaker: {active: {'customization': {features: {$set: enforceArrayUniqueness(arr)}}}}})
+        return update(state, {unitmaker: {active: {CUSTOMIZATION: {features: {$set: enforceArrayUniqueness(arr)}}}}})
     };
 
     switch (type) {
@@ -80,9 +101,9 @@ const reducer = (state = init, {type, payload}) => {
         case AUTH_HANDLE_CHANGE:
             return {...state, user: (payload.user || false)};
         case ASPECTS_FETCH_SUCCESS:
-            return integrateData(STATE_FIELD_ASPECTS, payload.category, payload.values);
+            return integrateData(ASPECTS, payload.category, payload.values);
         case FEATURES_FETCH_SUCCESS:
-            return integrateData(STATE_FIELD_FEATURES, payload.category, payload.values);
+            return integrateData(FEATURES, payload.category, payload.values);
         case FIRESTORE_REQUEST_BEGIN:
             let arr = state.listeners[payload.authType];
             arr.push(payload.unsub);

@@ -35,10 +35,12 @@ export const filterByField = (field, value) =>
 
 export const sortByField = (field) =>
     (a, b) => {
-        var x = a[field].toLowerCase();
-        var y = b[field].toLowerCase();
+        var x = a.data()[field].toLowerCase();
+        var y = b.data()[field].toLowerCase();
         return (x < y ? -1 : (x > y) ? 1 : 0);
     };
+
+export const withSign = (value) => (value >= 0 ? '+' : '') + value.toString();
 
 export const extractStat = (unit, stat) =>
     0 + unit['ancestry'][stat] + unit['experience'][stat] + unit['equipment'][stat] + unit['type'][stat] + unit['customization'][stat];
@@ -71,6 +73,7 @@ export const emptyAspect = (type) => ({
     name: type,
     features: [],
     cost: 0,
+    costMod: 0,
     attack: 0,
     defense: 0,
     toughness: 0,

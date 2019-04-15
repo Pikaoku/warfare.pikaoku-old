@@ -4,9 +4,11 @@ import StandardPage from "../../components/layout/StandardPage";
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import {StyledFirebaseAuth} from "react-firebaseui";
-import {Button} from "semantic-ui-react";
+import {Button, Grid} from "semantic-ui-react";
 import {signInSuccess, signOut} from "../../../store/actions/auth";
 import {feedFeatures} from "../../../utils/initialDataFeed";
+import UserAspectTable from "./components/UserAspectTable";
+import CreateAspect from "../../components/crud/CreateAspect";
 
 class User extends Component {
     render() {
@@ -34,6 +36,33 @@ class User extends Component {
 
         return (
             <StandardPage title={user.displayName} subtitle={'Look at all the cool stuff you made!'} icon={'users'}>
+                <CreateAspect/>
+                <Grid>
+                    <Grid.Row columns={2}>
+                        <Grid.Column>
+                            <UserAspectTable aspect={'ancestry'}/>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Grid>
+                                <Grid.Row>
+                                    <Grid.Column>
+                                        <UserAspectTable aspect={'equipment'}/>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row>
+                                    <Grid.Column>
+                                        <UserAspectTable aspect={'experience'}/>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row>
+                                    <Grid.Column>
+                                        <UserAspectTable aspect={'type'}/>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
                 <Button content={'Sign Out'} onClick={signOut} color={'orange'}/>
                 <Button content={'data feed'} onClick={feedFeatures}/>
             </StandardPage>
