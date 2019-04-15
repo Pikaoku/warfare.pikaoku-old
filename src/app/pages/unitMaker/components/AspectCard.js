@@ -10,7 +10,7 @@ const AspectCard = ({aspect, saveUmNestedField}) => {
     return (
         <Card>
             <Card.Content>
-                <Card.Header content={aspect}/>
+                <Card.Header className={'capitalize'} content={aspect}/>
             </Card.Content>
             <Card.Content extra className={'text-center'}>
                 <AspectDropdown aspect={aspect}/>

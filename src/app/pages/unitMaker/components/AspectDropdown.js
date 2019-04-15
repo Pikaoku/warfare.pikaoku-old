@@ -38,7 +38,7 @@ class AspectDropdown extends PureComponent {
         const onChange = (a, {value}) =>
             updateUnitmakerField(aspect, values.find(x => x.id === value).data());
         return (
-            <Dropdown fluid search selection clearable options={options}
+            <Dropdown fluid search selection defaultValue={aspect + '.none'} options={options}
                       placeholder={'Choose ' + aspect} onChange={onChange}/>
         );
     }

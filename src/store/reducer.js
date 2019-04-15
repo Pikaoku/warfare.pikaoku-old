@@ -20,6 +20,7 @@ export const FIRESTORE_REQUEST_BEGIN = 'FIRESTORE REQUEST BEGIN';
 
 export const UNITMAKER_FIELD_UPDATE = 'UNITMAKER FIELD UPDATE';
 export const UNITMAKER_NESTED_FIELD_UPDATE = 'UNITMAKER NESTED FIELD UPDATE';
+export const UNITMAKER_ADD_FEATURE = 'UNITMAKER ADD FEATURE';
 
 const STATE_FIELD_ASPECTS = 'aspects';
 const STATE_FIELD_FEATURES = 'features';
@@ -63,6 +64,8 @@ const reducer = (state = init, {type, payload}) => {
             return update(state, {unitmaker: {active: {[payload.field]: {$set: payload.value}}}});
         case UNITMAKER_NESTED_FIELD_UPDATE:
             return update(state, {unitmaker: {active: {[payload.outer]: {[payload.inner]: {$set: payload.value}}}}});
+        case UNITMAKER_ADD_FEATURE:
+            return update(state, {unitmaker: {active: {'customization': {features: {$push: [payload.value]}}}}});
         case AUTH_SIGN_IN_SUCCESS:
             return {...state, user: payload.user};
         case AUTH_SIGN_OUT:

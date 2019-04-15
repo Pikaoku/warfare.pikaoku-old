@@ -1,7 +1,7 @@
 import React from 'react';
 import './BasicUnitCard.css';
 import {connect} from "react-redux";
-import {composeUnit} from "../../../utils/unitMakerUtils";
+import {calculateUnitCost, composeUnitFeatures, extractStat, filterByField} from "../../../utils/unitMakerUtils";
 import {pure} from "recompose";
 
 const BucUnitDefinition = pure(({ancestry, experience, equipment, type}) => {
@@ -18,17 +18,17 @@ const BucUnitDefinition = pure(({ancestry, experience, equipment, type}) => {
 const StatLine = pure(({ll, ld, rl, rd}) =>
     <div className={'buc-stat-line'}>
         <div className={'buc-stat-line-label'}>{ll}</div>
-        <div className={'buc-stat-line-data'}>{ld}</div>
+        <div className={'buc-stat-line-data'}>{(ld >= 0 ? '+' : '') + ld.toString()}</div>
         <div/>
         <div className={'buc-stat-line-label'}>{rl}</div>
-        <div className={'buc-stat-line-data'}>{rd}</div>
+        <div className={'buc-stat-line-data'}>{(rd >= 0 ? '+' : '') + rd.toString()}</div>
     </div>
 );
 
-const BasicUnitCard = ({unit, styles, color}) => {
+const BasicUnitCard = ({unit, features, cost, styles, color}) => {
     return (
-        <div className={'basic-unit-card ' + styles} style={{borderColor: color}}>
-            <div className={'buc-title'}>{unit.name}</div>
+        <div className={'basic-unit-card ' + styles} style={{borderColor: color, color: color}}>
+            <div className={'buc-title'}>{unit.name || 'Unit Name'}</div>
             <BucUnitDefinition
                 ancestry={unit.ancestry.name}
                 experience={unit.experience.name}
@@ -39,28 +39,33 @@ const BasicUnitCard = ({unit, styles, color}) => {
                 <p className={'buc-lore'}>{unit.lore}</p>
             }
             <div className={'buc-stats'}>
-                <StatLine ll={'Attack'} ld={unit.attack} rl={'Defense'} rd={unit.defense}/>
-                <StatLine ll={'Power'} ld={unit.power} rl={'Toughness'} rd={unit.toughness}/>
-                <StatLine ll={'Morale'} ld={unit.morale} rl={'Size'} rd={unit.size}/>
+                <StatLine
+                    ll={'Attack'} ld={extractStat(unit, 'attack')}
+                    rl={'Defense'} rd={extractStat(unit, 'defense')}/>
+                <StatLine
+                    ll={'power'} ld={extractStat(unit, 'power')}
+                    rl={'power'} rd={extractStat(unit, 'toughness')}/>
+                <StatLine
+                    ll={'Morale'} ld={extractStat(unit, 'morale')}
+                    rl={'Size'} rd={'d' + unit.size.toString()}/>
             </div>
-            <div className={'centered buc-cost'}>Cost: <b>{unit.cost || 0}</b> {unit.currency}</div>
+            <div className={'centered buc-cost'}>Cost: <b>{cost || 0}</b> {unit.currency}</div>
 
             <div className={'buc-extras'}>
                 {
-                    ['traits', 'actions', 'attachments'].map(
-                        type =>
-                            unit.traits.length > 0 &&
-                            <div key={type}>
-                                <div className={'buc-subheader capitalize'}>{type}</div>
-                                {
-                                    unit.traits.map(({name, description, id}) => (
-                                        <div key={id} className={'buc-extras-item'}>
+                    ['trait', 'action', 'attachment'].map(type =>
+                        <div key={type}>
+                            <div className={'buc-subheader capitalize'}>{type}</div>
+                            {
+                                features.filter(filterByField('type', type)).map(
+                                    ({name, effect, id}) => (
+                                        <div key={name} className={'buc-extras-item'}>
                                             <span>{name}</span>
-                                            <span>{description}</span>
+                                            <span>{effect}</span>
                                         </div>
                                     ))
-                                }
-                            </div>
+                            }
+                        </div>
                     )
                 }
             </div>
@@ -68,9 +73,13 @@ const BasicUnitCard = ({unit, styles, color}) => {
     );
 };
 
-const mapStateToProps = (state) => ({
-    unit: composeUnit(state.unitmaker.active)
-});
+const mapStateToProps = (state) => {
+    const
+        unit = state.unitmaker.active,
+        features = composeUnitFeatures(unit),
+        cost = calculateUnitCost(unit, features);
+    return {unit, features, cost}
+};
 
 export default connect(
     mapStateToProps, null

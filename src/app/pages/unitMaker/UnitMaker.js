@@ -6,7 +6,7 @@ import BasicUnitCard from "../../components/unitCards/BasicUnitCard";
 import './UnitMaker.css';
 import AspectSelect from "./components/AspectCard";
 import UnitMakerCore from "./components/UnitMakerCore";
-import ExtrasManager from "./components/FeaturesSegment";
+import FeatureManager from "./components/FeatureManager";
 
 class UnitMaker extends Component {
     render() {
@@ -23,7 +23,7 @@ class UnitMaker extends Component {
                                 <AspectSelect aspect={'type'}/>
                             </Card.Group>
                             <Divider hidden/>
-                            <ExtrasManager/>
+                            <FeatureManager/>
                         </Grid.Column>
                         <Grid.Column width={8}>
                             <Container textAlign={'center'}>
