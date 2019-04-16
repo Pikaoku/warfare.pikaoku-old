@@ -1,15 +1,28 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StandardPage from "../../components/layout/StandardPage";
-import {Card, Container, Divider, Grid} from "semantic-ui-react";
+import {Button, Card, Container, Divider, Grid} from "semantic-ui-react";
 import BasicUnitCard from "../../components/unitCards/BasicUnitCard";
 import './UnitMaker.css';
 import AspectSelect from "./components/AspectCard";
 import UnitMakerCore from "./components/UnitMakerCore";
 import FeatureManager from "./components/FeatureManager";
 import UnitmakerButtonGroup from "./components/UnitmakerButtonGroup";
+import * as domtoimage from "dom-to-image";
 
 class UnitMaker extends Component {
+    state = {
+        unitCardImage: false
+    };
+
+    generateImage = () => {
+        domtoimage
+            .toPng(document.getElementById('UnitCard'))
+            .then(dataUrl => {
+                this.setState({unitCardImage: dataUrl})
+            });
+    };
+
     render() {
         return (
             <StandardPage title={'Unit Maker'} subtitle={'Make all those awesome units, yo!'} icon={'pencil'}>
@@ -29,7 +42,16 @@ class UnitMaker extends Component {
                         </Grid.Column>
                         <Grid.Column width={8}>
                             <Container textAlign={'center'}>
-                                <BasicUnitCard styles={'centered'}/>
+                                <div id={'UnitCard'}>
+                                    <BasicUnitCard styles={'centered'}/>
+                                </div>
+                                <Divider hidden/>
+                                <Button color={'olive'} content={'Generate'} onClick={this.generateImage}/>
+                                <Divider hidden/>
+                                {
+                                    this.state.unitCardImage &&
+                                    <img src={this.state.unitCardImage} alt={'broke'}/>
+                                }
                             </Container>
                         </Grid.Column>
                     </Grid.Row>
