@@ -31,12 +31,18 @@ export const USER = 'user';
 export const CORE = 'core';
 export const SAVED = 'saved';
 export const CATEGORIES = [USER, CORE, SAVED];
+export const SETTINGS = 'settings';
 
 export const ASPECT_TYPE_ANCESTRY = 'ancestry';
 export const ASPECT_TYPE_EXPERIENCE = 'experience';
 export const ASPECT_TYPE_EQUIPMENT = 'equipment';
 export const ASPECT_TYPE_TYPE = 'type';
 export const ASPECT_TYPES = [ASPECT_TYPE_ANCESTRY, ASPECT_TYPE_EXPERIENCE, ASPECT_TYPE_EQUIPMENT, ASPECT_TYPE_TYPE];
+
+export const FEATURE_TYPE_TRAIT = 'trait';
+export const FEATURE_TYPE_ACTION = 'action';
+export const FEATURE_TYPE_ATTACHMENT = 'attachment';
+export const FEATURE_TYPES = [FEATURE_TYPE_TRAIT, FEATURE_TYPE_ACTION, FEATURE_TYPE_ATTACHMENT];
 
 export const CUSTOMIZATION = 'customization';
 
@@ -62,6 +68,9 @@ const init = {
     unitmaker: {
         active: emptyUnitObject(),
     },
+    [SETTINGS]: {
+
+    },
     fetched: {[FEATURES]: categoriesFalsed, [ASPECTS]: categoriesFalsed, [UNITS]: categoriesFalsed}
 };
 
@@ -83,7 +92,7 @@ const reducer = (state = init, {type, payload}) => {
     const addToFeatures = (newArrElem) => {
         let arr = state.unitmaker.active[CUSTOMIZATION].features;
         arr.push(newArrElem);
-        return update(state, {unitmaker: {active: {CUSTOMIZATION: {features: {$set: enforceArrayUniqueness(arr)}}}}})
+        return update(state, {unitmaker: {active: {[CUSTOMIZATION]: {features: {$set: enforceArrayUniqueness(arr)}}}}})
     };
 
     switch (type) {

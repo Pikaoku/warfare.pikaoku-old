@@ -33,6 +33,70 @@ export const fsFetch = (collection, where, type, category) => (
     }
 );
 
+export const fsUpdate = (collection, id, data) =>
+    (dispatch, getState, firebase) => {
+        return firebase
+            .firestore()
+            .collection(collection)
+            .doc(id)
+            .update(data)
+            .then(
+                success => true,
+                failure => true
+            )
+    };
+
+export const fsDelete = (collection, id) =>
+    (dispatch, getState, firebase) => {
+        return firebase
+            .firestore()
+            .collection(collection)
+            .doc(id)
+            .delete()
+            .then(
+                success => true,
+                failure => true
+            )
+    };
+
+export const createAspect = (aspect) =>
+    (dispatch, getState, firebase) => {
+        const user = firebase.auth().currentUser;
+        const data = {...aspect, authorId: user.uid, author: user.displayName};
+        return firebase
+            .firestore()
+            .collection(FIRESTORE_COLLECTION_ASPECTS)
+            .add(data)
+            .then(
+                success => true,
+                failure => true
+            );
+    };
+
+// TODO: Actually HANDLE SHIT
+export const updateAspect = (id, data) => fsUpdate(FIRESTORE_COLLECTION_ASPECTS, id, data);
+
+// TODO: Actually HANDLE SHIT
+export const deleteAspect = id => fsDelete(FIRESTORE_COLLECTION_ASPECTS, id);
+
+export const createFeature = feature =>
+    (dispatch, getState, firebase) => {
+        const user = firebase.auth().currentUser;
+        const data = {...feature, authorId: user.uid, author: user.displayName};
+        return firebase
+            .firestore()
+            .collection(FIRESTORE_COLLECTION_FEATURES)
+            .add(data)
+            .then(
+                success => true,
+                failure => true
+            );
+    };
+
+export const updateFeature = (id, feature) => fsUpdate(FIRESTORE_COLLECTION_FEATURES, id, feature);
+
+export const deleteFeature = id => fsDelete(FIRESTORE_COLLECTION_FEATURES, id);
+
 export const fetchAllCoreData = () => (
     (dispatch, getState, firebase) => {
         let unsubs = [];

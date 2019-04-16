@@ -70,8 +70,10 @@ export const emptyUnitObject = () => (
 );
 
 export const emptyAspect = (type) => ({
-    name: type,
+    name: '',
+    type: type,
     features: [],
+    saved: [],
     cost: 0,
     costMod: 0,
     attack: 0,
@@ -93,7 +95,8 @@ export const emptyFeature = (type) => ({
     cost: 0,
     author: '',
     authorId: false,
-    version: 1
+    version: 1,
+    saved: []
 });
 
 export const blurOnKeyDown =

@@ -8,7 +8,7 @@ import {Button, Grid} from "semantic-ui-react";
 import {signInSuccess, signOut} from "../../../store/actions/auth";
 import {feedFeatures} from "../../../utils/initialDataFeed";
 import UserAspectTable from "./components/UserAspectTable";
-import CreateAspect from "../../components/crud/CreateAspect";
+import UserFeatureTable from "./components/UserFeatureTable";
 
 class User extends Component {
     render() {
@@ -36,10 +36,10 @@ class User extends Component {
 
         return (
             <StandardPage title={user.displayName} subtitle={'Look at all the cool stuff you made!'} icon={'users'}>
-                <CreateAspect/>
-                <Grid>
+                <Grid stackable>
                     <Grid.Row columns={2}>
                         <Grid.Column>
+                            <UserFeatureTable/>
                             <UserAspectTable aspect={'ancestry'}/>
                         </Grid.Column>
                         <Grid.Column>

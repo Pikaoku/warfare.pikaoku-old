@@ -1,25 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import PropTypes from "prop-types";
+import {sortByField} from "../../../../utils/unitMakerUtils";
+import {FEATURES, SAVED, USER} from "../../../../store/reducer";
+import {deleteFeature} from "../../../../store/actions/firestore";
 import {Button, Checkbox, Placeholder, Popup, Table} from "semantic-ui-react";
-import {sortByField, withSign} from "../../../../utils/unitMakerUtils";
-import {ASPECTS, SAVED, USER} from "../../../../store/reducer";
-import EditAspect from "../../../components/crud/EditAspect";
-import {deleteAspect} from "../../../../store/actions/firestore";
+import EditFeature from "../../../components/crud/EditFeature";
 
-const PlaceholderAspectRows = () =>
+const PlaceholderFeatureRows = () =>
     [1, 2, 3, 4, 5].map(loop =>
         <Table.Row key={loop}>
             <Table.Cell textAlign={'center'}><Checkbox disabled/></Table.Cell>
             <Table.Cell><Placeholder><Placeholder.Line/></Placeholder></Table.Cell>
-            {
-                ['attack', 'defense', 'power', 'toughness', 'morale'].map(
-                    stat =>
-                        <Table.Cell textAlign={'center'} key={stat}>
-                            <Placeholder><Placeholder.Line/></Placeholder>
-                        </Table.Cell>
-                )
-            }
+            <Table.Cell textAlign={'center'}>
+                <Button icon={'angle down'} color={'grey'}/>
+            </Table.Cell>
+            <Table.Cell><Placeholder><Placeholder.Line/></Placeholder></Table.Cell>
             <Table.Cell textAlign={'center'}>
                 <Button icon={'edit outline'} color={'grey'}/>
             </Table.Cell>
@@ -29,10 +24,9 @@ const PlaceholderAspectRows = () =>
         </Table.Row>
     );
 
-class UserAspectTable extends Component {
+class UserFeatureTable extends Component {
     render() {
-        const {values, aspect, fetched, deleteAspect} = this.props;
-
+        const {features, fetched, deleteFeature} = this.props;
         const headerClasses = 'capitalize text-teal';
 
         return (
@@ -41,47 +35,41 @@ class UserAspectTable extends Component {
                     <Table.Row>
                         <Table.HeaderCell width={1}/>
                         <Table.HeaderCell width={8}>
-                            <span className={headerClasses}>{aspect}</span>
+                            <span className={headerClasses}>Feature</span>
                         </Table.HeaderCell>
-                        <Table.HeaderCell width={1} textAlign={'center'}>
-                            <span className={headerClasses}>A</span>
+                        <Table.HeaderCell width={1}>
+                            <span className={headerClasses}>Effect</span>
                         </Table.HeaderCell>
-                        <Table.HeaderCell width={1} textAlign={'center'}>
-                            <span className={headerClasses}>D</span>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell width={1} textAlign={'center'}>
-                            <span className={headerClasses}>P</span>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell width={1} textAlign={'center'}>
-                            <span className={headerClasses}>T</span>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell width={1} textAlign={'center'}>
-                            <span className={headerClasses}>M</span>
+                        <Table.HeaderCell width={3}>
+                            <span className={headerClasses}>Type</span>
                         </Table.HeaderCell>
                         <Table.HeaderCell width={1} colSpan={2}/>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {
-                        !fetched && <PlaceholderAspectRows/>
+                        !fetched && <PlaceholderFeatureRows/>
                     }
                     {
                         fetched &&
-                        values.map(
+                        features.map(
                             value =>
                                 <Table.Row key={value.id}>
                                     <Table.Cell textAlign={'center'}><Checkbox/></Table.Cell>
                                     <Table.Cell>{value.data()['name']}</Table.Cell>
-                                    {
-                                        ['attack', 'defense', 'power', 'toughness', 'morale'].map(
-                                            stat =>
-                                                <Table.Cell textAlign={'center'} key={stat}>
-                                                    {withSign(value.data()[stat])}
-                                                </Table.Cell>
-                                        )
-                                    }
                                     <Table.Cell textAlign={'center'}>
-                                        <EditAspect type={value.type} aspect={value}/>
+                                        <Popup
+                                            trigger={
+                                                <Button icon={'angle down'} color={'yellow'} size={'mini'} compact/>
+                                            }
+                                            content={value.data()['effect']}
+                                            on={'click'}
+                                            position={'bottom center'}
+                                        />
+                                    </Table.Cell>
+                                    <Table.Cell>{value.data()['type']}</Table.Cell>
+                                    <Table.Cell textAlign={'center'}>
+                                        <EditFeature type={value.type} feature={value}/>
                                     </Table.Cell>
                                     <Table.Cell textAlign={'center'}>
                                         <Popup
@@ -90,7 +78,7 @@ class UserAspectTable extends Component {
                                                 negative
                                                 icon={'warning sign'}
                                                 content={'Confirm Delete'}
-                                                onClick={() => deleteAspect(value.id)}
+                                                onClick={() => deleteFeature(value.id)}
                                             />}
                                             on={'click'}
                                             position={'left center'}
@@ -103,7 +91,7 @@ class UserAspectTable extends Component {
                 <Table.Footer fullWidth>
                     <Table.Row>
                         <Table.HeaderCell colSpan={16} textAlign={'right'}>
-                            <EditAspect type={aspect}/>
+                            <EditFeature type={'trait'}/>
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>
@@ -112,16 +100,13 @@ class UserAspectTable extends Component {
     }
 }
 
-UserAspectTable.propsTypes = {
-    aspect: PropTypes.string.isRequired
-};
-
 const mapStateToProps = (state, props) => ({
-    values: (state[ASPECTS][USER].concat(state[ASPECTS][SAVED])).filter(a => a.data().type === props.aspect).sort(sortByField('name')),
-    fetched: state.fetched[ASPECTS][USER] || state.fetched[ASPECTS][SAVED]
+    // features: (state[FEATURES][USER].concat(state[FEATURES][SAVED])).sort(sortByField('name')),
+    features: (state[FEATURES][USER].concat(state[FEATURES][SAVED])).sort(sortByField('name')),
+    fetched: state.fetched[FEATURES][USER] || state.fetched[FEATURES][SAVED]
 });
 
 export default connect(
     mapStateToProps,
-    {deleteAspect}
-)(UserAspectTable);
+    {deleteFeature}
+)(UserFeatureTable);
