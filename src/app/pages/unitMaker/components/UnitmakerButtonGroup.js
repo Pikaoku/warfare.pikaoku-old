@@ -8,14 +8,16 @@ import {addUnit, deleteUnit, updateUnit} from "../../../../store/actions/firesto
 
 class UnitmakerButtonGroup extends Component {
     render() {
-        const {units, loading, currentId, updateUnit, addUnit, deleteUnit} = this.props;
+        const {units, loading, currentId, updateUnit, addUnit, deleteUnit, user} = this.props;
 
         return (
             <Button.Group icon size={'large'}>
                 <Dropdown
                     trigger={
                         <Popup
-                            trigger={<Button color={'blue'} icon={'file'}/>}
+                            trigger={
+                                <Button color={'blue'} icon={'file'}/>
+                            }
                             content={'Load unit'}
                             on={'hover'}
                         />
@@ -23,7 +25,6 @@ class UnitmakerButtonGroup extends Component {
                     pointing
                     loading={loading}
                     options={createUnitDropdownOptions(units)}
-
                 />
                 <Popup
                     trigger={

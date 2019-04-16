@@ -27,7 +27,7 @@ const StatLine = pure(({ll, ld, rl, rd}) =>
 
 const BasicUnitCard = ({unit, features, cost, styles, color}) => {
     return (
-        <div className={'basic-unit-card ' + styles} style={{borderColor: color, color: color}}>
+        <div id={'UnitCard'} className={'basic-unit-card ' + (styles || '')} style={{borderColor: color, color: color}}>
             <div className={'buc-title'}>{unit.name || 'Unit Name'}</div>
             <BucUnitDefinition
                 ancestry={unit.ancestry.name}

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StandardPage from "../../components/layout/StandardPage";
-import {Button, Card, Container, Divider, Grid} from "semantic-ui-react";
+import {Button, Container, Divider, Grid} from "semantic-ui-react";
 import BasicUnitCard from "../../components/unitCards/BasicUnitCard";
 import './UnitMaker.css';
-import AspectSelect from "./components/AspectCard";
+import AspectManager from "./components/AspectManager";
 import UnitMakerCore from "./components/UnitMakerCore";
 import FeatureManager from "./components/FeatureManager";
 import UnitmakerButtonGroup from "./components/UnitmakerButtonGroup";
@@ -23,34 +23,67 @@ class UnitMaker extends Component {
             });
     };
 
+    copyToClipboard = () => {
+        domtoimage
+            .toPng(document.getElementById('UnitCard'))
+            .then(dataUrl => {
+                this.setState(
+                    {unitCardImage: dataUrl},
+                    () => {
+                        var img = document.querySelector('#UnitCardImage');
+                        var r = document.createRange();
+                        r.setStartBefore(img);
+                        r.setEndAfter(img);
+                        r.selectNode(img);
+                        var sel = window.getSelection();
+                        sel.addRange(r);
+                        document.execCommand('Copy');
+                    }
+                )
+            });
+
+    };
+
     render() {
+        const {unit} = this.props;
+
         return (
             <StandardPage title={'Unit Maker'} subtitle={'Make all those awesome units, yo!'} icon={'pencil'}>
                 <Grid stackable>
                     <Grid.Row columns={2}>
                         <Grid.Column width={8}>
-                            <UnitmakerButtonGroup/>
+                            {
+                                this.props.user &&
+                                <UnitmakerButtonGroup/>
+                            }
                             <UnitMakerCore/>
-                            <Card.Group itemsPerRow={2} stackable>
-                                <AspectSelect aspect={'ancestry'}/>
-                                <AspectSelect aspect={'experience'}/>
-                                <AspectSelect aspect={'equipment'}/>
-                                <AspectSelect aspect={'type'}/>
-                            </Card.Group>
+                            <AspectManager/>
                             <Divider hidden/>
                             <FeatureManager/>
                         </Grid.Column>
                         <Grid.Column width={8}>
                             <Container textAlign={'center'}>
-                                <div id={'UnitCard'}>
-                                    <BasicUnitCard styles={'centered'}/>
+                                <div className={'grid-center'}>
+                                    <BasicUnitCard/>
                                 </div>
                                 <Divider hidden/>
-                                <Button color={'olive'} content={'Generate'} onClick={this.generateImage}/>
+                                <Button.Group size={'large'} color={'teal'}>
+                                    <Button icon={'cog'} content={'Generate'}
+                                            onClick={this.generateImage}/>
+                                </Button.Group>
                                 <Divider hidden/>
                                 {
                                     this.state.unitCardImage &&
-                                    <img src={this.state.unitCardImage} alt={'broke'}/>
+                                    <>
+                                        <img id={'UnitCardImage'} src={this.state.unitCardImage} alt={'broke'}/>
+                                        <Divider hidden/>
+                                        <Button.Group size={'large'} color={'teal'}>
+                                            <Button icon={'copy'} content={'Copy'}
+                                                    onClick={this.copyToClipboard}/>
+                                            <Button icon={'download'} content={'Download'}
+                                                    onClick={this.generateImage}/>
+                                        </Button.Group>
+                                    </>
                                 }
                             </Container>
                         </Grid.Column>
@@ -62,7 +95,8 @@ class UnitMaker extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    unit: state.unitmaker.active
+    unit: state.unitmaker.active,
+    user: state.user
 });
 
 export default connect(

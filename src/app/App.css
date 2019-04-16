@@ -43,3 +43,10 @@ body {
 .text-teal {
     color: teal !important;
 }
+
+.grid-center {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    justify-items: center;
+}

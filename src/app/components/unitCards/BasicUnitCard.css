@@ -4,6 +4,10 @@
     src: url('../../../static/webfonts/384667_1_0.eot?#iefix') format('embedded-opentype'), url('../../../static/webfonts/384667_1_0.woff2') format('woff2'), url('../../../static/webfonts/384667_1_0.woff') format('woff'), url('../../../static/webfonts/384667_1_0.ttf') format('truetype');
 }
 
+.buc-wrapper {
+    width: 300px;
+}
+
 .basic-unit-card {
     background: white;
     border-width: 4px;

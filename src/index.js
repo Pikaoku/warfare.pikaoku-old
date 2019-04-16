@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './app/App';
 import * as serviceWorker from './serviceWorker';
 import firebase from 'firebase/app';
+import 'firebase/firestore'
 import {applyMiddleware, createStore} from "redux";
 import {composeWithDevTools} from "redux-devtools-extension/developmentOnly";
 import thunk from "redux-thunk";
 import reducer from "./store/reducer";
 import {Provider} from "react-redux";
-
+import MultipleTabs from "./app/pages/errors/MultipleTabs";
 
 firebase.initializeApp({
     apiKey: "AIzaSyDYjGq1mw4uWBgw9euTp9ITp1pq1jZqvw4",
@@ -18,6 +19,23 @@ firebase.initializeApp({
     storageBucket: "pikaoku-tools.appspot.com",
     messagingSenderId: "946348039508"
 });
+
+firebase.firestore()
+    .enablePersistence()
+    .catch(
+        (err) => {
+            switch (err.code) {
+                case 'failed-precondition':
+                    ReactDOM.render(<MultipleTabs/>, document.getElementById('root'));
+                    break;
+                case 'unimplemented':
+
+                    break;
+                default:
+                    break;
+            }
+        }
+    );
 
 const store = createStore(
     reducer,
