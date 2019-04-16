@@ -1,32 +1,81 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, Popup} from "semantic-ui-react";
+import {Button, Dropdown, Popup} from "semantic-ui-react";
+import {SAVED, UNITS, USER} from "../../../../store/reducer";
+import {sortByField} from "../../../../utils/unitMakerUtils";
+import {createUnitDropdownOptions} from "../../../components/searching/UnitDropdownResult";
+import {addUnit, deleteUnit, updateUnit} from "../../../../store/actions/firestore";
 
 class UnitmakerButtonGroup extends Component {
     render() {
+        const {units, loading, currentId, updateUnit, addUnit, deleteUnit} = this.props;
+
         return (
             <Button.Group icon size={'large'}>
-                <Popup
+                <Dropdown
                     trigger={
-                        {/*<Button icon={'file'} color={'yellow'}/>*/}
-                        <Dropdown />
+                        <Popup
+                            trigger={<Button color={'blue'} icon={'file'}/>}
+                            content={'Load unit'}
+                            on={'hover'}
+                        />
                     }
-                    content={'Load existing unit'}
-                    on={'hover'}
+                    pointing
+                    loading={loading}
+                    options={createUnitDropdownOptions(units)}
+
                 />
                 <Popup
-                    trigger={<Button icon={'save'} positive/>}
+                    trigger={
+                        <Button
+                            onClick={
+                                !!currentId
+                                    ? updateUnit
+                                    : addUnit
+                            }
+                            icon={'save'}
+                            loading={loading}
+                            color={'green'}
+                        />
+                    }
                     content={'Save unit'}
                     on={'hover'}
                 />
                 <Popup
-                    trigger={<Button icon={'save outline'} positive/>}
+                    trigger={
+                        <Button
+                            icon={'copy'}
+                            color={'yellow'}
+                            onClick={addUnit}
+                            disabled={!currentId}
+                            loading={loading}
+                        />
+                    }
                     content={'Save as a new unit'}
                     on={'hover'}
                 />
                 <Popup
-                    trigger={<Button icon={'repeat'} color={'orange'}/>}
+                    trigger={
+                        <Button
+                            icon={'repeat'}
+                            color={'orange'}
+                            loading={loading}
+                        />
+                    }
                     content={'Reset all changes'}
+                    on={'hover'}
+                />
+                <Popup
+                    trigger={
+                        <Button
+                            icon={'delete'}
+                            color={'red'}
+                            onClick={() => deleteUnit(currentId)}
+                            disabled={!currentId}
+                            loading={loading}
+                        />
+                    }
+                    content={'Delete current unit'}
                     on={'hover'}
                 />
             </Button.Group>
@@ -34,8 +83,14 @@ class UnitmakerButtonGroup extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    units: state[UNITS][USER].concat(state[UNITS][SAVED]).sort(sortByField('name')),
+    currentUnit: state.unitmaker.active,
+    currentId: state.unitmaker.id,
+    loading: state.unitmaker.loading
+});
 
 export default connect(
     mapStateToProps,
+    {addUnit, updateUnit, deleteUnit}
 )(UnitmakerButtonGroup);

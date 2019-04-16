@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Menu, Responsive, Segment} from "semantic-ui-react";
-import {NAV_LOGO} from "../../../utils/navigationUtils";
 import {Link, withRouter} from 'react-router-dom';
 import NavUserLink from "./NavUserLink";
 
@@ -27,7 +26,7 @@ class Navigation extends Component {
                     <Responsive {...Responsive.onlyMobile}>
                         <Menu pointing secondary inverted color={'teal'} size={'large'} className={'attached'}>
                             <Menu.Menu position={'left'}>
-                                <Menu.Item {...NAV_LOGO}/>
+                                {/*<Menu.Item {...NAV_LOGO}/>*/}
                                 <Menu.Item>
                                     <Menu borderless size={'large'}>
                                     </Menu>

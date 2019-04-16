@@ -1,3 +1,7 @@
+import {ASPECT_TYPES} from "../store/reducer";
+
+export const UNIT_STAT_TYPES = ['attack', 'defense', 'power', 'toughness', 'morale'];
+
 export const composeUnitFeatures = (unit, uniq = false) => {
     let features = [];
     ['ancestry', 'experience', 'equipment', 'type', 'customization'].map(
@@ -46,10 +50,20 @@ export const extractStat = (unit, stat) =>
     0 + unit['ancestry'][stat] + unit['experience'][stat] + unit['equipment'][stat] + unit['type'][stat] + unit['customization'][stat];
 
 export const stringifyObjectStats = (object) => {
-    const withSign = value => value >= 0 ? '+' + value.toString() : value.toString();
     let stats = [];
-    ['attack', 'defense', 'power', 'toughness', 'morale'].map(stat => stats.push(withSign(object[stat])));
+    UNIT_STAT_TYPES.map(stat => stats.push(withSign(object[stat])));
     return (stats.join('/'));
+};
+
+export const stringifyUnitObjectStats = unit => {
+    let stats = [0, 0, 0, 0, 0];
+    ASPECT_TYPES.map(
+        aspect =>
+            UNIT_STAT_TYPES.map((stat, index) =>
+                stats[index] += unit[aspect][stat]
+            )
+    );
+    return (stats.map(x => withSign(x))).join('/')
 };
 
 export const emptyUnitObject = () => (

@@ -1,7 +1,6 @@
 import {emptyUnitObject, enforceArrayUniqueness} from "../utils/unitMakerUtils";
 import update from 'immutability-helper';
 
-
 // AUTH
 export const AUTH_HANDLE_CHANGE = 'AUTH HANDLE STATE CHANGE';
 export const AUTH_SIGN_IN_SUCCESS = 'AUTH SIGN IN SUCCESS';
@@ -23,6 +22,10 @@ export const FIRESTORE_REQUEST_BEGIN = 'FIRESTORE REQUEST BEGIN';
 export const UNITMAKER_FIELD_UPDATE = 'UNITMAKER FIELD UPDATE';
 export const UNITMAKER_NESTED_FIELD_UPDATE = 'UNITMAKER NESTED FIELD UPDATE';
 export const UNITMAKER_ADD_FEATURE = 'UNITMAKER ADD FEATURE';
+export const UNITMAKER_RESET = 'UNITMAKER RESET';
+export const UNITMAKER_LOAD_UNIT = 'UNITMAKER LOAD UNIT';
+export const UNITMAKER_CREATE_UNIT_REQUEST = 'UNITMAKER CREATE UNIT REQUEST';
+export const UNITMAKER_CREATE_UNIT_SUCCESS = 'UNITMAKER CREATE UNIT SUCCESS';
 
 export const ASPECTS = 'aspects';
 export const FEATURES = 'features';
@@ -65,7 +68,8 @@ const init = {
     [FEATURES]: initializeStoreContainer(),
     unitmaker: {
         active: emptyUnitObject(),
-        id: false
+        id: false,
+        loading: false
     },
     [SETTINGS]: {},
     fetched: {[FEATURES]: categoriesFalsed, [ASPECTS]: categoriesFalsed, [UNITS]: categoriesFalsed}
@@ -99,6 +103,21 @@ const reducer = (state = init, {type, payload}) => {
             return update(state, {unitmaker: {active: {[payload.outer]: {[payload.inner]: {$set: payload.value}}}}});
         case UNITMAKER_ADD_FEATURE:
             return addToFeatures(payload.value);
+        case UNITMAKER_RESET:
+            return update(state, {unitmaker: {active: {$set: emptyUnitObject()}}});
+        case UNITMAKER_CREATE_UNIT_REQUEST:
+            return update(state, {unitmaker: {loading: {$set: true}}});
+        case UNITMAKER_CREATE_UNIT_SUCCESS:
+            return update(state, {unitmaker: {id: {$set: payload.id}, loading: {$set: false}}});
+        case UNITMAKER_LOAD_UNIT:
+            return {
+                ...state,
+                unitmaker: {
+                    ...state.unitmaker,
+                    id: payload.id,
+                    active: payload.data
+                }
+            };
         case AUTH_SIGN_IN_SUCCESS:
             return {...state, user: payload.user};
         case AUTH_SIGN_OUT:
@@ -110,6 +129,8 @@ const reducer = (state = init, {type, payload}) => {
             return integrateData(ASPECTS, payload.category, payload.values);
         case FEATURES_FETCH_SUCCESS:
             return integrateData(FEATURES, payload.category, payload.values);
+        case UNITS_FETCH_SUCCESS:
+            return integrateData(UNITS, payload.category, payload.values);
         case FIRESTORE_REQUEST_BEGIN:
             let arr = state.listeners[payload.authType];
             arr.push(payload.unsub);

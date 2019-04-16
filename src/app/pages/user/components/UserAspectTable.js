@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from "prop-types";
 import {Button, Checkbox, Placeholder, Popup, Table} from "semantic-ui-react";
-import {sortByField, withSign} from "../../../../utils/unitMakerUtils";
+import {sortByField, UNIT_STAT_TYPES, withSign} from "../../../../utils/unitMakerUtils";
 import {ASPECTS, SAVED, USER} from "../../../../store/reducer";
 import EditAspect from "../../../components/crud/EditAspect";
 import {deleteAspect} from "../../../../store/actions/firestore";
@@ -13,7 +13,7 @@ const PlaceholderAspectRows = () =>
             <Table.Cell textAlign={'center'}><Checkbox disabled/></Table.Cell>
             <Table.Cell><Placeholder><Placeholder.Line/></Placeholder></Table.Cell>
             {
-                ['attack', 'defense', 'power', 'toughness', 'morale'].map(
+                UNIT_STAT_TYPES.map(
                     stat =>
                         <Table.Cell textAlign={'center'} key={stat}>
                             <Placeholder><Placeholder.Line/></Placeholder>
@@ -73,7 +73,7 @@ class UserAspectTable extends Component {
                                     <Table.Cell textAlign={'center'}><Checkbox/></Table.Cell>
                                     <Table.Cell>{value.data()['name']}</Table.Cell>
                                     {
-                                        ['attack', 'defense', 'power', 'toughness', 'morale'].map(
+                                        UNIT_STAT_TYPES.map(
                                             stat =>
                                                 <Table.Cell textAlign={'center'} key={stat}>
                                                     {withSign(value.data()[stat])}

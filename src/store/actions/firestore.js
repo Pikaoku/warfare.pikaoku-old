@@ -1,8 +1,13 @@
 import {
     ASPECTS_FETCH_SUCCESS,
+    CORE,
     FEATURES_FETCH_SUCCESS,
     FIRESTORE_REQUEST_FAILURE,
-    UNITS_FETCH_SUCCESS
+    SAVED,
+    UNITMAKER_CREATE_UNIT_REQUEST,
+    UNITMAKER_CREATE_UNIT_SUCCESS,
+    UNITS_FETCH_SUCCESS,
+    USER
 } from "../reducer";
 import {
     FIRESTORE_COLLECTION_ASPECTS,
@@ -97,6 +102,38 @@ export const updateFeature = (id, feature) => fsUpdate(FIRESTORE_COLLECTION_FEAT
 
 export const deleteFeature = id => fsDelete(FIRESTORE_COLLECTION_FEATURES, id);
 
+export const addUnit = () =>
+    (dispatch, getState, firebase) => {
+        let unit = getState().unitmaker.active;
+        const user = firebase.auth().currentUser;
+        const data = {...unit, authorId: user.uid, author: user.displayName};
+        dispatch({type: UNITMAKER_CREATE_UNIT_REQUEST});
+        return firebase.firestore()
+            .collection(FIRESTORE_COLLECTION_UNITS)
+            .add(data)
+            .then(
+                success => {
+                    dispatch({
+                        type: UNITMAKER_CREATE_UNIT_SUCCESS,
+                        payload: {id: success.id}
+                    })
+                },
+                failure => true
+            )
+
+    };
+
+export const updateUnit = () =>
+    (dispatch, getState, firebase) => {
+        let unit = getState.unitmaker.active;
+        return firebase.firestore()
+            .collection(FIRESTORE_COLLECTION_UNITS)
+            .doc(getState.unitmaker.id)
+            .update(unit)
+    };
+
+export const deleteUnit = id => fsDelete(FIRESTORE_COLLECTION_UNITS, id);
+
 export const fetchAllCoreData = () => (
     (dispatch, getState, firebase) => {
         let unsubs = [];
@@ -124,7 +161,7 @@ export const fetchFeaturesCore = () =>
         FIRESTORE_COLLECTION_FEATURES,
         ['official', '==', true],
         FEATURES_FETCH_SUCCESS,
-        'core'
+        CORE
     );
 
 export const fetchFeaturesUser = (userId) =>
@@ -132,7 +169,7 @@ export const fetchFeaturesUser = (userId) =>
         FIRESTORE_COLLECTION_FEATURES,
         ['authorId', '==', userId],
         FEATURES_FETCH_SUCCESS,
-        'user'
+        USER
     );
 
 export const fetchFeaturesSaved = userId =>
@@ -140,7 +177,7 @@ export const fetchFeaturesSaved = userId =>
         FIRESTORE_COLLECTION_FEATURES,
         ['saved', 'array-contains', userId],
         FEATURES_FETCH_SUCCESS,
-        'saved'
+        SAVED
     );
 
 export const fetchAspectsCore = () =>
@@ -148,7 +185,7 @@ export const fetchAspectsCore = () =>
         FIRESTORE_COLLECTION_ASPECTS,
         ['official', '==', true],
         ASPECTS_FETCH_SUCCESS,
-        'core'
+        CORE
     );
 
 export const fetchAspectsUser = userId =>
@@ -156,7 +193,7 @@ export const fetchAspectsUser = userId =>
         FIRESTORE_COLLECTION_ASPECTS,
         ['authorId', '==', userId],
         ASPECTS_FETCH_SUCCESS,
-        'user'
+        USER
     );
 
 export const fetchAspectsSaved = userId =>
@@ -164,7 +201,7 @@ export const fetchAspectsSaved = userId =>
         FIRESTORE_COLLECTION_ASPECTS,
         ['saved', 'array-contains', userId],
         ASPECTS_FETCH_SUCCESS,
-        'saved'
+        SAVED
     );
 
 export const fetchUnitsUser = userId =>
@@ -172,7 +209,7 @@ export const fetchUnitsUser = userId =>
         FIRESTORE_COLLECTION_UNITS,
         ['authorId', '==', userId],
         UNITS_FETCH_SUCCESS,
-        'saved'
+        USER
     );
 
 export const fetchUnitsSaved = userId =>
@@ -180,5 +217,5 @@ export const fetchUnitsSaved = userId =>
         FIRESTORE_COLLECTION_UNITS,
         ['savedBy', '==', userId],
         UNITS_FETCH_SUCCESS,
-        'saved'
+        SAVED
     );
