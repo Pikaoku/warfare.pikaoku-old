@@ -9,7 +9,7 @@ const BucUnitDefinition = pure(({ancestry, experience, equipment, type}) => {
         ([ancestry, experience, equipment, type].join(' ').length) > 30 ? <br/> : ' ';
     return (
         <div className={'buc-subtitle'}>
-            <span>{ancestry + ' ' + experience}</span>{divider}<span>{equipment + ' ' + type}</span>
+            <span>{(ancestry || 'ancestry') + ' ' + (experience || 'experience')}</span>{divider}<span>{(equipment || 'equipment') + ' ' + (type || 'type')}</span>
         </div>
     );
 });

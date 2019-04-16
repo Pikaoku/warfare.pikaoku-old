@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Menu, Responsive, Segment} from "semantic-ui-react";
-import {NAV_LOGO, TOP_NAV_LEFT_ITEMS} from "../../../utils/navigationUtils";
+import {NAV_LOGO} from "../../../utils/navigationUtils";
 import {Link, withRouter} from 'react-router-dom';
 import NavUserLink from "./NavUserLink";
 
@@ -40,10 +40,13 @@ class Navigation extends Component {
                         <Menu pointing secondary inverted size={'massive'} className={'attached'}>
                             <Container>
                                 <Menu.Menu position={'left'}>
-                                    <Menu.Item active={path === NAV_LOGO.to} {...NAV_LOGO} />
-                                    {TOP_NAV_LEFT_ITEMS.map(
-                                        item => <Menu.Item active={isActive(item.to)} {...item} />
-                                    )}
+                                    <Menu.Item to={'/info'} active={path === '/info'} as={Link}
+                                               content={'warfare.pikaoku'}/>
+                                    <Menu.Item to={'/'} active={path === '/'} as={Link} content={'Unit Maker'}/>
+                                    <Menu.Item to={'/shared'} active={path === '/shared'} as={Link} content={'Shared'}/>
+                                    <Menu.Item to={'/rules'} active={path === '/rules'} as={Link} content={'Rules'}/>
+                                    <Menu.Item to={'/compare'} active={path === '/compare'} as={Link}
+                                               content={'Compare'}/>
                                 </Menu.Menu>
                                 <Menu.Menu position={'right'}>
                                     {authItem}

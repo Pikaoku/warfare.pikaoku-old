@@ -4,10 +4,8 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Navigation from "./components/layout/Navigation";
 import {Helmet} from "react-helmet";
 import 'semantic-ui-css/semantic.min.css'
-import Settings from "./pages/settings/Settings";
 import UnitMaker from "./pages/unitMaker/UnitMaker";
 import User from "./pages/user/User";
-import Browse from "./pages/browse/Browse";
 import './App.css';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
@@ -15,6 +13,7 @@ import 'firebase/firestore';
 import {connect} from "react-redux";
 import {fetchAllCoreData} from "../store/actions/firestore";
 import {handleAuthStateChange} from "../store/actions/auth";
+import Shared from "./pages/shared/Shared";
 
 class App extends Component {
     componentDidMount() {
@@ -35,11 +34,10 @@ class App extends Component {
                 <BrowserRouter>
                     <Navigation/>
                     <Switch>
-                        <Route exact path={'/'} component={Home}/>
-                        <Route exact path={'/settings'} component={Settings}/>
+                        <Route exact path={'/info'} component={Home}/>
+                        <Route exact path={'/'} component={UnitMaker}/>
                         <Route exact path={'/user'} component={User}/>
-                        <Route exact path={'/unit-maker'} component={UnitMaker}/>
-                        <Route exact path={'/browse'} component={Browse}/>
+                        <Route exact path={'/shared'} component={Shared}/>
                     </Switch>
                 </BrowserRouter>
             </div>

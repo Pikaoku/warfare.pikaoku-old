@@ -6,10 +6,10 @@ import {Container, Segment} from "semantic-ui-react";
 class Home extends Component {
     render() {
         return (
-            <StandardPage title={'Home'} subtitle={'what an awesome landing page'} icon={'home'}>
+            <StandardPage title={'Info'} subtitle={'WEEEOOO WEOOOOOO'} icon={'info circle'}>
                 <Container text>
                     <Segment.Group>
-                        <Segment content={'Test'} />
+                        <Segment content={'Test'}/>
                         <Segment>
                             We out here folks!
                         </Segment>
