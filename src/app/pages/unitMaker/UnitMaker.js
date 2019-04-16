@@ -7,6 +7,7 @@ import './UnitMaker.css';
 import AspectSelect from "./components/AspectCard";
 import UnitMakerCore from "./components/UnitMakerCore";
 import FeatureManager from "./components/FeatureManager";
+import UnitmakerButtonGroup from "./components/UnitmakerButtonGroup";
 
 class UnitMaker extends Component {
     render() {
@@ -15,6 +16,7 @@ class UnitMaker extends Component {
                 <Grid stackable>
                     <Grid.Row columns={2}>
                         <Grid.Column width={8}>
+                            <UnitmakerButtonGroup/>
                             <UnitMakerCore/>
                             <Card.Group itemsPerRow={2} stackable>
                                 <AspectSelect aspect={'ancestry'}/>

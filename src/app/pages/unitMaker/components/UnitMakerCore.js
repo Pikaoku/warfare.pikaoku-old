@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Form, Grid, Segment} from "semantic-ui-react";
+import {Form, Grid, Segment} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {saveUmField, saveUmNestedField} from "../../../../store/actions/unitmaker";
 import {blurOnKeyDown} from "../../../../utils/unitMakerUtils";
@@ -43,7 +43,7 @@ const UnitMakerCore = ({unit, saveUmField, saveUmNestedField}) => {
                             <Form.Field
                                 control={'textarea'}
                                 label={'Lore'}
-                                rows={3}
+                                rows={1}
                                 defaultValue={unit.lore}
                                 onKeyDown={blurOnKeyDown}
                                 onBlur={updateField('lore')}
@@ -70,7 +70,6 @@ const UnitMakerCore = ({unit, saveUmField, saveUmNestedField}) => {
                                                selection fluid
                                                options={sizes}/>
                             </Form.Group>
-                            <Button fluid content={'Reset'} basic negative size={'tiny'}/>
                         </Form>
                     </Grid.Column>
                 </Grid.Row>

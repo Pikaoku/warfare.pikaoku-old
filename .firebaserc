@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "pikaoku-tools"
+  },
+  "targets": {
+    "pikaoku-tools": {
+      "hosting": {
+        "warfare": [
+          "warfare"
+        ]
+      }
+    }
+  }
+}

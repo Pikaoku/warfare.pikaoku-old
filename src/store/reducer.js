@@ -27,6 +27,7 @@ export const UNITMAKER_ADD_FEATURE = 'UNITMAKER ADD FEATURE';
 export const ASPECTS = 'aspects';
 export const FEATURES = 'features';
 export const UNITS = 'units';
+export const ALL = 'all';
 export const USER = 'user';
 export const CORE = 'core';
 export const SAVED = 'saved';
@@ -50,27 +51,23 @@ const categoriesFalsed = {
     core: false, user: false, saved: false
 };
 
+const initializeStoreContainer = () => ({
+    [ALL]: [],
+    [CORE]: [],
+    [USER]: [],
+    [SAVED]: []
+});
+
 const init = {
     user: false,
-    [UNITS]: {},
-    [ASPECTS]: {
-        all: [],
-        core: [],
-        user: [],
-        saved: []
-    },
-    [FEATURES]: {
-        all: [],
-        core: [],
-        user: [],
-        saved: []
-    },
+    [UNITS]: initializeStoreContainer(),
+    [ASPECTS]: initializeStoreContainer(),
+    [FEATURES]: initializeStoreContainer(),
     unitmaker: {
         active: emptyUnitObject(),
+        id: false
     },
-    [SETTINGS]: {
-
-    },
+    [SETTINGS]: {},
     fetched: {[FEATURES]: categoriesFalsed, [ASPECTS]: categoriesFalsed, [UNITS]: categoriesFalsed}
 };
 

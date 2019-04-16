@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Button, Form, Header, Modal} from "semantic-ui-react";
-import {ASPECT_TYPE_ANCESTRY, ASPECT_TYPES} from "../../../store/reducer";
+import {ASPECT_TYPE_ANCESTRY, ASPECT_TYPE_TYPE, ASPECT_TYPES} from "../../../store/reducer";
 import {emptyAspect} from "../../../utils/unitMakerUtils";
 import {createFeatureDropdownOptions} from "../searching/FeatureDropdownResult";
 import {convertFeatureDocToAspectChild, stripIdsFromArray} from "../../../utils/firebaseUtils";
@@ -54,7 +54,7 @@ class EditAspect extends Component {
 
     handleCostMod =
         ({target: {value}}) =>
-            this.setState({data: {...this.state.data, costMod: parseFloat(value).toFixed(4)}});
+            this.setState({data: {...this.state.data, costMod: parseFloat(value).toFixed(2)}});
 
     handleType =
         (e, {value}) => this.setState({data: {...this.state.data, type: value}});
@@ -169,6 +169,7 @@ class EditAspect extends Component {
                                     fluid
                                     width={6}
                                     label={'Cost Mod'}
+                                    disabled={data.type !== ASPECT_TYPE_TYPE}
                                     value={data.costMod || 0}
                                 />
                             </Form.Group>
