@@ -30,7 +30,7 @@ exports.helloWorld =
         );
 
 exports.updateAspect =
-    db.document('sites/warfare/aspect/{aspectId}')
+    db.document('sites/warfare/aspects/{aspectId}')
         .onUpdate(
             (snap, context) => {
                 const objectId = snap.after.id;
