@@ -21,9 +21,9 @@ class FeatureManager extends PureComponent {
                         <Table.Row>
                             <Table.HeaderCell width={6}>Feature</Table.HeaderCell>
                             <Table.HeaderCell width={2}>Type</Table.HeaderCell>
-                            <Table.HeaderCell width={4}>Source</Table.HeaderCell>
+                            <Table.HeaderCell width={5}>Source</Table.HeaderCell>
                             <Table.HeaderCell width={2}>Cost</Table.HeaderCell>
-                            <Table.HeaderCell width={2}/>
+                            <Table.HeaderCell width={1}/>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>

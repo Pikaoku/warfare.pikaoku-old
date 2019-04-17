@@ -9,6 +9,8 @@ import UnitMakerCore from "./components/UnitMakerCore";
 import FeatureManager from "./components/FeatureManager";
 import UnitmakerButtonGroup from "./components/UnitmakerButtonGroup";
 import * as domtoimage from "dom-to-image";
+import {saveAs} from 'file-saver';
+
 
 class UnitMaker extends Component {
     state = {
@@ -23,30 +25,16 @@ class UnitMaker extends Component {
             });
     };
 
-    copyToClipboard = () => {
+    downloadImage = () => {
         domtoimage
-            .toPng(document.getElementById('UnitCard'))
-            .then(dataUrl => {
-                this.setState(
-                    {unitCardImage: dataUrl},
-                    () => {
-                        var img = document.querySelector('#UnitCardImage');
-                        var r = document.createRange();
-                        r.setStartBefore(img);
-                        r.setEndAfter(img);
-                        r.selectNode(img);
-                        var sel = window.getSelection();
-                        sel.addRange(r);
-                        document.execCommand('Copy');
-                    }
-                )
+            .toBlob(document.getElementById('UnitCard'))
+            .then(blob => {
+                saveAs(blob, (this.props.unit.name.replace(/[^a-z0-9.-]/gi, '') || 'unit') + '.png')
             });
 
     };
 
     render() {
-        const {unit} = this.props;
-
         return (
             <StandardPage title={'Unit Maker'} subtitle={'Make all those awesome units, yo!'} icon={'pencil'}>
                 <Grid stackable>
@@ -58,7 +46,6 @@ class UnitMaker extends Component {
                             }
                             <UnitMakerCore/>
                             <AspectManager/>
-                            <Divider hidden/>
                             <FeatureManager/>
                         </Grid.Column>
                         <Grid.Column width={8}>
@@ -70,20 +57,13 @@ class UnitMaker extends Component {
                                 <Button.Group size={'large'} color={'teal'}>
                                     <Button icon={'cog'} content={'Generate'}
                                             onClick={this.generateImage}/>
+                                    <Button icon={'download'} content={'Download'}
+                                            onClick={this.downloadImage}/>
                                 </Button.Group>
                                 <Divider hidden/>
                                 {
                                     this.state.unitCardImage &&
-                                    <>
-                                        <img id={'UnitCardImage'} src={this.state.unitCardImage} alt={'broke'}/>
-                                        <Divider hidden/>
-                                        <Button.Group size={'large'} color={'teal'}>
-                                            <Button icon={'copy'} content={'Copy'}
-                                                    onClick={this.copyToClipboard}/>
-                                            <Button icon={'download'} content={'Download'}
-                                                    onClick={this.generateImage}/>
-                                        </Button.Group>
-                                    </>
+                                    <img id={'UnitCardImage'} src={this.state.unitCardImage} alt={'broke'}/>
                                 }
                             </Container>
                         </Grid.Column>

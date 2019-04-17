@@ -43,8 +43,8 @@ const BasicUnitCard = ({unit, features, cost, styles, color}) => {
                     ll={'Attack'} ld={extractStat(unit, 'attack')}
                     rl={'Defense'} rd={extractStat(unit, 'defense')}/>
                 <StatLine
-                    ll={'power'} ld={extractStat(unit, 'power')}
-                    rl={'power'} rd={extractStat(unit, 'toughness')}/>
+                    ll={'Power'} ld={extractStat(unit, 'power')}
+                    rl={'Toughness'} rd={extractStat(unit, 'toughness')}/>
                 <StatLine
                     ll={'Morale'} ld={extractStat(unit, 'morale')}
                     rl={'Size'} rd={'d' + unit.size.toString()}/>
@@ -79,6 +79,11 @@ const BasicUnitCard = ({unit, features, cost, styles, color}) => {
                     )
                 }
             </div>
+            {
+                !!unit.commander &&
+                <div className={'grid-center buc-commander'}>Commanded by {unit.commander}</div>
+            }
+
         </div>
     );
 };
