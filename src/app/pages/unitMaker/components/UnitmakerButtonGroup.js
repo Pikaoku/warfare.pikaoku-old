@@ -21,8 +21,6 @@ class UnitmakerButtonGroup extends Component {
             deleteUnit,
         } = this.props;
 
-        debugger;
-
         return (
             <Button.Group icon size={'large'}>
                 <Dropdown

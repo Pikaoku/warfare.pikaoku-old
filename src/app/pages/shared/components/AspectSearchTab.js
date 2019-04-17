@@ -5,13 +5,12 @@ import WarfareRefinementList from "./WarfareRefinementList";
 import {UNIT_STAT_TYPES, withSign} from "../../../../utils/unitMakerUtils";
 import {connect} from "react-redux";
 import {saveAspectToUser, unsaveAspectFromUser} from "../../../../store/actions/firestore";
-import {ASPECTS, SAVED} from "../../../../store/reducer";
 import SaveButton from "../../../components/searching/SaveButton";
 
 
 const AspectHits =
     connect(
-        state => ({user: state.user, saved: state[ASPECTS][SAVED]}),
+        state => ({user: state.user}),
         {saveAspectToUser, unsaveAspectFromUser}
     )(connectHits(
         ({hits, user, saveAspectToUser, unsaveAspectFromUser}) =>

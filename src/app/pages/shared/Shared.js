@@ -42,7 +42,7 @@ class Shared extends Component {
         return (
             <StandardPage title={'Shared'} subtitle={'This needs a better name!'} icon={'globe'}>
                 <Tab
-                    menu={{pointing: true, secondary: true}}
+                    // menu={{pointing: true, secondary: true}}
                     panes={panes}
                 />
             </StandardPage>
