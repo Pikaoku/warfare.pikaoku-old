@@ -5,10 +5,23 @@ import {SAVED, UNITS, USER} from "../../../../store/reducer";
 import {sortByField} from "../../../../utils/unitMakerUtils";
 import {createUnitDropdownOptions} from "../../../components/searching/UnitDropdownResult";
 import {addUnit, deleteUnit, updateUnit} from "../../../../store/actions/firestore";
+import {umLoadUnit} from "../../../../store/actions/unitmaker";
 
 class UnitmakerButtonGroup extends Component {
     render() {
-        const {units, loading, currentId, updateUnit, addUnit, deleteUnit, user} = this.props;
+        const {
+            user,
+            units,
+            loading,
+            currentId,
+            currentUnit,
+            addUnit,
+            umLoadUnit,
+            updateUnit,
+            deleteUnit,
+        } = this.props;
+
+        debugger;
 
         return (
             <Button.Group icon size={'large'}>
@@ -24,11 +37,15 @@ class UnitmakerButtonGroup extends Component {
                     }
                     pointing
                     loading={loading}
+                    onChange={(a, {value}) => umLoadUnit(value)}
                     options={createUnitDropdownOptions(units)}
                 />
                 <Popup
                     trigger={
                         <Button
+                            disabled={
+                                currentUnit.authorId !== user.uid
+                            }
                             onClick={
                                 !!currentId
                                     ? updateUnit
@@ -85,6 +102,7 @@ class UnitmakerButtonGroup extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    user: state.user,
     units: state[UNITS][USER].concat(state[UNITS][SAVED]).sort(sortByField('name')),
     currentUnit: state.unitmaker.active,
     currentId: state.unitmaker.id,
@@ -93,5 +111,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
     mapStateToProps,
-    {addUnit, updateUnit, deleteUnit}
+    {addUnit, updateUnit, deleteUnit, umLoadUnit}
 )(UnitmakerButtonGroup);

@@ -1,21 +1,25 @@
 import React from 'react';
 import {connectHits, InstantSearch, Panel, SearchBox} from "react-instantsearch-dom";
-import {Button, Card, Divider, Header, Icon, Tab, Table} from "semantic-ui-react";
+import {Card, Divider, Header, Tab, Table} from "semantic-ui-react";
 import WarfareRefinementList from "./WarfareRefinementList";
 import {UNIT_STAT_TYPES, withSign} from "../../../../utils/unitMakerUtils";
 import {connect} from "react-redux";
+import {saveAspectToUser, unsaveAspectFromUser} from "../../../../store/actions/firestore";
+import {ASPECTS, SAVED} from "../../../../store/reducer";
+import SaveButton from "../../../components/searching/SaveButton";
+
 
 const AspectHits =
     connect(
-        state => ({user: state.user}),
-        {}
+        state => ({user: state.user, saved: state[ASPECTS][SAVED]}),
+        {saveAspectToUser, unsaveAspectFromUser}
     )(connectHits(
-        ({hits, user}) =>
+        ({hits, user, saveAspectToUser, unsaveAspectFromUser}) =>
             <Card.Group centered itemsPerRow={4} doubling>
                 {
                     hits.map(
                         hit =>
-                            <Card key={hit.objectId}>
+                            <Card key={hit.objectID}>
                                 <Card.Content>
                                     <Header textAlign={'center'} size={'medium'} color={'blue'}>
                                         {hit.name}
@@ -39,8 +43,9 @@ const AspectHits =
                                                 UNIT_STAT_TYPES.map(
                                                     statType =>
                                                         <Table.Row key={statType}>
-                                                            <Table.Cell textAlign={'right'}
-                                                                        className={'capitalize'}>
+                                                            <Table.Cell
+                                                                textAlign={'right'}
+                                                                className={'capitalize'}>
                                                                 {statType}
                                                             </Table.Cell>
                                                             <Table.Cell>
@@ -52,15 +57,12 @@ const AspectHits =
                                         </Table.Body>
                                     </Table>
                                 </Card.Content>
-                                <Button
-                                    attached={'bottom'}
-                                    basic>
-                                    <Icon
-                                        fitted
-                                        size={'large'}
-                                        name={'heart ' + (user && (hit.saved.includes(user.uid)) ? '' : 'outline')}
-                                        color={'pink'}/>
-                                </Button>
+                                <SaveButton
+                                    saved={hit.saved.includes(user.uid)}
+                                    objectId={hit.objectID}
+                                    saveFunc={saveAspectToUser}
+                                    unsaveFunc={unsaveAspectFromUser}
+                                />
                             </Card>
                     )
                 }
@@ -83,5 +85,7 @@ const AspectSearchTab = ({searchClient, user}) => (
     </Tab.Pane>
 );
 
-export default connect(null, null
+export default connect(
+    null,
+    null
 )(AspectSearchTab);

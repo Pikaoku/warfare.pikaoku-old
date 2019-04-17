@@ -1,10 +1,8 @@
 import {
-    ALL,
     UNITMAKER_ADD_FEATURE,
     UNITMAKER_FIELD_UPDATE,
     UNITMAKER_LOAD_UNIT,
-    UNITMAKER_NESTED_FIELD_UPDATE,
-    UNITS
+    UNITMAKER_NESTED_FIELD_UPDATE
 } from "../reducer";
 
 export const saveUmField = (field, value) => ({
@@ -24,12 +22,17 @@ export const umAddFeature = feature => ({
 
 export const umLoadUnit = id =>
     (dispatch, getState, firebase) => {
-        const unit = getState[UNITS][ALL].find(x => x.id === id);
-        return {
-            type: UNITMAKER_LOAD_UNIT,
-            payload: {
-                id: unit.id,
-                data: unit.data()
-            }
-        }
+        firebase.firestore()
+            .doc('sites/warfare/units/' + id)
+            .get()
+            .then(
+                success =>
+                    dispatch({
+                        type: UNITMAKER_LOAD_UNIT,
+                        payload: {
+                            id: success.id,
+                            data: success.data()
+                        }
+                    })
+            )
     };

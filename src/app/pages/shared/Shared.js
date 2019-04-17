@@ -7,16 +7,6 @@ import AspectSearchTab from "./components/AspectSearchTab";
 import FeatureSearchTab from "./components/FeatureSearchTab";
 import UnitSearchTab from "./components/UnitSearchTab";
 
-const Hit = ({hit}) => {
-    return (
-        <>
-            <div>{hit.name}</div>
-            <div>{hit.author}</div>
-            <div>{hit.type}</div>
-        </>
-    )
-}
-
 class Shared extends Component {
     constructor(props) {
         super(props);

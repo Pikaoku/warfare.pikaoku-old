@@ -134,6 +134,12 @@ export const addUserToRecordSaved = (collection, recordId, userId) =>
         saved: firebase.firestore.FieldValue.arrayUnion(userId),
     });
 
+export const removeUserFromRecordSaved = (collection, recordId, userId) =>
+    fsUpdate(collection, recordId, {
+        saves: firebase.firestore.FieldValue.increment(-1),
+        saved: firebase.firestore.FieldValue.arrayRemove(userId),
+    });
+
 export const saveUnitToUser = (unitId, userId) =>
     addUserToRecordSaved(FIRESTORE_COLLECTION_UNITS, unitId, userId);
 
@@ -142,6 +148,15 @@ export const saveAspectToUser = (aspectId, userId) =>
 
 export const saveFeatureToUser = (featureId, userId) =>
     addUserToRecordSaved(FIRESTORE_COLLECTION_FEATURES, featureId, userId);
+
+export const unsaveUnitFromUser = (unitId, userId) =>
+    removeUserFromRecordSaved(FIRESTORE_COLLECTION_UNITS, unitId, userId);
+
+export const unsaveAspectFromUser = (aspectId, userId) =>
+    removeUserFromRecordSaved(FIRESTORE_COLLECTION_ASPECTS, aspectId, userId);
+
+export const unsaveFeatureFromUser = (featureId, userId) =>
+    removeUserFromRecordSaved(FIRESTORE_COLLECTION_FEATURES, featureId, userId);
 
 export const fetchAllCoreData = () => (
     (dispatch, getState, firebase) => {
