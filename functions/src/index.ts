@@ -29,15 +29,15 @@ exports.helloWorld =
             }
         );
 
-
 exports.updateAspect =
     db.document('sites/warfare/aspect/{aspectId}')
         .onUpdate(
             (snap, context) => {
-                const id = snap.after.id;
+                const objectId = snap.after.id;
                 const data = snap.after.data();
                 return aspects.saveObject({
-                    id, ...data
+                    objectId,
+                    ...data
                 })
             }
         );
