@@ -4,7 +4,6 @@ import {
     FEATURES_FETCH_SUCCESS,
     FIRESTORE_REQUEST_FAILURE,
     SAVED,
-    UNITMAKER_CREATE_UNIT_REQUEST,
     UNITMAKER_CREATE_UNIT_SUCCESS,
     UNITS_FETCH_SUCCESS,
     USER
@@ -14,6 +13,7 @@ import {
     FIRESTORE_COLLECTION_FEATURES,
     FIRESTORE_COLLECTION_UNITS
 } from "../../utils/firebaseUtils";
+import * as firebase from "firebase/app";
 
 export const fsFetch = (collection, where, type, category) => (
     (dispatch, getState, firebase) => {
@@ -38,17 +38,37 @@ export const fsFetch = (collection, where, type, category) => (
     }
 );
 
+export const fsAdd = (collection, data) =>
+    (dispatch, getState, firebase) => {
+        const user = firebase.auth().currentUser;
+        return firebase
+            .firestore()
+            .collection(collection)
+            .add({
+                saved: [],
+                saves: 0,
+                ...data,
+                created: firebase.firestore.FieldValue.serverTimestamp(),
+                updated: firebase.firestore.FieldValue.serverTimestamp(),
+                author: user.displayName,
+                authorId: user.uid,
+            });
+    };
+
 export const fsUpdate = (collection, id, data) =>
     (dispatch, getState, firebase) => {
         return firebase
             .firestore()
             .collection(collection)
             .doc(id)
-            .update(data)
+            .update({
+                ...data,
+                updated: firebase.firestore.FieldValue.serverTimestamp()
+            })
             .then(
                 success => true,
                 failure => true
-            )
+            );
     };
 
 export const fsDelete = (collection, id) =>
@@ -65,52 +85,26 @@ export const fsDelete = (collection, id) =>
     };
 
 export const createAspect = (aspect) =>
-    (dispatch, getState, firebase) => {
-        const user = firebase.auth().currentUser;
-        const data = {...aspect, authorId: user.uid, author: user.displayName};
-        return firebase
-            .firestore()
-            .collection(FIRESTORE_COLLECTION_ASPECTS)
-            .add(data)
-            .then(
-                success => true,
-                failure => true
-            );
-    };
+    fsAdd(FIRESTORE_COLLECTION_ASPECTS, aspect);
 
-// TODO: Actually HANDLE SHIT
-export const updateAspect = (id, data) => fsUpdate(FIRESTORE_COLLECTION_ASPECTS, id, data);
+export const updateAspect = (id, data) =>
+    fsUpdate(FIRESTORE_COLLECTION_ASPECTS, id, data);
 
-// TODO: Actually HANDLE SHIT
-export const deleteAspect = id => fsDelete(FIRESTORE_COLLECTION_ASPECTS, id);
+export const deleteAspect = id =>
+    fsDelete(FIRESTORE_COLLECTION_ASPECTS, id);
 
 export const createFeature = feature =>
-    (dispatch, getState, firebase) => {
-        const user = firebase.auth().currentUser;
-        const data = {...feature, authorId: user.uid, author: user.displayName};
-        return firebase
-            .firestore()
-            .collection(FIRESTORE_COLLECTION_FEATURES)
-            .add(data)
-            .then(
-                success => true,
-                failure => true
-            );
-    };
+    fsAdd(FIRESTORE_COLLECTION_FEATURES, feature);
 
-export const updateFeature = (id, feature) => fsUpdate(FIRESTORE_COLLECTION_FEATURES, id, feature);
+export const updateFeature = (id, feature) =>
+    fsUpdate(FIRESTORE_COLLECTION_FEATURES, id, feature);
 
-export const deleteFeature = id => fsDelete(FIRESTORE_COLLECTION_FEATURES, id);
+export const deleteFeature = id =>
+    fsDelete(FIRESTORE_COLLECTION_FEATURES, id);
 
 export const addUnit = () =>
-    (dispatch, getState, firebase) => {
-        let unit = getState().unitmaker.active;
-        const user = firebase.auth().currentUser;
-        const data = {...unit, authorId: user.uid, author: user.displayName};
-        dispatch({type: UNITMAKER_CREATE_UNIT_REQUEST});
-        return firebase.firestore()
-            .collection(FIRESTORE_COLLECTION_UNITS)
-            .add(data)
+    (dispatch, getState, firebase) =>
+        fsAdd(FIRESTORE_COLLECTION_UNITS, getState().unitmaker.active)
             .then(
                 success => {
                     dispatch({
@@ -119,9 +113,7 @@ export const addUnit = () =>
                     })
                 },
                 failure => true
-            )
-
-    };
+            );
 
 export const updateUnit = () =>
     (dispatch, getState, firebase) => {
@@ -132,7 +124,24 @@ export const updateUnit = () =>
             .update(unit)
     };
 
-export const deleteUnit = id => fsDelete(FIRESTORE_COLLECTION_UNITS, id);
+export const deleteUnit = id =>
+    fsDelete(FIRESTORE_COLLECTION_UNITS, id);
+
+
+export const addUserToRecordSaved = (collection, recordId, userId) =>
+    fsUpdate(collection, recordId, {
+        saves: firebase.firestore.FieldValue.increment(1),
+        saved: firebase.firestore.FieldValue.arrayUnion(userId),
+    });
+
+export const saveUnitToUser = (unitId, userId) =>
+    addUserToRecordSaved(FIRESTORE_COLLECTION_UNITS, unitId, userId);
+
+export const saveAspectToUser = (aspectId, userId) =>
+    addUserToRecordSaved(FIRESTORE_COLLECTION_ASPECTS, aspectId, userId);
+
+export const saveFeatureToUser = (featureId, userId) =>
+    addUserToRecordSaved(FIRESTORE_COLLECTION_FEATURES, featureId, userId);
 
 export const fetchAllCoreData = () => (
     (dispatch, getState, firebase) => {
@@ -179,6 +188,7 @@ export const fetchFeaturesSaved = userId =>
         FEATURES_FETCH_SUCCESS,
         SAVED
     );
+
 
 export const fetchAspectsCore = () =>
     fsFetch(

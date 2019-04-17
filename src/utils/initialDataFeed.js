@@ -6,5 +6,7 @@ if (firebase) {
 }
 
 export const feedFeatures = () => {
-    firebase.firestore().collection('sites/warfare/features');
+    firebase.firestore()
+        .collection('sites/warfare/aspects');
+
 };
