@@ -26,11 +26,21 @@ exports.helloWorld =
         .onRequest(
             (request, response) => {
                 response.send("Hello from Firebase!");
-            });
+            }
+        );
 
 
 exports.updateAspect =
     db.document('sites/warfare/aspect/{aspectId}')
+        .onUpdate(
+            (snap, context) => {
+                const id = snap.after.id;
+                const data = snap.after.data();
+                return aspects.saveObject({
+                    id, ...data
+                })
+            }
+        );
 
 exports.createAspect =
     db.document('sites/warfare/aspects/{aspectId}')
@@ -38,7 +48,7 @@ exports.createAspect =
             (snap, context) => {
                 const data = snap.data();
                 const objectId = snap.id;
-                return index.addObject({
+                return aspects.addObject({
                     objectId,
                     ...data
                 })
@@ -50,6 +60,77 @@ exports.deleteAspect =
         .onDelete(
             (snap, context) => {
                 const objectId = snap.id;
-                return index.deleteObject(objectId)
+                return aspects.deleteObject(objectId)
+            }
+        );
+
+exports.updateFeature =
+    db.document('sites/warfare/features/{featureId}')
+        .onUpdate(
+            (snap, context) => {
+                const data = snap.after.data();
+                const objectId = snap.after.id;
+                return features.saveObject({
+                    ...data,
+                    objectId
+                })
+            }
+        );
+
+exports.createFeature =
+    db.document('sites/warfare/features/{featureId}')
+        .onCreate(
+            (snap, context) => {
+                const data = snap.data();
+                const objectId = snap.id;
+                return features.addObject({
+                    objectId,
+                    ...data
+                })
+            }
+        );
+
+exports.deleteFeature =
+    db.document('sites/warfare/features/{featureId}')
+        .onDelete(
+            (snap, context) => {
+                const objectId = snap.id;
+                return features.deleteObject(objectId)
+            }
+        );
+
+
+exports.updateUnit =
+    db.document('sites/warfare/units/{unitId}')
+        .onUpdate(
+            (snap, context) => {
+                const data = snap.after.data();
+                const objectId = snap.after.id;
+                return units.saveObject({
+                    ...data,
+                    objectId
+                })
+            }
+        );
+
+exports.createUnit =
+    db.document('sites/warfare/units/{unitId}')
+        .onCreate(
+            (snap, context) => {
+                const data = snap.data();
+                const objectId = snap.id;
+                return units.addObject({
+                    objectId,
+                    ...data
+                })
+            }
+        );
+
+exports.deleteUnit =
+    db.document('sites/warfare/units/{unitId}')
+        .onDelete(
+            (snap, context) => {
+                const objectId = snap.id;
+                return units.deleteObject(objectId)
             }
         );
