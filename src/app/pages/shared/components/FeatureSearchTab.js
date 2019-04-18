@@ -26,42 +26,45 @@ const FeatureHits =
                                         </Header.Subheader>
                                     </Header>
                                 </Card.Content>
-                                <Card.Content style={{padidng: 0}}>
-                                    <Table compact basic={'very'} padded definition unstackable>
+                                <Card.Content style={{padding: 0}}>
+                                    <Table compact basic={'very'} padded definition unstackable fixed
+                                           style={{height: '100%'}}>
                                         <Table.Body>
                                             <Table.Row>
-                                                <Table.Cell textAlign={'right'} width={8}>
+                                                <Table.Cell textAlign={'right'} width={4}>
                                                     Type
                                                 </Table.Cell>
-                                                <Table.Cell width={8}>
+                                                <Table.Cell width={12}>
                                                     {hit.type}
                                                 </Table.Cell>
                                             </Table.Row>
                                             <Table.Row>
-                                                <Table.Cell textAlign={'right'} width={8}>
+                                                <Table.Cell textAlign={'right'}>
                                                     Cost
                                                 </Table.Cell>
-                                                <Table.Cell width={8}>
+                                                <Table.Cell>
                                                     {hit.cost}
                                                 </Table.Cell>
                                             </Table.Row>
                                             <Table.Row>
-                                                <Table.Cell textAlign={'right'} width={8}>
+                                                <Table.Cell textAlign={'right'}>
                                                     Effect
                                                 </Table.Cell>
-                                                <Table.Cell width={8}>
+                                                <Table.Cell>
                                                     {hit.effect}
                                                 </Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
                                     </Table>
                                 </Card.Content>
-                                <SaveButton
-                                    saved={hit.saved.includes(user.uid)}
-                                    objectId={hit.objectID}
-                                    saveFunc={saveFeatureToUser}
-                                    unsaveFunc={unsaveFeatureFromUser}
-                                />
+                                <Card.Content>
+                                    <SaveButton
+                                        saved={user && hit.saved && hit.saved.includes(user.uid)}
+                                        objectId={hit.objectID}
+                                        saveFunc={saveFeatureToUser}
+                                        unsaveFunc={unsaveFeatureFromUser}
+                                    />
+                                </Card.Content>
                             </Card>
                         )
                     )
@@ -73,7 +76,7 @@ const FeatureHits =
 const FeatureSearchTab = ({searchClient}) => (
     <Tab.Pane>
         <div className="ais-InstantSearch">
-            <InstantSearch indexName={'aspects'} searchClient={searchClient}>
+            <InstantSearch indexName={'features'} searchClient={searchClient}>
                 <Panel>
                     <SearchBox/>
                     <WarfareRefinementList attribute={'type'}/>

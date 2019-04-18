@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, Icon} from "semantic-ui-react";
-import {saveAspectToUser, unsaveAspectFromUser} from "../../../store/actions/firestore";
+import {Icon} from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 class SaveButton extends Component {
@@ -25,35 +24,21 @@ class SaveButton extends Component {
     render() {
         const {saved} = this.state;
 
-        if (saved) {
-            return (
-                <Button
-                    attached={'bottom'}
-                    onClick={this.unsave}
-                    basic>
-                    <Icon
-                        fitted
-                        size={'large'}
-                        name={'heart'}
-                        color={'pink'}
-                    />
-                </Button>
-            );
-        } else {
-            return (
-                <Button
-                    attached={'bottom'}
-                    onClick={this.save}
-                    basic>
-                    <Icon
-                        fitted
-                        size={'large'}
-                        name={'heart outline'}
-                        color={'pink'}
-                    />
-                </Button>
-            )
-        }
+        const sharedProps = {
+            fitted: true,
+            size: 'large',
+            color: 'pink'
+        };
+
+        return (
+            <div className={'grid-center'}>
+                <Icon
+                    onClick={saved ? this.unsave : this.save}
+                    name={saved ? 'heart' : 'heart outline'}
+                    {...sharedProps}
+                />
+            </div>
+        )
     }
 }
 

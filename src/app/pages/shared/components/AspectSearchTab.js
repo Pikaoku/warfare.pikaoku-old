@@ -56,12 +56,14 @@ const AspectHits =
                                         </Table.Body>
                                     </Table>
                                 </Card.Content>
-                                <SaveButton
-                                    saved={hit.saved.includes(user.uid)}
-                                    objectId={hit.objectID}
-                                    saveFunc={saveAspectToUser}
-                                    unsaveFunc={unsaveAspectFromUser}
-                                />
+                                <Card.Content>
+                                    <SaveButton
+                                        saved={hit.saved.includes(user.uid)}
+                                        objectId={hit.objectID}
+                                        saveFunc={saveAspectToUser}
+                                        unsaveFunc={unsaveAspectFromUser}
+                                    />
+                                </Card.Content>
                             </Card>
                     )
                 }
