@@ -25,6 +25,10 @@ const StatLine = pure(({ll, ld, rl, rd}) =>
     </div>
 );
 
+const Cost = pure(({cost, currency}) =>
+    <div className={'centered buc-cost'}>Cost: <b>{cost || 0}</b> <span>{currency}</span></div>
+);
+
 const BasicUnitCard = ({unit, features, cost, styles, color}) => {
     return (
         <div id={'UnitCard'} className={'basic-unit-card ' + (styles || '')} style={{borderColor: color, color: color}}>
@@ -49,7 +53,8 @@ const BasicUnitCard = ({unit, features, cost, styles, color}) => {
                     ll={'Morale'} ld={extractStat(unit, 'morale')}
                     rl={'Size'} rd={'d' + unit.size.toString()}/>
             </div>
-            <div className={'centered buc-cost'}>Cost: <b>{cost || 0}</b> {unit.currency}</div>
+            <Cost cost={unit.cost} currency={unit.currency}/>
+
 
             <div className={'buc-extras'}>
                 {

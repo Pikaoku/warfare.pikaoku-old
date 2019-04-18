@@ -76,76 +76,84 @@ const init = {
 };
 
 const reducer = (state = init, {type, payload}) => {
-    const integrateData = (field, category, values) => {
-        let all = [];
-        CATEGORIES.map(key => all = all.concat(key === category ? values : state[field][key]));
-        return {
-            ...state,
-            fetched: update(state.fetched, {[field]: {[category]: {$set: true}}}),
-            [field]: {
-                ...state[field],
-                all,
-                [category]: values
-            }
+        const integrateData = (field, category, values) => {
+            let all = [];
+            CATEGORIES.map(key => all = all.concat(key === category ? values : state[field][key]));
+            return {
+                ...state,
+                fetched: update(state.fetched, {[field]: {[category]: {$set: true}}}),
+                [field]: {
+                    ...state[field],
+                    all,
+                    [category]: values
+                }
+            };
         };
-    };
 
-    const addToFeatures = (newArrElem) => {
-        let arr = state.unitmaker.active[CUSTOMIZATION].features;
-        arr.push(newArrElem);
-        return update(state, {unitmaker: {active: {[CUSTOMIZATION]: {features: {$set: enforceArrayUniqueness(arr)}}}}})
-    };
+        const addToFeatures = (newArrElem) => {
+            let arr = state.unitmaker.active[CUSTOMIZATION].features;
+            arr.push(newArrElem);
+            return update(state, {unitmaker: {active: {[CUSTOMIZATION]: {features: {$set: enforceArrayUniqueness(arr)}}}}})
+        };
 
-    switch (type) {
-        case UNITMAKER_FIELD_UPDATE:
-            return update(state, {unitmaker: {active: {[payload.field]: {$set: payload.value}}}});
-        case UNITMAKER_NESTED_FIELD_UPDATE:
-            return update(state, {unitmaker: {active: {[payload.outer]: {[payload.inner]: {$set: payload.value}}}}});
-        case UNITMAKER_ADD_FEATURE:
-            return addToFeatures(payload.value);
-        case UNITMAKER_RESET:
-            return update(state, {unitmaker: {active: {$set: emptyUnitObject()}}});
-        case UNITMAKER_CREATE_UNIT_REQUEST:
-            return update(state, {unitmaker: {loading: {$set: true}}});
-        case UNITMAKER_CREATE_UNIT_SUCCESS:
-            return update(state, {unitmaker: {id: {$set: payload.id}, loading: {$set: false}}});
-        case UNITMAKER_LOAD_UNIT:
-            return {
-                ...state,
-                unitmaker: {
-                    ...state.unitmaker,
-                    id: payload.id,
-                    active: payload.data
-                }
-            };
-        case AUTH_SIGN_IN_SUCCESS:
-            return {...state, user: payload.user};
-        case AUTH_SIGN_OUT:
-            // TODO: CLEANSE user data!
-            return {...state, user: false};
-        case AUTH_HANDLE_CHANGE:
-            return {...state, user: (payload.user || false)};
-        case ASPECTS_FETCH_SUCCESS:
-            return integrateData(ASPECTS, payload.category, payload.values);
-        case FEATURES_FETCH_SUCCESS:
-            return integrateData(FEATURES, payload.category, payload.values);
-        case UNITS_FETCH_SUCCESS:
-            return integrateData(UNITS, payload.category, payload.values);
-        case FIRESTORE_REQUEST_BEGIN:
-            let arr = state.listeners[payload.authType];
-            arr.push(payload.unsub);
-            return {
-                ...state,
-                listeners: {
-                    ...state.listeners,
-                    [payload.authType]: arr
-                }
-            };
-        case FIRESTORE_REQUEST_FAILURE:
-            return state;
-        default:
-            return state;
+        switch (type) {
+            case UNITMAKER_FIELD_UPDATE:
+                return update(state, {unitmaker: {active: {[payload.field]: {$set: payload.value}}}});
+            case UNITMAKER_NESTED_FIELD_UPDATE:
+                return update(state, {unitmaker: {active: {[payload.outer]: {[payload.inner]: {$set: payload.value}}}}});
+            case UNITMAKER_ADD_FEATURE:
+                return addToFeatures(payload.value);
+            case UNITMAKER_RESET:
+                return update(state, {unitmaker: {active: {$set: emptyUnitObject()}, id: {$set: false}}});
+            case UNITMAKER_CREATE_UNIT_REQUEST:
+                return update(state, {unitmaker: {loading: {$set: true}}});
+            case UNITMAKER_CREATE_UNIT_SUCCESS:
+                return {
+                    ...state,
+                    unitmaker: {
+                        id: payload.id,
+                        loading: false,
+                        active: state[UNITS][USER].find(x => x.id === payload.id).data()
+                    }
+                };
+            case UNITMAKER_LOAD_UNIT:
+                return {
+                    ...state,
+                    unitmaker: {
+                        ...state.unitmaker,
+                        id: payload.id,
+                        active: payload.data
+                    }
+                };
+            case AUTH_SIGN_IN_SUCCESS:
+                return {...state, user: payload.user};
+            case AUTH_SIGN_OUT:
+                // TODO: CLEANSE user data!
+                return {...state, user: false};
+            case AUTH_HANDLE_CHANGE:
+                return {...state, user: (payload.user || false)};
+            case ASPECTS_FETCH_SUCCESS:
+                return integrateData(ASPECTS, payload.category, payload.values);
+            case FEATURES_FETCH_SUCCESS:
+                return integrateData(FEATURES, payload.category, payload.values);
+            case UNITS_FETCH_SUCCESS:
+                return integrateData(UNITS, payload.category, payload.values);
+            case FIRESTORE_REQUEST_BEGIN:
+                let arr = state.listeners[payload.authType];
+                arr.push(payload.unsub);
+                return {
+                    ...state,
+                    listeners: {
+                        ...state.listeners,
+                        [payload.authType]: arr
+                    }
+                };
+            case FIRESTORE_REQUEST_FAILURE:
+                return state;
+            default:
+                return state;
+        }
     }
-};
+;
 
 export default reducer;

@@ -14,8 +14,10 @@ import {
     FIRESTORE_COLLECTION_UNITS
 } from "../../utils/firebaseUtils";
 import * as firebase from "firebase/app";
+import 'firebase/firestore'
+import 'firebase/auth'
 
-export const fsFetch = (collection, where, type, category) => (
+export const fsListen = (collection, where, type, category) => (
     (dispatch, getState, firebase) => {
         return firebase.firestore().collection(collection)
             .where(...where)
@@ -39,21 +41,18 @@ export const fsFetch = (collection, where, type, category) => (
 );
 
 export const fsAdd = (collection, data) =>
-    (dispatch, getState, firebase) => {
-        const user = firebase.auth().currentUser;
-        return firebase
-            .firestore()
-            .collection(collection)
-            .add({
-                saved: [],
-                saves: 0,
-                ...data,
-                created: firebase.firestore.FieldValue.serverTimestamp(),
-                updated: firebase.firestore.FieldValue.serverTimestamp(),
-                author: user.displayName,
-                authorId: user.uid,
-            });
-    };
+    firebase
+        .firestore()
+        .collection(collection)
+        .add({
+            saved: [],
+            saves: 0,
+            ...data,
+            created: firebase.firestore.FieldValue.serverTimestamp(),
+            updated: firebase.firestore.FieldValue.serverTimestamp(),
+            author: firebase.auth().currentUser.displayName,
+            authorId: firebase.auth().currentUser.uid,
+        });
 
 export const fsUpdate = (collection, id, data) =>
     (dispatch, getState, firebase) => {
@@ -181,7 +180,7 @@ export const fetchAllUserData = userId => (
 );
 
 export const fetchFeaturesCore = () =>
-    fsFetch(
+    fsListen(
         FIRESTORE_COLLECTION_FEATURES,
         ['official', '==', true],
         FEATURES_FETCH_SUCCESS,
@@ -189,7 +188,7 @@ export const fetchFeaturesCore = () =>
     );
 
 export const fetchFeaturesUser = (userId) =>
-    fsFetch(
+    fsListen(
         FIRESTORE_COLLECTION_FEATURES,
         ['authorId', '==', userId],
         FEATURES_FETCH_SUCCESS,
@@ -197,7 +196,7 @@ export const fetchFeaturesUser = (userId) =>
     );
 
 export const fetchFeaturesSaved = userId =>
-    fsFetch(
+    fsListen(
         FIRESTORE_COLLECTION_FEATURES,
         ['saved', 'array-contains', userId],
         FEATURES_FETCH_SUCCESS,
@@ -206,7 +205,7 @@ export const fetchFeaturesSaved = userId =>
 
 
 export const fetchAspectsCore = () =>
-    fsFetch(
+    fsListen(
         FIRESTORE_COLLECTION_ASPECTS,
         ['official', '==', true],
         ASPECTS_FETCH_SUCCESS,
@@ -214,7 +213,7 @@ export const fetchAspectsCore = () =>
     );
 
 export const fetchAspectsUser = userId =>
-    fsFetch(
+    fsListen(
         FIRESTORE_COLLECTION_ASPECTS,
         ['authorId', '==', userId],
         ASPECTS_FETCH_SUCCESS,
@@ -222,7 +221,7 @@ export const fetchAspectsUser = userId =>
     );
 
 export const fetchAspectsSaved = userId =>
-    fsFetch(
+    fsListen(
         FIRESTORE_COLLECTION_ASPECTS,
         ['saved', 'array-contains', userId],
         ASPECTS_FETCH_SUCCESS,
@@ -230,7 +229,7 @@ export const fetchAspectsSaved = userId =>
     );
 
 export const fetchUnitsUser = userId =>
-    fsFetch(
+    fsListen(
         FIRESTORE_COLLECTION_UNITS,
         ['authorId', '==', userId],
         UNITS_FETCH_SUCCESS,
@@ -238,9 +237,9 @@ export const fetchUnitsUser = userId =>
     );
 
 export const fetchUnitsSaved = userId =>
-    fsFetch(
+    fsListen(
         FIRESTORE_COLLECTION_UNITS,
-        ['savedBy', '==', userId],
+        ['saved', 'array-contains', userId],
         UNITS_FETCH_SUCCESS,
         SAVED
     );

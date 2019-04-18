@@ -5,7 +5,7 @@ import {SAVED, UNITS, USER} from "../../../../store/reducer";
 import {sortByField} from "../../../../utils/unitMakerUtils";
 import {createUnitDropdownOptions} from "../../../components/searching/UnitDropdownResult";
 import {addUnit, deleteUnit, updateUnit} from "../../../../store/actions/firestore";
-import {umLoadUnit} from "../../../../store/actions/unitmaker";
+import {umLoadUnit, umReset} from "../../../../store/actions/unitmaker";
 
 class UnitmakerButtonGroup extends Component {
     render() {
@@ -15,8 +15,9 @@ class UnitmakerButtonGroup extends Component {
             loading,
             currentId,
             currentUnit,
-            addUnit,
             umLoadUnit,
+            umReset,
+            addUnit,
             updateUnit,
             deleteUnit,
         } = this.props;
@@ -42,7 +43,7 @@ class UnitmakerButtonGroup extends Component {
                     trigger={
                         <Button
                             disabled={
-                                currentUnit.authorId !== user.uid
+                                (currentId !== false) && (currentUnit.authorId !== user.uid)
                             }
                             onClick={
                                 !!currentId
@@ -76,6 +77,7 @@ class UnitmakerButtonGroup extends Component {
                             icon={'repeat'}
                             color={'orange'}
                             loading={loading}
+                            onClick={umReset}
                         />
                     }
                     content={'Reset all changes'}
@@ -109,5 +111,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
     mapStateToProps,
-    {addUnit, updateUnit, deleteUnit, umLoadUnit}
+    {addUnit, updateUnit, deleteUnit, umLoadUnit, umReset}
 )(UnitmakerButtonGroup);

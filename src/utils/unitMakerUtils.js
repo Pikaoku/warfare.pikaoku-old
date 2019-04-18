@@ -1,4 +1,4 @@
-import {ASPECT_TYPES} from "../store/reducer";
+import {ASPECT_TYPES, CUSTOMIZATION} from "../store/reducer";
 
 export const UNIT_STAT_TYPES = ['attack', 'defense', 'power', 'toughness', 'morale'];
 
@@ -23,15 +23,19 @@ export const calculateUnitCost = (unit, features) => {
     return Math.round(
         (
             (
-                extractStat(unit, 'attack')
-                + extractStat(unit, 'power')
-                + extractStat(unit, 'defense')
-                + extractStat(unit, 'toughness')
-                + (extractStat(unit, 'morale') * 2)
-            ) * (unit.type.costMod || 1)
-        ) * ((unit.size / 6) * 10)
-        + features.reduce((acc, cur) => acc + (cur.cost), 0)
-    ) + unit.customization.cost + 30
+                (
+                    extractStat(unit, 'attack')
+                    + extractStat(unit, 'power')
+                    + extractStat(unit, 'defense')
+                    + extractStat(unit, 'toughness')
+                    + (extractStat(unit, 'morale') * 2)
+                ) * (unit.type.costMod || 1)
+            )
+            * ((unit.size / 6) * 10)
+            + features.reduce((acc, cur) => acc + (cur.cost), 0)
+            + unit.customization.cost + 30
+        ) * unit[CUSTOMIZATION].costMod
+    )
 };
 
 export const filterByField = (field, value) =>

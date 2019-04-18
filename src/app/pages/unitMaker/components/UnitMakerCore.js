@@ -1,82 +1,121 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import {Form, Grid, Segment} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {saveUmField, saveUmNestedField} from "../../../../store/actions/unitmaker";
 import {blurOnKeyDown} from "../../../../utils/unitMakerUtils";
+import {CUSTOMIZATION} from "../../../../store/reducer";
 
-const UnitMakerCore = ({unit, saveUmField, saveUmNestedField}) => {
-    const
-        tinkerInputProps = {width: 5, type: 'number', step: 1, defaultValue: 0},
-        sizes = [
-            {key: 4, value: 4, text: 4},
-            {key: 6, value: 6, text: 6},
-            {key: 8, value: 8, text: 8},
-            {key: 10, value: 10, text: 10},
-            {key: 12, value: 12, text: 12}
-        ];
+class UnitMakerCore extends PureComponent {
+    state = {
+        attack: this.props.unit[CUSTOMIZATION].attack || 0,
+        defense: this.props.unit[CUSTOMIZATION].defense || 0,
+        power: this.props.unit[CUSTOMIZATION].power || 0,
+        toughness: this.props.unit[CUSTOMIZATION].toughness || 0,
+        morale: this.props.unit[CUSTOMIZATION].morale || 0,
+        cost: this.props.unit[CUSTOMIZATION].cost || 0,
+        costMod: this.props.unit[CUSTOMIZATION].costMod || 1
+    };
 
-    const updateField = (field) => ({target: {value}}) => saveUmField(field, value);
-    const updateCField = (field) => ({target: {value}}) => saveUmNestedField('customization', field, parseInt(value));
-    const updateSize = (a, {value}) => saveUmField('size', value);
+    render() {
+        const
+            {unit, saveUmField, saveUmNestedField} = this.props,
+            tinkerInputProps = {
+                width: 5,
+                type: 'number',
+                step: 1
+            },
+            sizes = [
+                {key: 4, value: 4, text: 4},
+                {key: 6, value: 6, text: 6},
+                {key: 8, value: 8, text: 8},
+                {key: 10, value: 10, text: 10},
+                {key: 12, value: 12, text: 12}
+            ];
 
-    return (
-        <Segment>
-            <Grid columns={2} divided doubling>
-                <Grid.Row>
-                    <Grid.Column>
-                        <Form>
-                            <Form.Group widths={'equal'}>
-                                <Form.Input
-                                    fluid
-                                    label={'Unit Name'}
-                                    defaultValue={unit.name}
-                                    onBlur={updateField('name')}
+        const setStateFor = (stat) => ({target}) => this.setState({[stat]: target.value})
+        const propsFor = (stat) => ({
+            onKeyDown: blurOnKeyDown,
+            onBlur: updateCField(stat),
+            value: this.state[stat],
+            onChange: setStateFor(stat),
+            label: stat.charAt(0).toUpperCase() + stat.slice(1),
+            ...tinkerInputProps
+        });
+
+        const updateField = (field) => ({target: {value}}) => saveUmField(field, value);
+        const updateCField = (field) => ({target: {value}}) => saveUmNestedField('customization', field, parseInt(value));
+        const updateSize = (a, {value}) => saveUmField('size', value);
+
+        return (
+            <Segment>
+                <Grid columns={2} divided doubling>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Form>
+                                <Form.Group widths={'equal'}>
+                                    <Form.Input
+                                        fluid
+                                        label={'Unit Name'}
+                                        defaultValue={unit.name}
+                                        onBlur={updateField('name')}
+                                        onKeyDown={blurOnKeyDown}
+                                    />
+                                    <Form.Input
+                                        fluid
+                                        label={'Commander'}
+                                        onBlur={updateField('commander')}
+                                        onKeyDown={blurOnKeyDown}
+                                    />
+                                </Form.Group>
+                                <Form.Field
+                                    control={'textarea'}
+                                    label={'Lore'}
+                                    rows={3}
+                                    defaultValue={unit.lore}
                                     onKeyDown={blurOnKeyDown}
+                                    onBlur={updateField('lore')}
                                 />
-                                <Form.Input
-                                    fluid
-                                    label={'Commander'}
-                                    onBlur={updateField('commander')}
-                                    onKeyDown={blurOnKeyDown}
-                                />
-                            </Form.Group>
-                            <Form.Field
-                                control={'textarea'}
-                                label={'Lore'}
-                                rows={1}
-                                defaultValue={unit.lore}
-                                onKeyDown={blurOnKeyDown}
-                                onBlur={updateField('lore')}
-                            />
-                        </Form>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Form>
-                            <Form.Group unstackable>
-                                <Form.Input onKeyDown={blurOnKeyDown} onBlur={updateCField('attack')}
-                                            label={'Attack'} {...tinkerInputProps}/>
-                                <Form.Input onKeyDown={blurOnKeyDown} onBlur={updateCField('defense')}
-                                            label={'Defense'} {...tinkerInputProps}/>
-                                <Form.Input onKeyDown={blurOnKeyDown} onBlur={updateCField('morale')}
-                                            label={'Morale'} {...tinkerInputProps}/>
-                            </Form.Group>
-                            <Form.Group unstackable>
-                                <Form.Input onKeyDown={blurOnKeyDown} onBlur={updateCField('power')}
-                                            onChange={updateCField('power')} label={'Power'} {...tinkerInputProps}/>
-                                <Form.Input onKeyDown={blurOnKeyDown} onBlur={updateCField('toughness')}
-                                            onChange={updateCField('toughness')}
-                                            label={'Toughness'} {...tinkerInputProps}/>
-                                <Form.Dropdown onChange={updateSize} width={5} label={'Size'} defaultValue={4}
-                                               selection fluid
-                                               options={sizes}/>
-                            </Form.Group>
-                        </Form>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
-        </Segment>
-    );
-};
+                            </Form>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Form>
+                                <Form.Group unstackable>
+                                    <Form.Input {...propsFor('attack')}/>
+                                    <Form.Input {...propsFor('defense')}/>
+                                    <Form.Input {...propsFor('morale')}/>
+                                </Form.Group>
+                                <Form.Group unstackable>
+                                    <Form.Input {...propsFor('power')}/>
+                                    <Form.Input {...propsFor('toughness')}/>
+                                    <Form.Dropdown
+                                        onChange={updateSize}
+                                        width={5}
+                                        label={'Size'}
+                                        value={unit.size}
+                                        selection
+                                        fluid
+                                        options={sizes}/>
+                                </Form.Group>
+                                <Form.Group unstackable>
+                                    <Form.Input {...propsFor('cost')}/>
+                                    <Form.Input {...{...propsFor('costMod'), step: '0.05', label: 'Cost Mod'}}/>
+                                    <Form.Input
+                                        fluid
+                                        label={'Currency'}
+                                        defaultValue={unit.currency}
+                                        width={5}
+                                        onBlur={updateField('currency')}
+                                        onKeyDown={blurOnKeyDown}
+                                    />
+                                </Form.Group>
+                            </Form>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </Segment>
+        );
+    }
+}
 
 const mapStateToProps = (state, props) => ({
     unit: state.unitmaker.active

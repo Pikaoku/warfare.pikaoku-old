@@ -2,7 +2,7 @@ import {
     UNITMAKER_ADD_FEATURE,
     UNITMAKER_FIELD_UPDATE,
     UNITMAKER_LOAD_UNIT,
-    UNITMAKER_NESTED_FIELD_UPDATE
+    UNITMAKER_NESTED_FIELD_UPDATE, UNITMAKER_RESET
 } from "../reducer";
 
 export const saveUmField = (field, value) => ({
@@ -36,3 +36,7 @@ export const umLoadUnit = id =>
                     })
             )
     };
+
+export const umReset = () => ({
+    type: UNITMAKER_RESET
+});
