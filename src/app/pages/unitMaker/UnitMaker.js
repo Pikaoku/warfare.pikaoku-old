@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StandardPage from "../../components/layout/StandardPage";
-import {Button, Container, Divider, Grid} from "semantic-ui-react";
+import {Button, Container, Divider, Grid, Segment} from "semantic-ui-react";
 import BasicUnitCard from "../../components/unitCards/BasicUnitCard";
 import './UnitMaker.css';
 import AspectManager from "./components/AspectManager";
@@ -10,11 +10,14 @@ import FeatureManager from "./components/FeatureManager";
 import UnitmakerButtonGroup from "./components/UnitmakerButtonGroup";
 import * as domtoimage from "dom-to-image";
 import {saveAs} from 'file-saver';
+import ColorPicker from "../../components/ColorPicker";
 
 
 class UnitMaker extends Component {
     state = {
-        unitCardImage: false
+        unitCardImage: false,
+        backgroundColor: 'white',
+        borderColor: 'black'
     };
 
     generateImage = () => {
@@ -34,14 +37,18 @@ class UnitMaker extends Component {
 
     };
 
+
     render() {
+        const {user} = this.props;
+        const {unitCardImage, backgroundColor, borderColor} = this.state;
+
         return (
             <StandardPage title={'Unit Maker'} subtitle={'Make all those awesome units, yo!'} icon={'pencil'}>
                 <Grid stackable>
                     <Grid.Row columns={2}>
                         <Grid.Column width={8}>
                             {
-                                this.props.user &&
+                                user &&
                                 <UnitmakerButtonGroup/>
                             }
                             <UnitMakerCore/>
@@ -49,9 +56,15 @@ class UnitMaker extends Component {
                             <FeatureManager/>
                         </Grid.Column>
                         <Grid.Column width={8}>
+                            <Segment>
+                                <ColorPicker
+                                    label={'Border Color'}
+                                    onChange={(color) => this.setState({borderColor: color})}
+                                />
+                            </Segment>
                             <Container textAlign={'center'}>
                                 <div className={'grid-center'}>
-                                    <BasicUnitCard/>
+                                    <BasicUnitCard borderColor={borderColor} backgroundColor={backgroundColor}/>
                                 </div>
                                 <Divider hidden/>
                                 <Button.Group size={'large'} color={'teal'}>
@@ -62,7 +75,7 @@ class UnitMaker extends Component {
                                 </Button.Group>
                                 <Divider hidden/>
                                 {
-                                    this.state.unitCardImage &&
+                                    unitCardImage &&
                                     <img id={'UnitCardImage'} src={this.state.unitCardImage} alt={'broke'}/>
                                 }
                             </Container>
