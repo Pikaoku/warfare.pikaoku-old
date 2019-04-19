@@ -29,9 +29,11 @@ const Cost = pure(({cost, currency}) =>
     <div className={'centered buc-cost'}>Cost: <b>{cost || 0}</b> <span>{currency}</span></div>
 );
 
-const BasicUnitCard = ({unit, features, cost, styles, color}) => {
+const BasicUnitCard = ({unit, features, cost, styles, borderColor, backgroundColor}) => {
     return (
-        <div id={'UnitCard'} className={'basic-unit-card ' + (styles || '')} style={{borderColor: color, color: color}}>
+        <div id={'UnitCard'} className={'basic-unit-card ' + (styles || '')}
+             style={{borderColor: borderColor, color: borderColor, backgroundColor: backgroundColor}}
+        >
             <div className={'buc-title'}>{unit.name || 'Unit Name'}</div>
             <BucUnitDefinition
                 ancestry={unit.ancestry.name}
