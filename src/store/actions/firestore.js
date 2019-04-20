@@ -1,5 +1,6 @@
 import {
     ASPECTS_FETCH_SUCCESS,
+    AUTH_USER_SETTINGS_FETCHED,
     CORE,
     FEATURES_FETCH_SUCCESS,
     FIRESTORE_REQUEST_FAILURE,
@@ -40,7 +41,7 @@ export const fsListen = (collection, where, type, category) => (
     }
 );
 
-export const fsAdd = (collection, data) =>
+export const fsAdd = (collection, data, author) =>
     firebase
         .firestore()
         .collection(collection)
@@ -50,7 +51,7 @@ export const fsAdd = (collection, data) =>
             ...data,
             created: firebase.firestore.FieldValue.serverTimestamp(),
             updated: firebase.firestore.FieldValue.serverTimestamp(),
-            author: firebase.auth().currentUser.displayName,
+            author: author,
             authorId: firebase.auth().currentUser.uid,
         });
 
@@ -84,7 +85,8 @@ export const fsDelete = (collection, id) =>
     };
 
 export const createAspect = (aspect) =>
-    fsAdd(FIRESTORE_COLLECTION_ASPECTS, aspect);
+    (dispatch, getState, firebase) =>
+        fsAdd(FIRESTORE_COLLECTION_ASPECTS, aspect, getState().settings.username || 'user');
 
 export const updateAspect = (id, data) =>
     fsUpdate(FIRESTORE_COLLECTION_ASPECTS, id, data);
@@ -116,10 +118,10 @@ export const addUnit = () =>
 
 export const updateUnit = () =>
     (dispatch, getState, firebase) => {
-        let unit = getState.unitmaker.active;
+        let unit = getState().unitmaker.active;
         return firebase.firestore()
             .collection(FIRESTORE_COLLECTION_UNITS)
-            .doc(getState.unitmaker.id)
+            .doc(getState().unitmaker.id)
             .update(unit)
     };
 
@@ -169,6 +171,7 @@ export const fetchAllCoreData = () => (
 export const fetchAllUserData = userId => (
     (dispatch, getState, firebase) => {
         let unsubs = [];
+        unsubs.push(dispatch(fetchUserSettings()));
         unsubs.push(dispatch(fetchFeaturesUser(userId)));
         unsubs.push(dispatch(fetchFeaturesSaved(userId)));
         unsubs.push(dispatch(fetchAspectsUser(userId)));
@@ -178,6 +181,36 @@ export const fetchAllUserData = userId => (
         return unsubs;
     }
 );
+
+export const fetchUserSettings = () =>
+    (dispatch, getState, firebase) =>
+        firebase.firestore()
+            .doc('users/' + firebase.auth().currentUser.uid)
+            .onSnapshot(
+                response =>
+                    dispatch({
+                        type: AUTH_USER_SETTINGS_FETCHED,
+                        payload: {
+                            settings: response.data()
+                        }
+                    }),
+                error => dispatch({
+                    type: FIRESTORE_REQUEST_FAILURE,
+                    payload: {
+                        category: 'auth',
+                        error: error
+                    }
+                })
+            );
+
+
+export const updateUserSetting = (field, value) =>
+    (dispatch, getState, firebase) =>
+        firebase.firestore()
+            .doc('users/' + firebase.auth().currentUser.uid)
+            .update({
+                [field]: value
+            });
 
 export const fetchFeaturesCore = () =>
     fsListen(

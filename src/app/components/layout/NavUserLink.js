@@ -14,13 +14,13 @@ class NavUserLink extends Component {
         this.unsubs.map(unsub => unsub())
     }
 
-    render = () => (
-        <Menu.Item content={this.props.user.displayName} {...this.props.navProps}/>
+    render = ({username}) => (
+        <Menu.Item content={username || 'User'} {...this.props.navProps}/>
     )
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user
+    username: state.settings.username || 'username'
 });
 
 export default connect(

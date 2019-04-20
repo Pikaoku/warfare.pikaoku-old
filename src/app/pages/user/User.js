@@ -9,10 +9,11 @@ import {signInSuccess, signOut} from "../../../store/actions/auth";
 import {feedFeatures} from "../../../utils/initialDataFeed";
 import UserAspectTable from "./components/UserAspectTable";
 import UserFeatureTable from "./components/UserFeatureTable";
+import UserSettings from "./components/UserSettings";
 
 class User extends Component {
     render() {
-        const {user, signOut, signInSuccess} = this.props;
+        const {user, signOut, settings, signInSuccess} = this.props;
         const authConfig = {
             signInFlow: 'popup',
             signInOptions: [
@@ -37,6 +38,11 @@ class User extends Component {
         return (
             <StandardPage title={user.displayName} subtitle={'Look at all the cool stuff you made!'} icon={'users'}>
                 <Grid stackable>
+                    <Grid.Row columns={3}>
+                        <Grid.Column>
+                            <UserSettings/>
+                        </Grid.Column>
+                    </Grid.Row>
                     <Grid.Row columns={2}>
                         <Grid.Column>
                             <UserFeatureTable/>
@@ -72,6 +78,7 @@ class User extends Component {
 
 const mapStateToProps = (state) => ({
     user: state.user,
+    settings: state.settings.warfare || false
 });
 
 export default connect(

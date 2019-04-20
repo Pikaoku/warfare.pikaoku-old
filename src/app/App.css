@@ -50,6 +50,14 @@ body {
     grid-template-rows: auto;
     justify-items: center;
 }
+
+.grid-middle {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    align-items: center;
+}
+
 .testcolor {
     color: blue;
 }

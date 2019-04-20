@@ -33,18 +33,19 @@ class UnitMakerCore extends PureComponent {
             ];
 
         const setStateFor = (stat) => ({target}) => this.setState({[stat]: target.value})
+        const updateField = (field) => ({target: {value}}) => saveUmField(field, value);
+        const updateCField = (field) => ({target: {value}}) => saveUmNestedField('customization', field, parseInt(value));
+        const updateFloatField = (field) => ({target: {value}}) => saveUmNestedField('customization', field, parseFloat(value));
+        const updateSize = (a, {value}) => saveUmField('size', value);
+
         const propsFor = (stat) => ({
             onKeyDown: blurOnKeyDown,
             onBlur: updateCField(stat),
-            value: this.state[stat],
+            value: unit[CUSTOMIZATION][stat],
             onChange: setStateFor(stat),
             label: stat.charAt(0).toUpperCase() + stat.slice(1),
             ...tinkerInputProps
         });
-
-        const updateField = (field) => ({target: {value}}) => saveUmField(field, value);
-        const updateCField = (field) => ({target: {value}}) => saveUmNestedField('customization', field, parseInt(value));
-        const updateSize = (a, {value}) => saveUmField('size', value);
 
         return (
             <Segment>
@@ -56,13 +57,14 @@ class UnitMakerCore extends PureComponent {
                                     <Form.Input
                                         fluid
                                         label={'Unit Name'}
-                                        defaultValue={unit.name}
+                                        value={unit.name}
                                         onBlur={updateField('name')}
                                         onKeyDown={blurOnKeyDown}
                                     />
                                     <Form.Input
                                         fluid
                                         label={'Commander'}
+                                        value={unit.commander}
                                         onBlur={updateField('commander')}
                                         onKeyDown={blurOnKeyDown}
                                     />
@@ -71,7 +73,7 @@ class UnitMakerCore extends PureComponent {
                                     control={'textarea'}
                                     label={'Lore'}
                                     rows={3}
-                                    defaultValue={unit.lore}
+                                    value={unit.lore}
                                     onKeyDown={blurOnKeyDown}
                                     onBlur={updateField('lore')}
                                 />
@@ -98,7 +100,14 @@ class UnitMakerCore extends PureComponent {
                                 </Form.Group>
                                 <Form.Group unstackable>
                                     <Form.Input {...propsFor('cost')}/>
-                                    <Form.Input {...{...propsFor('costMod'), step: '0.05', label: 'Cost Mod'}}/>
+                                    <Form.Input
+                                        {...{
+                                            ...propsFor('costMod'),
+                                            step: '0.05',
+                                            label: 'Cost Mod',
+                                            onBlur: updateFloatField('costMod')
+                                        }}
+                                    />
                                     <Form.Input
                                         fluid
                                         label={'Currency'}

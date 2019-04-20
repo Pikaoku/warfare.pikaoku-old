@@ -40,7 +40,5 @@ exports.onDelete =
     db.document('sites/warfare/{category}/{objectID}')
         .onDelete((snap, context) => {
             return indexes[context.params.category]
-                .deleteObject({
-                    objectID: context.params.objectID,
-                })
+                .deleteObject(context.params.objectID)
         });

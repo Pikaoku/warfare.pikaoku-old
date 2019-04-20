@@ -93,7 +93,7 @@ export const emptyAspect = (type) => ({
     features: [],
     saved: [],
     cost: 0,
-    costMod: 0,
+    costMod: 1,
     attack: 0,
     defense: 0,
     toughness: 0,

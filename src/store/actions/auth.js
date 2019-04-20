@@ -10,6 +10,19 @@ export const handleAuthStateChange = user => ({
 
 export const signInSuccess = response => (
     (dispatch, getState, firebase) => {
+        if (response.additionalUserInfo.isNewUser) {
+            firebase.firestore()
+                .doc('users/' + response.user.uid)
+                .set({
+                    username: response.user.displayName,
+                    warfare: {
+                        settings: {
+                            baseDefense: 10,
+                            baseToughness: 10
+                        }
+                    }
+                })
+        }
         dispatch({
             type: AUTH_SIGN_IN_SUCCESS,
             payload: {user: response.user}

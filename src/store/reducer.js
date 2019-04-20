@@ -6,13 +6,13 @@ export const AUTH_HANDLE_CHANGE = 'AUTH HANDLE STATE CHANGE';
 export const AUTH_SIGN_IN_SUCCESS = 'AUTH SIGN IN SUCCESS';
 export const AUTH_SIGN_IN_FAILURE = 'AUTH SIGN IN FAILURE';
 export const AUTH_SIGN_OUT = 'AUTH SIGN OUT';
+export const AUTH_USER_SETTINGS_FETCHED = 'USER SETTINGS FETCHED';
+
 
 // FEATURE
 export const FEATURES_FETCH_SUCCESS = 'FEATURES FETCH SUCCESS';
-
 // ASPECT
 export const ASPECTS_FETCH_SUCCESS = 'ASPECTS FETCH SUCCESS';
-
 export const UNITS_FETCH_SUCCESS = 'UNITS FETCH SUCCESS';
 
 // FIRESTORE
@@ -132,6 +132,11 @@ const reducer = (state = init, {type, payload}) => {
                 return {...state, user: false};
             case AUTH_HANDLE_CHANGE:
                 return {...state, user: (payload.user || false)};
+            case AUTH_USER_SETTINGS_FETCHED:
+                return {
+                    ...state,
+                    settings: payload.settings
+                };
             case ASPECTS_FETCH_SUCCESS:
                 return integrateData(ASPECTS, payload.category, payload.values);
             case FEATURES_FETCH_SUCCESS:

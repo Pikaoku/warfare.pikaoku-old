@@ -17,7 +17,8 @@ class UnitMaker extends Component {
     state = {
         unitCardImage: false,
         backgroundColor: 'white',
-        borderColor: 'black'
+        borderColor: 'black',
+        cardType: 'saf'
     };
 
     generateImage = () => {
@@ -40,7 +41,7 @@ class UnitMaker extends Component {
 
     render() {
         const {user} = this.props;
-        const {unitCardImage, backgroundColor, borderColor} = this.state;
+        const {unitCardImage, backgroundColor, borderColor, cardType} = this.state;
 
         return (
             <StandardPage title={'Unit Maker'} subtitle={'Make all those awesome units, yo!'} icon={'pencil'}>
@@ -64,7 +65,7 @@ class UnitMaker extends Component {
                             </Segment>
                             <Container textAlign={'center'}>
                                 <div className={'grid-center'}>
-                                    <BasicUnitCard borderColor={borderColor} backgroundColor={backgroundColor}/>
+                                    <BasicUnitCard borderColor={borderColor}/>
                                 </div>
                                 <Divider hidden/>
                                 <Button.Group size={'large'} color={'teal'}>
