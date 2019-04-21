@@ -10,6 +10,7 @@ import thunk from "redux-thunk";
 import reducer from "./store/reducer";
 import {Provider} from "react-redux";
 import MultipleTabs from "./app/pages/errors/MultipleTabs";
+import ReactGA from 'react-ga';
 
 firebase.initializeApp({
     apiKey: "AIzaSyDYjGq1mw4uWBgw9euTp9ITp1pq1jZqvw4",
@@ -36,6 +37,8 @@ firebase.firestore()
             }
         }
     );
+
+ReactGA.initialize('UA-125374568-2');
 
 const store = createStore(
     reducer,
