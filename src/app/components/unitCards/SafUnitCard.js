@@ -1,7 +1,7 @@
 import React from 'react';
 import './SafUnitCard.css'
 import {connect} from "react-redux";
-import {calculateUnitCost, composeUnitFeatures} from "../../../utils/unitMakerUtils";
+import {calculateUnitCost, composeUnitFeatures} from "../../../store/unitmaker/unitmakerUtils";
 import {pure} from "recompose";
 
 const Cost = pure(

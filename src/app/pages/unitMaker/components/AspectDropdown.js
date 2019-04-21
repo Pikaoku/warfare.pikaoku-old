@@ -1,12 +1,15 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {Dropdown, Header} from "semantic-ui-react";
-import {stringifyObjectStats} from "../../../../utils/unitMakerUtils";
-import {saveUmField} from "../../../../store/actions/unitmaker";
+import {stringifyObjectStats} from "../../../../store/unitmaker/unitmakerUtils";
+import {saveUmField} from "../../../../store/unitmaker/unitmakerActions";
+import {AUTH, DATA} from "../../../../store/reducer";
+import {AUTH_USER} from "../../../../store/auth/authReducer";
+import {ALL, ASPECTS} from "../../../../store/data/dataReducer";
 
 class AspectDropdown extends PureComponent {
     render() {
-        const {values, aspect, user, updateUnitmakerField} = this.props;
+        const {values, aspect, user, saveUmField} = this.props;
 
         const options = [];
 
@@ -36,7 +39,8 @@ class AspectDropdown extends PureComponent {
         }));
 
         const onChange = (a, {value}) =>
-            updateUnitmakerField(aspect, values.find(x => x.id === value).data());
+            saveUmField(aspect, values.find(x => x.id === value).data());
+
         return (
             <Dropdown
                 floating
@@ -53,11 +57,11 @@ class AspectDropdown extends PureComponent {
 }
 
 const mapStateToProps = (state, props) => ({
-    user: state.user,
-    values: state.aspects.all.filter(x => x.data().type === props.aspect)
+    user: state[AUTH][AUTH_USER],
+    values: state[DATA][ASPECTS][ALL].filter(x => x.data().type === props.aspect)
 });
 
 export default connect(
     mapStateToProps,
-    {updateUnitmakerField: saveUmField}
+    {saveUmField}
 )(AspectDropdown);

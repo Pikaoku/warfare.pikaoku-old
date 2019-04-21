@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Button, Form, Header, Modal} from "semantic-ui-react";
-import {ASPECT_TYPE_ANCESTRY, ASPECT_TYPE_TYPE, ASPECT_TYPES} from "../../../store/reducer";
-import {emptyAspect} from "../../../utils/unitMakerUtils";
+import {
+    ASPECT_TYPE_ANCESTRY,
+    ASPECT_TYPE_TYPE,
+    ASPECT_TYPES,
+    emptyAspect
+} from "../../../store/unitmaker/unitmakerUtils";
 import {createFeatureDropdownOptions} from "../searching/FeatureDropdownResult";
 import {convertFeatureDocToAspectChild, stripIdsFromArray} from "../../../utils/firebaseUtils";
-import {createAspect, updateAspect} from "../../../store/actions/firestore";
 import PropTypes from "prop-types";
+import {createAspect, updateAspect} from "../../../store/data/dataActions";
+import {ALL, FEATURES} from "../../../store/data/dataReducer";
+import {DATA} from "../../../store/reducer";
 
 class EditAspect extends Component {
     constructor(props) {
@@ -72,7 +78,7 @@ class EditAspect extends Component {
         const {data, existing} = this.state;
 
         const typeOptions = [];
-        ASPECT_TYPES.map(type => typeOptions.push({text: type, key: type, value: type}));
+        (ASPECT_TYPES).map(type => typeOptions.push({text: type, key: type, value: type}));
 
         const addTrigger = <Button positive circular icon={'plus'}/>;
         const editTrigger = <Button color={'teal'} icon={'edit outline'}/>;
@@ -198,7 +204,7 @@ EditAspect.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    features: state.features.all
+    features: state[DATA][FEATURES][ALL]
 });
 
 export default connect(

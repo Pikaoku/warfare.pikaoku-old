@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Icon} from "semantic-ui-react";
 import PropTypes from "prop-types";
+import {AUTH} from "../../../store/reducer";
+import {AUTH_USER} from "../../../store/auth/authReducer";
 
 class SaveButton extends Component {
     constructor(props) {
@@ -50,7 +52,7 @@ SaveButton.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    user: state.user,
+    user: state[AUTH][AUTH_USER],
 });
 
 export default connect(

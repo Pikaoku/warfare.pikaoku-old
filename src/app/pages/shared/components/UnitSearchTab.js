@@ -1,10 +1,10 @@
 import React from 'react';
 import {Card, Divider, Header, Tab} from "semantic-ui-react";
 import {connectHits, InstantSearch, Panel, SearchBox} from "react-instantsearch-dom";
-import {saveUnitToUser, unsaveUnitFromUser} from "../../../../store/actions/firestore";
 import {connect} from 'react-redux';
 import SaveButton from "../../../components/searching/SaveButton";
-import {calculateUnitCost, composeUnitFeatures, stringifyUnitObjectStats} from "../../../../utils/unitMakerUtils";
+import {calculateUnitCost, composeUnitFeatures, stringifyUnitObjectStats} from "../../../../store/unitmaker/unitmakerUtils";
+import {saveUnitToUser, unsaveUnitFromUser} from "../../../../store/data/dataActions";
 
 const UnitHits =
     connect(

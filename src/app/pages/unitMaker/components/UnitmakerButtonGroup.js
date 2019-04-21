@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Button, Dropdown, Popup} from "semantic-ui-react";
-import {SAVED, UNITS, USER} from "../../../../store/reducer";
-import {sortByField} from "../../../../utils/unitMakerUtils";
+import {AUTH, DATA, UNITMAKER} from "../../../../store/reducer";
+import {sortByField} from "../../../../store/unitmaker/unitmakerUtils";
 import {createUnitDropdownOptions} from "../../../components/searching/UnitDropdownResult";
-import {addUnit, deleteUnit, updateUnit} from "../../../../store/actions/firestore";
-import {umLoadUnit, umReset} from "../../../../store/actions/unitmaker";
+import {umLoadUnit, umReset} from "../../../../store/unitmaker/unitmakerActions";
+import {createUnit, deleteUnit, updateUnitmakerUnit} from "../../../../store/data/dataActions";
+import {AUTH_USER} from "../../../../store/auth/authReducer";
+import {UNITMAKER_ACTIVE, UNITMAKER_ACTIVE_ID, UNITMAKER_LOADING} from "../../../../store/unitmaker/unitmakerReducer";
+import {SAVED, UNITS, USER} from "../../../../store/data/dataReducer";
 
 class UnitmakerButtonGroup extends Component {
     render() {
@@ -17,8 +20,8 @@ class UnitmakerButtonGroup extends Component {
             currentUnit,
             umLoadUnit,
             umReset,
-            addUnit,
-            updateUnit,
+            createUnit,
+            updateUnitmakerUnit,
             deleteUnit,
         } = this.props;
 
@@ -36,19 +39,21 @@ class UnitmakerButtonGroup extends Component {
                     }
                     pointing
                     loading={loading}
-                    onChange={(a, {value}) => umLoadUnit(value)}
+                    value={''}
+                    onChange={
+                        (a, {value}) => {umLoadUnit(value)}
+                    }
                     options={createUnitDropdownOptions(units)}
+                    disabled={units.length === 0}
                 />
                 <Popup
                     trigger={
                         <Button
-                            disabled={
-                                (currentId !== false) && (currentUnit.authorId !== user.uid)
-                            }
+                            disabled={(currentId !== false) && (currentUnit.authorId !== user.uid)}
                             onClick={
                                 !!currentId
-                                    ? updateUnit
-                                    : addUnit
+                                    ? () => updateUnitmakerUnit(currentId,)
+                                    : createUnit
                             }
                             icon={'save'}
                             loading={loading}
@@ -63,7 +68,7 @@ class UnitmakerButtonGroup extends Component {
                         <Button
                             icon={'copy'}
                             color={'yellow'}
-                            onClick={addUnit}
+                            onClick={createUnit}
                             disabled={!currentId}
                             loading={loading}
                         />
@@ -102,14 +107,14 @@ class UnitmakerButtonGroup extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user,
-    units: state[UNITS][USER].concat(state[UNITS][SAVED]).sort(sortByField('name')),
-    currentUnit: state.unitmaker.active,
-    currentId: state.unitmaker.id,
-    loading: state.unitmaker.loading
+    user: state[AUTH][AUTH_USER],
+    units: state[DATA][UNITS][USER].concat(state[DATA][UNITS][SAVED]).sort(sortByField('name')),
+    currentUnit: state[UNITMAKER][UNITMAKER_ACTIVE],
+    currentId: state[UNITMAKER][UNITMAKER_ACTIVE_ID],
+    loading: state[UNITMAKER][UNITMAKER_LOADING]
 });
 
 export default connect(
     mapStateToProps,
-    {addUnit, updateUnit, deleteUnit, umLoadUnit, umReset}
+    {createUnit, updateUnitmakerUnit, deleteUnit, umLoadUnit, umReset}
 )(UnitmakerButtonGroup);

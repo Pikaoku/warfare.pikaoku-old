@@ -10,19 +10,24 @@ import './App.css';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import {fetchAllCoreData} from "../store/actions/firestore";
 import Shared from "./pages/shared/Shared";
-import {handleAuthStateChange} from "../store/actions/auth";
+import {handleAuthStateChange} from "../store/auth/authActions";
 import {connect} from "react-redux";
+import {fetchCoreData} from "../store/data/dataActions";
 
 class App extends Component {
+    componentWillMount() {
+        this.coreDataListeners = [];
+    }
+
     componentDidMount() {
-        this.props.fetchAllCoreData();
-        this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(this.props.handleAuthStateChange)
+        this.coreDataListeners = this.props.fetchCoreData();
+        this.authStateChangeListener = firebase.auth().onAuthStateChanged(this.props.handleAuthStateChange)
     }
 
     componentWillUnmount() {
-        this.unregisterAuthObserver();
+        this.coreDataListeners.map(unsubscribe => unsubscribe());
+        this.authStateChangeListener();
     }
 
     render() {
@@ -52,12 +57,7 @@ class App extends Component {
     }
 }
 
-
-const mapStateToProps = (state) => ({
-    user: state.user
-});
-
 export default connect(
-    mapStateToProps,
-    {fetchAllCoreData, handleAuthStateChange}
+    null,
+    {fetchCoreData, handleAuthStateChange}
 )(App);

@@ -2,7 +2,7 @@ import React from 'react';
 import {Header} from "semantic-ui-react";
 import firebase from "firebase/app";
 import 'firebase/auth';
-import {stringifyUnitObjectStats} from "../../../utils/unitMakerUtils";
+import {stringifyUnitObjectStats} from "../../../store/unitmaker/unitmakerUtils";
 
 export const createUnitDropdownOptions = units => {
     let options = [];

@@ -5,15 +5,16 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import {StyledFirebaseAuth} from "react-firebaseui";
 import {Button, Grid} from "semantic-ui-react";
-import {signInSuccess, signOut} from "../../../store/actions/auth";
-import {feedFeatures} from "../../../utils/initialDataFeed";
+import {signInSuccess, signOut} from "../../../store/auth/authActions";
 import UserAspectTable from "./components/UserAspectTable";
 import UserFeatureTable from "./components/UserFeatureTable";
 import UserSettings from "./components/UserSettings";
+import {AUTH} from "../../../store/reducer";
+import {AUTH_USER} from "../../../store/auth/authReducer";
 
 class User extends Component {
     render() {
-        const {user, signOut, settings, signInSuccess} = this.props;
+        const {user, signOut, signInSuccess} = this.props;
         const authConfig = {
             signInFlow: 'popup',
             signInOptions: [
@@ -46,40 +47,19 @@ class User extends Component {
                     <Grid.Row columns={2}>
                         <Grid.Column>
                             <UserFeatureTable/>
-                            <UserAspectTable aspect={'ancestry'}/>
                         </Grid.Column>
                         <Grid.Column>
-                            <Grid>
-                                <Grid.Row>
-                                    <Grid.Column>
-                                        <UserAspectTable aspect={'equipment'}/>
-                                    </Grid.Column>
-                                </Grid.Row>
-                                <Grid.Row>
-                                    <Grid.Column>
-                                        <UserAspectTable aspect={'experience'}/>
-                                    </Grid.Column>
-                                </Grid.Row>
-                                <Grid.Row>
-                                    <Grid.Column>
-                                        <UserAspectTable aspect={'type'}/>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
+                            <UserAspectTable/>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
                 <Button content={'Sign Out'} onClick={signOut} color={'orange'}/>
-                <Button content={'data feed'} onClick={feedFeatures}/>
             </StandardPage>
         )
     }
 }
 
-const mapStateToProps = (state) => ({
-    user: state.user,
-    settings: state.settings.warfare || false
-});
+const mapStateToProps = (state) => ({user: state[AUTH][AUTH_USER]});
 
 export default connect(
     mapStateToProps,

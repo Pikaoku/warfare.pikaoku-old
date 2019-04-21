@@ -3,8 +3,8 @@ import {Card, Divider, Header, Tab, Table} from "semantic-ui-react";
 import {connectHits, InstantSearch, Panel, SearchBox} from "react-instantsearch-dom";
 import WarfareRefinementList from "./WarfareRefinementList";
 import {connect} from "react-redux";
-import {saveFeatureToUser, unsaveFeatureFromUser} from "../../../../store/actions/firestore";
 import SaveButton from "../../../components/searching/SaveButton";
+import {saveFeatureToUser, unsaveFeatureFromUser} from "../../../../store/data/dataActions";
 
 
 const FeatureHits =

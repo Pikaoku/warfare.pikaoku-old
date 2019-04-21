@@ -2,15 +2,17 @@ import React from 'react';
 import {connectHits, InstantSearch, Panel, SearchBox} from "react-instantsearch-dom";
 import {Card, Divider, Header, Tab, Table} from "semantic-ui-react";
 import WarfareRefinementList from "./WarfareRefinementList";
-import {UNIT_STAT_TYPES, withSign} from "../../../../utils/unitMakerUtils";
+import {UNIT_STAT_TYPES, withSign} from "../../../../store/unitmaker/unitmakerUtils";
 import {connect} from "react-redux";
-import {saveAspectToUser, unsaveAspectFromUser} from "../../../../store/actions/firestore";
 import SaveButton from "../../../components/searching/SaveButton";
+import {saveAspectToUser, unsaveAspectFromUser} from "../../../../store/data/dataActions";
+import {AUTH} from "../../../../store/reducer";
+import {AUTH_USER} from "../../../../store/auth/authReducer";
 
 
 const AspectHits =
     connect(
-        state => ({user: state.user}),
+        state => ({user: state[AUTH][AUTH_USER]}),
         {saveAspectToUser, unsaveAspectFromUser}
     )(connectHits(
         ({hits, user, saveAspectToUser, unsaveAspectFromUser}) =>
@@ -70,7 +72,7 @@ const AspectHits =
             </Card.Group>
     ));
 
-const AspectSearchTab = ({searchClient, user}) => (
+const AspectSearchTab = ({searchClient}) => (
     <Tab.Pane>
         <div className="ais-InstantSearch">
             <InstantSearch indexName={'aspects'} searchClient={searchClient}>
@@ -79,14 +81,11 @@ const AspectSearchTab = ({searchClient, user}) => (
                     <WarfareRefinementList attribute={'type'}/>
                 </Panel>
                 <Divider hidden/>
-                <AspectHits user={user}/>
+                <AspectHits/>
             </InstantSearch>
         </div>
         <br/>
     </Tab.Pane>
 );
 
-export default connect(
-    null,
-    null
-)(AspectSearchTab);
+export default AspectSearchTab;

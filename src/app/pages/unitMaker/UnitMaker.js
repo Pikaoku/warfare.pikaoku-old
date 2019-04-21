@@ -11,6 +11,9 @@ import UnitmakerButtonGroup from "./components/UnitmakerButtonGroup";
 import * as domtoimage from "dom-to-image";
 import {saveAs} from 'file-saver';
 import ColorPicker from "../../components/ColorPicker";
+import {AUTH, UNITMAKER} from "../../../store/reducer";
+import {UNITMAKER_ACTIVE} from "../../../store/unitmaker/unitmakerReducer";
+import {AUTH_USER} from "../../../store/auth/authReducer";
 
 
 class UnitMaker extends Component {
@@ -89,8 +92,8 @@ class UnitMaker extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    unit: state.unitmaker.active,
-    user: state.user
+    unit: state[UNITMAKER][UNITMAKER_ACTIVE],
+    user: state[AUTH][AUTH_USER]
 });
 
 export default connect(

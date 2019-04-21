@@ -1,37 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import PropTypes from "prop-types";
-import {Button, Checkbox, Placeholder, Popup, Table} from "semantic-ui-react";
-import {sortByField, UNIT_STAT_TYPES, withSign} from "../../../../utils/unitMakerUtils";
-import {ASPECTS, SAVED, USER} from "../../../../store/reducer";
+import {Button, Checkbox, Popup, Table} from "semantic-ui-react";
+import {ASPECT_TYPE_ANCESTRY, sortByField, UNIT_STAT_TYPES, withSign} from "../../../../store/unitmaker/unitmakerUtils";
 import EditAspect from "../../../components/crud/EditAspect";
-import {deleteAspect} from "../../../../store/actions/firestore";
-
-const PlaceholderAspectRows = () =>
-    [1, 2, 3, 4, 5].map(loop =>
-        <Table.Row key={loop}>
-            <Table.Cell textAlign={'center'}><Checkbox disabled/></Table.Cell>
-            <Table.Cell><Placeholder><Placeholder.Line/></Placeholder></Table.Cell>
-            {
-                UNIT_STAT_TYPES.map(
-                    stat =>
-                        <Table.Cell textAlign={'center'} key={stat}>
-                            <Placeholder><Placeholder.Line/></Placeholder>
-                        </Table.Cell>
-                )
-            }
-            <Table.Cell textAlign={'center'}>
-                <Button icon={'edit outline'} color={'grey'}/>
-            </Table.Cell>
-            <Table.Cell textAlign={'center'}>
-                <Button icon={'trash alternate outline'} color={'grey'}/>
-            </Table.Cell>
-        </Table.Row>
-    );
+import {deleteAspect} from "../../../../store/data/dataActions";
+import {DATA} from "../../../../store/reducer";
+import {ASPECTS, SAVED, USER} from "../../../../store/data/dataReducer";
 
 class UserAspectTable extends Component {
     render() {
-        const {values, aspect, fetched, deleteAspect} = this.props;
+        const {aspects, deleteAspect} = this.props;
 
         const headerClasses = 'capitalize text-teal';
 
@@ -40,8 +18,11 @@ class UserAspectTable extends Component {
                 <Table.Header fullWidth>
                     <Table.Row>
                         <Table.HeaderCell width={1}/>
-                        <Table.HeaderCell width={8}>
-                            <span className={headerClasses}>{aspect}</span>
+                        <Table.HeaderCell width={5}>
+                            <span className={headerClasses}>Name</span>
+                        </Table.HeaderCell>
+                        <Table.HeaderCell width={3}>
+                            <span className={headerClasses}>Type</span>
                         </Table.HeaderCell>
                         <Table.HeaderCell width={1} textAlign={'center'}>
                             <span className={headerClasses}>A</span>
@@ -63,25 +44,27 @@ class UserAspectTable extends Component {
                 </Table.Header>
                 <Table.Body>
                     {
-                        !fetched && <PlaceholderAspectRows/>
-                    }
-                    {
-                        fetched &&
-                        values.map(
-                            value =>
-                                <Table.Row key={value.id}>
+                        (aspects.length > 0) &&
+                        aspects.map(
+                            aspect =>
+                                <Table.Row key={aspect.id}>
                                     <Table.Cell textAlign={'center'}><Checkbox/></Table.Cell>
-                                    <Table.Cell>{value.data()['name']}</Table.Cell>
+                                    <Table.Cell><span>{aspect.data()['name']}</span></Table.Cell>
+                                    <Table.Cell><span>{aspect.data()['type']}</span></Table.Cell>
                                     {
                                         UNIT_STAT_TYPES.map(
-                                            stat =>
-                                                <Table.Cell textAlign={'center'} key={stat}>
-                                                    {withSign(value.data()[stat])}
-                                                </Table.Cell>
+                                            stat => {
+                                                if (!(aspect.data()[stat])) {
+                                                    debugger;
+                                                }
+                                                return (<Table.Cell textAlign={'center'} key={stat}>
+                                                    {withSign(aspect.data()[stat])}
+                                                </Table.Cell>)
+                                            }
                                         )
                                     }
                                     <Table.Cell textAlign={'center'}>
-                                        <EditAspect type={value.type} aspect={value}/>
+                                        <EditAspect type={aspect.type} aspect={aspect}/>
                                     </Table.Cell>
                                     <Table.Cell textAlign={'center'}>
                                         <Popup
@@ -90,7 +73,7 @@ class UserAspectTable extends Component {
                                                 negative
                                                 icon={'warning sign'}
                                                 content={'Confirm Delete'}
-                                                onClick={() => deleteAspect(value.id)}
+                                                onClick={() => deleteAspect(aspect.id)}
                                             />}
                                             on={'click'}
                                             position={'left center'}
@@ -103,7 +86,7 @@ class UserAspectTable extends Component {
                 <Table.Footer fullWidth>
                     <Table.Row>
                         <Table.HeaderCell colSpan={16} textAlign={'right'}>
-                            <EditAspect type={aspect}/>
+                            <EditAspect type={ASPECT_TYPE_ANCESTRY}/>
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>
@@ -112,13 +95,10 @@ class UserAspectTable extends Component {
     }
 }
 
-UserAspectTable.propsTypes = {
-    aspect: PropTypes.string.isRequired
-};
-
-const mapStateToProps = (state, props) => ({
-    values: (state[ASPECTS][USER].concat(state[ASPECTS][SAVED])).filter(a => a.data().type === props.aspect).sort(sortByField('name')),
-    fetched: state.fetched[ASPECTS][USER] || state.fetched[ASPECTS][SAVED]
+const mapStateToProps = (state) => ({
+    aspects:
+        (state[DATA][ASPECTS][USER].concat(state[DATA][ASPECTS][SAVED]))
+            .sort(sortByField('name'))
 });
 
 export default connect(

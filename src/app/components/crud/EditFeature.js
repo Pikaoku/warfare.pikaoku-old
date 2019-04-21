@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {createFeature, updateFeature} from "../../../store/actions/firestore";
 import PropTypes from "prop-types";
-import {FEATURE_TYPE_TRAIT, FEATURE_TYPES} from "../../../store/reducer";
 import {Button, Form, Header, Modal} from "semantic-ui-react";
-import {emptyFeature} from "../../../utils/unitMakerUtils";
+import {emptyFeature, FEATURE_TYPE_TRAIT, FEATURE_TYPES} from "../../../store/unitmaker/unitmakerUtils";
+import {createFeature, updateFeature} from "../../../store/data/dataActions";
 
 class EditFeature extends Component {
     constructor(props) {
@@ -49,7 +48,7 @@ class EditFeature extends Component {
     render() {
         const {data, existing} = this.state;
         const typeOptions = [];
-        FEATURE_TYPES.map(type => typeOptions.push({text: type, key: type, value: type}));
+        (FEATURE_TYPES).map(type => typeOptions.push({text: type, key: type, value: type}));
 
         const addTrigger = <Button positive circular icon={'plus'}/>;
         const editTrigger = <Button color={'teal'} icon={'edit outline'}/>;

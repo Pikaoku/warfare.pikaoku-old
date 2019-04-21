@@ -1,9 +1,10 @@
 import React, {PureComponent} from 'react';
 import {Form, Grid, Segment} from "semantic-ui-react";
 import {connect} from "react-redux";
-import {saveUmField, saveUmNestedField} from "../../../../store/actions/unitmaker";
-import {blurOnKeyDown} from "../../../../utils/unitMakerUtils";
-import {CUSTOMIZATION} from "../../../../store/reducer";
+import {saveUmField, saveUmNestedField} from "../../../../store/unitmaker/unitmakerActions";
+import {UNITMAKER} from "../../../../store/reducer";
+import {UNITMAKER_ACTIVE} from "../../../../store/unitmaker/unitmakerReducer";
+import {CUSTOMIZATION} from "../../../../store/data/dataReducer";
 
 class UnitMakerCore extends PureComponent {
     state = {
@@ -32,17 +33,14 @@ class UnitMakerCore extends PureComponent {
                 {key: 12, value: 12, text: 12}
             ];
 
-        const setStateFor = (stat) => ({target}) => this.setState({[stat]: target.value})
         const updateField = (field) => ({target: {value}}) => saveUmField(field, value);
         const updateCField = (field) => ({target: {value}}) => saveUmNestedField('customization', field, parseInt(value));
         const updateFloatField = (field) => ({target: {value}}) => saveUmNestedField('customization', field, parseFloat(value));
         const updateSize = (a, {value}) => saveUmField('size', value);
 
         const propsFor = (stat) => ({
-            onKeyDown: blurOnKeyDown,
-            onBlur: updateCField(stat),
             value: unit[CUSTOMIZATION][stat],
-            onChange: setStateFor(stat),
+            onChange: updateCField(stat),
             label: stat.charAt(0).toUpperCase() + stat.slice(1),
             ...tinkerInputProps
         });
@@ -58,24 +56,21 @@ class UnitMakerCore extends PureComponent {
                                         fluid
                                         label={'Unit Name'}
                                         value={unit.name}
-                                        onBlur={updateField('name')}
-                                        onKeyDown={blurOnKeyDown}
+                                        onChange={updateField('name')}
                                     />
                                     <Form.Input
                                         fluid
                                         label={'Commander'}
                                         value={unit.commander}
-                                        onBlur={updateField('commander')}
-                                        onKeyDown={blurOnKeyDown}
+                                        onChange={updateField('commander')}
                                     />
                                 </Form.Group>
                                 <Form.Field
                                     control={'textarea'}
                                     label={'Lore'}
-                                    rows={3}
+                                    rows={4}
                                     value={unit.lore}
-                                    onKeyDown={blurOnKeyDown}
-                                    onBlur={updateField('lore')}
+                                    onChange={updateField('lore')}
                                 />
                             </Form>
                         </Grid.Column>
@@ -105,16 +100,15 @@ class UnitMakerCore extends PureComponent {
                                             ...propsFor('costMod'),
                                             step: '0.05',
                                             label: 'Cost Mod',
-                                            onBlur: updateFloatField('costMod')
+                                            onChange: updateFloatField('costMod')
                                         }}
                                     />
                                     <Form.Input
                                         fluid
                                         label={'Currency'}
-                                        defaultValue={unit.currency}
+                                        value={unit.currency}
                                         width={5}
-                                        onBlur={updateField('currency')}
-                                        onKeyDown={blurOnKeyDown}
+                                        onChange={updateField('currency')}
                                     />
                                 </Form.Group>
                             </Form>
@@ -127,7 +121,7 @@ class UnitMakerCore extends PureComponent {
 }
 
 const mapStateToProps = (state, props) => ({
-    unit: state.unitmaker.active
+    unit: state[UNITMAKER][UNITMAKER_ACTIVE]
 });
 
 export default connect(

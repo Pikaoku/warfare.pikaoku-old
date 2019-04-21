@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {sortByField} from "../../../../utils/unitMakerUtils";
-import {FEATURES, SAVED, USER} from "../../../../store/reducer";
-import {deleteFeature} from "../../../../store/actions/firestore";
+import {sortByField} from "../../../../store/unitmaker/unitmakerUtils";
+import {DATA} from "../../../../store/reducer";
 import {Button, Checkbox, Placeholder, Popup, Table} from "semantic-ui-react";
 import EditFeature from "../../../components/crud/EditFeature";
+import {deleteFeature} from "../../../../store/data/dataActions";
+import {FEATURES, SAVED, USER} from "../../../../store/data/dataReducer";
 
 const PlaceholderFeatureRows = () =>
     [1, 2, 3, 4, 5].map(loop =>
@@ -102,8 +103,11 @@ class UserFeatureTable extends Component {
 
 const mapStateToProps = (state, props) => ({
     // features: (state[FEATURES][USER].concat(state[FEATURES][SAVED])).sort(sortByField('name')),
-    features: (state[FEATURES][USER].concat(state[FEATURES][SAVED])).sort(sortByField('name')),
-    fetched: state.fetched[FEATURES][USER] || state.fetched[FEATURES][SAVED]
+    features:
+        (state[DATA][FEATURES][USER].concat(state[DATA][FEATURES][SAVED]))
+            .sort(sortByField('name')),
+    fetched:
+        (state[DATA][FEATURES][USER].length > 0) || (state[DATA][FEATURES][SAVED].length > 0)
 });
 
 export default connect(

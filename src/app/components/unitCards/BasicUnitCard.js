@@ -1,8 +1,10 @@
 import React from 'react';
 import './BasicUnitCard.css';
 import {connect} from "react-redux";
-import {calculateUnitCost, composeUnitFeatures, extractStat, filterByField} from "../../../utils/unitMakerUtils";
+import {calculateUnitCost, composeUnitFeatures, extractStat, filterByField} from "../../../store/unitmaker/unitmakerUtils";
 import {pure} from "recompose";
+import {UNITMAKER} from "../../../store/reducer";
+import {UNITMAKER_ACTIVE} from "../../../store/unitmaker/unitmakerReducer";
 
 const BucUnitDefinition = pure(({ancestry, experience, equipment, type}) => {
     const divider =
@@ -97,7 +99,7 @@ const BasicUnitCard = ({unit, features, cost, styles, borderColor}) => {
 
 const mapStateToProps = (state) => {
     const
-        unit = state.unitmaker.active,
+        unit = state[UNITMAKER][UNITMAKER_ACTIVE],
         features = composeUnitFeatures(unit),
         cost = calculateUnitCost(unit, features);
     return {unit, features, cost}

@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {Button, Form, Header, Segment, TransitionablePortal} from "semantic-ui-react";
-import {umAddFeature} from "../../../../store/actions/unitmaker";
-import {emptyFeature} from "../../../../utils/unitMakerUtils";
+import {umAddFeature} from "../../../../store/unitmaker/unitmakerActions";
+import {emptyFeature} from "../../../../store/unitmaker/unitmakerUtils";
 
 class AddCustomFeaturePopup extends PureComponent {
     componentWillMount() {

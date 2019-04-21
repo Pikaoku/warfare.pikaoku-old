@@ -1,20 +1,26 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Form, Header, Segment} from "semantic-ui-react";
-import {blurOnKeyDown} from "../../../../utils/unitMakerUtils";
-import {updateUserSetting} from "../../../../store/actions/firestore";
+import {blurOnKeyDown} from "../../../../store/unitmaker/unitmakerUtils";
+import {updateUserSetting} from "../../../../store/settings/settingsActions";
+import {SETTINGS} from "../../../../store/reducer";
+import {
+    SETTINGS_BASE_DEFENSE,
+    SETTINGS_BASE_TOUGHNESS,
+    SETTINGS_USERNAME
+} from "../../../../store/settings/settingsReducer";
 
 class UserSettings extends Component {
     render() {
+
+        const {username, settings, updateUserSetting} = this.props;
 
         if (this.props.settings === {}) {
             return '';
         }
 
         const updateFunc =
-            (field, numeric) =>
-                ({target: {value}}) =>
-                    (this.props.updateUserSetting(field, (numeric ? parseInt(value) : value)));
+            (field, numeric) => ({target: {value}}) => (updateUserSetting(field, (numeric ? parseInt(value) : value)));
 
         return (
             <Segment.Group>
@@ -27,12 +33,12 @@ class UserSettings extends Component {
                     <Form>
                         <Form.Group>
                             {
-                                this.props.username &&
+                                username &&
                                 <Form.Input
                                     width={16}
                                     label={'Username'}
                                     type={'text'}
-                                    defaultValue={this.props.username}
+                                    defaultValue={username}
                                     onKeyDown={blurOnKeyDown}
                                     onBlur={updateFunc('username')}
                                 />
@@ -40,13 +46,13 @@ class UserSettings extends Component {
                         </Form.Group>
                         <Form.Group>
                             {
-                                this.props.settings && this.props.settings.settings &&
+                                settings &&
                                 <>
                                     <Form.Input
                                         width={8}
                                         type={'number'}
                                         step={1}
-                                        defaultValue={this.props.settings.settings.baseDefense}
+                                        defaultValue={settings[SETTINGS_BASE_DEFENSE]}
                                         label={'Base Defense'}
                                         onBlur={updateFunc('warfare.settings.baseDefense', true)}
                                         onKeyDown={blurOnKeyDown}
@@ -55,7 +61,7 @@ class UserSettings extends Component {
                                         width={8}
                                         type={'number'}
                                         step={1}
-                                        defaultValue={this.props.settings.settings.baseToughness}
+                                        defaultValue={settings[SETTINGS_BASE_TOUGHNESS]}
                                         label={'Base Toughness'}
                                         onBlur={updateFunc('warfare.settings.baseToughness', true)}
                                         onKeyDown={blurOnKeyDown}
@@ -72,8 +78,8 @@ class UserSettings extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        settings: state.settings.warfare,
-        username: state.settings.username
+        settings: state[SETTINGS],
+        username: state[SETTINGS][SETTINGS_USERNAME]
     }
 };
 

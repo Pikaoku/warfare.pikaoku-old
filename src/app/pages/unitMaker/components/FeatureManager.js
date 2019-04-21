@@ -1,10 +1,12 @@
 import React, {PureComponent} from 'react';
 import {Button, Segment, Table} from "semantic-ui-react";
 import {connect} from "react-redux";
-import {composeUnitFeatures} from "../../../../utils/unitMakerUtils";
-import {saveUmNestedField, umAddFeature} from "../../../../store/actions/unitmaker";
+import {composeUnitFeatures} from "../../../../store/unitmaker/unitmakerUtils";
+import {saveUmNestedField, umAddFeature} from "../../../../store/unitmaker/unitmakerActions";
 import FeatureDropdown from "./FeatureDropdown";
 import AddCustomFeaturePopup from "./AddCustomFeaturePopup";
+import {UNITMAKER} from "../../../../store/reducer";
+import {UNITMAKER_ACTIVE} from "../../../../store/unitmaker/unitmakerReducer";
 
 class FeatureManager extends PureComponent {
     render() {
@@ -12,7 +14,6 @@ class FeatureManager extends PureComponent {
 
         const deleteFromFeatures = (aspect, name) =>
             () => saveUmNestedField(aspect, 'features', unit[aspect].features.filter(x => x.name !== name));
-
 
         return (
             <Segment>
@@ -58,8 +59,8 @@ class FeatureManager extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-    unit: state.unitmaker.active,
-    features: composeUnitFeatures(state.unitmaker.active)
+    unit: state[UNITMAKER][UNITMAKER_ACTIVE],
+    features: composeUnitFeatures(state[UNITMAKER][UNITMAKER_ACTIVE])
 });
 
 export default connect(

@@ -2,9 +2,10 @@ import React from 'react';
 import {Button, Form, Popup, Segment, Statistic, Table} from "semantic-ui-react";
 import AspectDropdown from "./AspectDropdown";
 import {connect} from "react-redux";
-import {saveUmNestedField} from "../../../../store/actions/unitmaker";
-import {blurOnKeyDown, stringifyObjectStats} from "../../../../utils/unitMakerUtils";
-import {ASPECT_TYPES} from "../../../../store/reducer";
+import {saveUmNestedField} from "../../../../store/unitmaker/unitmakerActions";
+import {ASPECT_TYPES, blurOnKeyDown, stringifyObjectStats} from "../../../../store/unitmaker/unitmakerUtils";
+import {UNITMAKER} from "../../../../store/reducer";
+import {UNITMAKER_ACTIVE} from "../../../../store/unitmaker/unitmakerReducer";
 
 const AspectManager = ({saveUmNestedField, unit}) => (
     <Segment>
@@ -59,7 +60,7 @@ const AspectManager = ({saveUmNestedField, unit}) => (
 
 export default connect(
     (state) => ({
-        unit: state.unitmaker.active
+        unit: state[UNITMAKER][UNITMAKER_ACTIVE]
     }),
     {saveUmNestedField}
 )(AspectManager);

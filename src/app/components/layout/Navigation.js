@@ -3,20 +3,21 @@ import {connect} from 'react-redux';
 import {Container, Menu, Responsive, Segment} from "semantic-ui-react";
 import {Link, withRouter} from 'react-router-dom';
 import NavUserLink from "./NavUserLink";
+import {AUTH} from "../../../store/reducer";
+import {AUTH_USER} from "../../../store/auth/authReducer";
 
 class Navigation extends Component {
     render() {
         const
-            {user} = this.props,
-            path = this.props.location.pathname,
+            {user, location} = this.props,
+            path = location.pathname,
             isActive = (to) => path.startsWith(to);
 
         const authItemProps = {
             active: isActive('/user'), as: Link, to: '/user', icon: 'user'
         };
 
-        const authItem =
-            user === false
+        const authItem = user === false
                 ? <Menu.Item content={'Log In'} {...authItemProps}/>
                 : <NavUserLink navProps={authItemProps}/>;
 
@@ -60,7 +61,7 @@ class Navigation extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user
+    user: state[AUTH][AUTH_USER] || false
 });
 
 export default connect(
