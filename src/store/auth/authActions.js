@@ -6,7 +6,7 @@ import {AUTH_HANDLE_CHANGE, AUTH_SIGN_IN_SUCCESS, AUTH_SIGN_OUT} from "./authRed
 export const handleAuthStateChange =
     user => ({
         type: AUTH_HANDLE_CHANGE,
-        payload: {user}
+        payload: {user: user || false}
     });
 
 export const signInSuccess =

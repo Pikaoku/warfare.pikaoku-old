@@ -27,7 +27,7 @@ class User extends Component {
             }
         };
 
-        if (user === false) {
+        if ((user === false) || (user === null)) {
             return (
                 <StandardPage
                     title={'User'}
