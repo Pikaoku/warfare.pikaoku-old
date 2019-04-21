@@ -46,9 +46,9 @@ class Home extends Component {
                             <Header as={'h3'}>Thanks</Header>
                             <p>Firstly, to <a href={'https://twitter.com/mattcolville'}>@mattcolville</a> and the rest
                                 of MCDM for Strongholds & Followers.</p>
-                            <p>To <a href="https://twitter.com/caelreader">CaelReader for letting me include his <a
+                            <p>To <a href="https://twitter.com/caelreader">CaelReader</a> for letting me include his <a
                                 href="https://www.reddit.com/r/mattcolville/comments/acmr0a/warfare_unit_attachments/">attachments
-                                addition.</a>attachments addition.</a></p>
+                                addition.</a></p>
                             <p>And @BuurmanDeBurrman and @CheddarCheez on Discord whose suggetions prompted me to remake
                                 the site!</p>
 
