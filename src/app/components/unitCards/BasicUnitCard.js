@@ -10,7 +10,11 @@ import {
 import {pure} from "recompose";
 import {SETTINGS, UNITMAKER} from "../../../store/reducer";
 import {UNITMAKER_ACTIVE} from "../../../store/unitmaker/unitmakerReducer";
-import {SETTINGS_LABEL_FEATURE_GROUPS} from "../../../store/settings/settingsReducer";
+import {
+    SETTINGS_BASE_DEFENSE,
+    SETTINGS_BASE_TOUGHNESS,
+    SETTINGS_LABEL_FEATURE_GROUPS
+} from "../../../store/settings/settingsReducer";
 
 const BucUnitDefinition = pure(({ancestry, experience, equipment, type}) => {
     const divider =
@@ -37,7 +41,17 @@ const Cost = pure(({cost, currency}) =>
     <div className={'centered buc-cost'}>Cost: <b>{cost}</b> <span>{currency}</span></div>
 );
 
-const BasicUnitCard = ({unit, features, cost, styles, borderColor, labelFeatureGroups}) => {
+const BasicUnitCard = (
+    {
+        unit,
+        features,
+        cost,
+        styles,
+        borderColor,
+        baseDefense,
+        baseToughness,
+        labelFeatureGroups
+    }) => {
     return (
         <div id={'UnitCard'} className={'basic-unit-card ' + (styles || '')}
              style={{borderColor: borderColor, color: borderColor}}
@@ -55,16 +69,15 @@ const BasicUnitCard = ({unit, features, cost, styles, borderColor, labelFeatureG
             <div className={'buc-stats'}>
                 <StatLine
                     ll={'Attack'} ld={extractStat(unit, 'attack')}
-                    rl={'Defense'} rd={extractStat(unit, 'defense')}/>
+                    rl={'Defense'} rd={parseInt(baseDefense) + extractStat(unit, 'defense')}/>
                 <StatLine
                     ll={'Power'} ld={extractStat(unit, 'power')}
-                    rl={'Toughness'} rd={extractStat(unit, 'toughness')}/>
+                    rl={'Toughness'} rd={parseInt(baseToughness) + extractStat(unit, 'toughness')}/>
                 <StatLine
                     ll={'Morale'} ld={extractStat(unit, 'morale')}
                     rl={'Size'} rd={'d' + unit.size.toString()}/>
             </div>
             <Cost cost={cost} currency={unit.currency}/>
-
 
             <div className={'buc-extras'}>
                 {
@@ -111,9 +124,10 @@ const mapStateToProps = (state) => {
         unit = state[UNITMAKER][UNITMAKER_ACTIVE],
         features = composeUnitFeatures(unit),
         cost = calculateUnitCost(unit, features),
-        labelFeatureGroups = state[SETTINGS][SETTINGS_LABEL_FEATURE_GROUPS]
-    ;
-    return {unit, features, cost, labelFeatureGroups}
+        baseDefense = state[SETTINGS][SETTINGS_BASE_DEFENSE],
+        baseToughness = state[SETTINGS][SETTINGS_BASE_TOUGHNESS],
+        labelFeatureGroups = state[SETTINGS][SETTINGS_LABEL_FEATURE_GROUPS];
+    return {unit, features, cost, labelFeatureGroups, baseDefense, baseToughness}
 };
 
 export default connect(

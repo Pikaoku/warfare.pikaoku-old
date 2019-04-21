@@ -15,7 +15,9 @@ export const fetchUserSettings = () =>
                             settings: {...response.data().warfare}
                         }
                     }),
-                fetchFailure
+                failure => {
+                    debugger;
+                }
             );
 
 export const updateUserSetting = (field, value) =>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StandardPage from "../../components/layout/StandardPage";
-import {Container, Segment} from "semantic-ui-react";
+import {Button, Container, Segment} from "semantic-ui-react";
 
 class Home extends Component {
     render() {
@@ -16,11 +16,19 @@ class Home extends Component {
             >
                 <Container text>
                     <Segment.Group>
-                        <Segment content={'Test'}/>
                         <Segment>
-                            We out here folks!
+                            <p>Hey. This is a unit maker for <em>Strongholds & Followers</em> by <b>Matt Colville</b>.
+                            </p>
+
+                            <p>If you run into any issues or have some suggestions message me on twitter @pikaoku.</p>
+
+                            <p>Hate the new site? The old one is (or will be) available at:
+                                https://legacy.warfare.pikaoku.com!</p>
                         </Segment>
                     </Segment.Group>
+
+                    <Button as={'a'} href={'https://www.patreon.com/bePatron?u=9218037'} color={'google plus'}
+                            icon={'patreon'} content={'Become a Patron!'}/>
                 </Container>
             </StandardPage>
         );

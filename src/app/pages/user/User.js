@@ -66,8 +66,10 @@ class User extends Component {
                             <UserAspectTable/>
                         </Grid.Column>
                     </Grid.Row>
+                    <Grid.Row>
+                        <Button content={'Sign Out'} onClick={signOut} color={'orange'}/>
+                    </Grid.Row>
                 </Grid>
-                <Button content={'Sign Out'} onClick={signOut} color={'orange'}/>
             </StandardPage>
         )
     }

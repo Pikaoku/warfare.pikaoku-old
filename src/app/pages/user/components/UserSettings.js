@@ -29,48 +29,45 @@ class UserSettings extends Component {
                         User Settings
                     </Header>
                 </Segment>
-                <Segment>
-                    <Form>
-                        <Form.Group>
-                            {
-                                username &&
+                {
+                    username &&
+                    <Segment>
+                        <Form>
+                            <Form.Group>
+                                {
+                                    <Form.Input
+                                        width={16}
+                                        label={'Username'}
+                                        type={'text'}
+                                        defaultValue={username}
+                                        onKeyDown={blurOnKeyDown}
+                                        onBlur={updateFunc('username')}
+                                    />
+                                }
+                            </Form.Group>
+                            <Form.Group>
                                 <Form.Input
-                                    width={16}
-                                    label={'Username'}
-                                    type={'text'}
-                                    defaultValue={username}
+                                    width={8}
+                                    type={'number'}
+                                    step={1}
+                                    defaultValue={settings[SETTINGS_BASE_DEFENSE]}
+                                    label={'Base Defense'}
+                                    onBlur={updateFunc('warfare.baseDefense', true)}
                                     onKeyDown={blurOnKeyDown}
-                                    onBlur={updateFunc('username')}
                                 />
-                            }
-                        </Form.Group>
-                        <Form.Group>
-                            {
-                                settings &&
-                                <>
-                                    <Form.Input
-                                        width={8}
-                                        type={'number'}
-                                        step={1}
-                                        defaultValue={settings[SETTINGS_BASE_DEFENSE]}
-                                        label={'Base Defense'}
-                                        onBlur={updateFunc('warfare.baseDefense', true)}
-                                        onKeyDown={blurOnKeyDown}
-                                    />
-                                    <Form.Input
-                                        width={8}
-                                        type={'number'}
-                                        step={1}
-                                        defaultValue={settings[SETTINGS_BASE_TOUGHNESS]}
-                                        label={'Base Toughness'}
-                                        onBlur={updateFunc('warfare.baseToughness', true)}
-                                        onKeyDown={blurOnKeyDown}
-                                    />
-                                </>
-                            }
-                        </Form.Group>
-                    </Form>
-                </Segment>
+                                <Form.Input
+                                    width={8}
+                                    type={'number'}
+                                    step={1}
+                                    defaultValue={settings[SETTINGS_BASE_TOUGHNESS]}
+                                    label={'Base Toughness'}
+                                    onBlur={updateFunc('warfare.baseToughness', true)}
+                                    onKeyDown={blurOnKeyDown}
+                                />
+                            </Form.Group>
+                        </Form>
+                    </Segment>
+                }
             </Segment.Group>
         );
     }
