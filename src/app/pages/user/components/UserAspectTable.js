@@ -53,14 +53,10 @@ class UserAspectTable extends Component {
                                     <Table.Cell><span>{aspect.data()['type']}</span></Table.Cell>
                                     {
                                         UNIT_STAT_TYPES.map(
-                                            stat => {
-                                                if (!(aspect.data()[stat])) {
-                                                    debugger;
-                                                }
-                                                return (<Table.Cell textAlign={'center'} key={stat}>
+                                            stat =>
+                                                <Table.Cell textAlign={'center'} key={stat}>
                                                     {withSign(aspect.data()[stat])}
-                                                </Table.Cell>)
-                                            }
+                                                </Table.Cell>
                                         )
                                     }
                                     <Table.Cell textAlign={'center'}>

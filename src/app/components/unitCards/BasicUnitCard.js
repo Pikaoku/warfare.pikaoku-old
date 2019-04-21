@@ -1,10 +1,16 @@
 import React from 'react';
 import './BasicUnitCard.css';
 import {connect} from "react-redux";
-import {calculateUnitCost, composeUnitFeatures, extractStat, filterByField} from "../../../store/unitmaker/unitmakerUtils";
+import {
+    calculateUnitCost,
+    composeUnitFeatures,
+    extractStat,
+    filterByField
+} from "../../../store/unitmaker/unitmakerUtils";
 import {pure} from "recompose";
-import {UNITMAKER} from "../../../store/reducer";
+import {SETTINGS, UNITMAKER} from "../../../store/reducer";
 import {UNITMAKER_ACTIVE} from "../../../store/unitmaker/unitmakerReducer";
+import {SETTINGS_LABEL_FEATURE_GROUPS} from "../../../store/settings/settingsReducer";
 
 const BucUnitDefinition = pure(({ancestry, experience, equipment, type}) => {
     const divider =
@@ -31,7 +37,7 @@ const Cost = pure(({cost, currency}) =>
     <div className={'centered buc-cost'}>Cost: <b>{cost}</b> <span>{currency}</span></div>
 );
 
-const BasicUnitCard = ({unit, features, cost, styles, borderColor}) => {
+const BasicUnitCard = ({unit, features, cost, styles, borderColor, labelFeatureGroups}) => {
     return (
         <div id={'UnitCard'} className={'basic-unit-card ' + (styles || '')}
              style={{borderColor: borderColor, color: borderColor}}
@@ -69,10 +75,13 @@ const BasicUnitCard = ({unit, features, cost, styles, borderColor}) => {
                             }
                             return (
                                 <div key={type}>
-                                    <div
-                                        className={'buc-subheader' + (index === 0 ? ' buc-subheader-first' : '')}>
-                                        {type.toUpperCase() + 'S'}
-                                    </div>
+                                    {
+                                        labelFeatureGroups &&
+                                        <div
+                                            className={'buc-subheader' + (index === 0 ? ' buc-subheader-first' : '')}>
+                                            {type.toUpperCase() + 'S'}
+                                        </div>
+                                    }
                                     {
                                         featuresOfType.map(
                                             ({name, effect, id}) => (
@@ -101,10 +110,13 @@ const mapStateToProps = (state) => {
     const
         unit = state[UNITMAKER][UNITMAKER_ACTIVE],
         features = composeUnitFeatures(unit),
-        cost = calculateUnitCost(unit, features);
-    return {unit, features, cost}
+        cost = calculateUnitCost(unit, features),
+        labelFeatureGroups = state[SETTINGS][SETTINGS_LABEL_FEATURE_GROUPS]
+    ;
+    return {unit, features, cost, labelFeatureGroups}
 };
 
 export default connect(
-    mapStateToProps, null
+    mapStateToProps,
+    null
 )(BasicUnitCard);

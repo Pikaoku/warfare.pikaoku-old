@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StandardPage from "../../components/layout/StandardPage";
-import {Button, Container, Divider, Grid, Segment} from "semantic-ui-react";
+import {Button, Checkbox, Container, Divider, Grid, Popup, Segment} from "semantic-ui-react";
 import BasicUnitCard from "../../components/unitCards/BasicUnitCard";
 import './UnitMaker.css';
 import AspectManager from "./components/AspectManager";
@@ -11,9 +11,11 @@ import UnitmakerButtonGroup from "./components/UnitmakerButtonGroup";
 import * as domtoimage from "dom-to-image";
 import {saveAs} from 'file-saver';
 import ColorPicker from "../../components/ColorPicker";
-import {AUTH, UNITMAKER} from "../../../store/reducer";
+import {AUTH, SETTINGS, UNITMAKER} from "../../../store/reducer";
 import {UNITMAKER_ACTIVE} from "../../../store/unitmaker/unitmakerReducer";
 import {AUTH_USER} from "../../../store/auth/authReducer";
+import {Link} from "react-router-dom";
+import {SETTINGS_LABEL_FEATURE_GROUPS, TOGGLE_LABEL_FEATURE_GROUPS} from "../../../store/settings/settingsReducer";
 
 
 class UnitMaker extends Component {
@@ -41,20 +43,25 @@ class UnitMaker extends Component {
 
     };
 
-
     render() {
-        const {user} = this.props;
+        const {labelGroups, updateFeatureGroupLabelSetting} = this.props;
         const {unitCardImage, backgroundColor, borderColor, cardType} = this.state;
 
         return (
             <StandardPage title={'Unit Maker'} subtitle={'Make all those awesome units, yo!'} icon={'pencil'}>
                 <Grid stackable>
                     <Grid.Row columns={2}>
+                        <Grid.Column>
+                            <UnitmakerButtonGroup/>
+                        </Grid.Column>
+                        <Grid.Column textAlign={'right'} verticalAlign={'middle'}>
+                            <Link to={'https://www.kickstarter.com/projects/255133215/strongholds-and-streaming'}>
+                                Made using <em>Strongholds & Followers</em> by <b>Matt Colville</b>
+                            </Link>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row columns={2}>
                         <Grid.Column width={8}>
-                            {
-                                user &&
-                                <UnitmakerButtonGroup/>
-                            }
                             <UnitMakerCore/>
                             <AspectManager/>
                             <FeatureManager/>
@@ -64,6 +71,13 @@ class UnitMaker extends Component {
                                 <ColorPicker
                                     label={'Border Color'}
                                     onChange={(color) => this.setState({borderColor: color})}
+                                />
+                                <Divider/>
+                                <Checkbox
+                                    toggle
+                                    label={'Label Feature Groups'}
+                                    checked={labelGroups}
+                                    onChange={updateFeatureGroupLabelSetting}
                                 />
                             </Segment>
                             <Container textAlign={'center'}>
@@ -93,10 +107,17 @@ class UnitMaker extends Component {
 
 const mapStateToProps = (state) => ({
     unit: state[UNITMAKER][UNITMAKER_ACTIVE],
-    user: state[AUTH][AUTH_USER]
+    user: state[AUTH][AUTH_USER],
+    labelGroups: state[SETTINGS][SETTINGS_LABEL_FEATURE_GROUPS]
+});
+
+const mapDispatchToProps = dispatch => ({
+    updateFeatureGroupLabelSetting: () => dispatch({
+        type: TOGGLE_LABEL_FEATURE_GROUPS
+    })
 });
 
 export default connect(
     mapStateToProps,
-    {}
+    mapDispatchToProps
 )(UnitMaker);

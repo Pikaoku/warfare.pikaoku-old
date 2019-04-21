@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form} from "semantic-ui-react";
+import {Form, Popup} from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 const ColorPicker = ({onChange, label}) => {
@@ -21,10 +21,16 @@ const ColorPicker = ({onChange, label}) => {
         <Form>
             <Form.Field>
                 <label>{label}</label>
-                <input
-                    style={{display: 'inline-block', width: '30%'}}
-                    placeholder='HTML Color'
-                    onChange={({target: {value}}) => onChange(value)}
+                <Popup
+                    trigger={
+                        <input
+                            style={{display: 'inline-block', width: '30%'}}
+                            placeholder='HTML Color'
+                            onChange={({target: {value}}) => onChange(value)}
+                        />
+                    }
+                    content={'You can use hex values such as #AA0000, or html-standard colour names such as "red" or "darkblue".'}
+                    on={'hover'}
                 />
                 <ColorSwatch color={'#000000'}/>
                 <ColorSwatch color={'#AA0000'}/>
