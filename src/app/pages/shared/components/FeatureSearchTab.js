@@ -60,6 +60,7 @@ const FeatureHits =
                                 <Card.Content>
                                     <SaveButton
                                         saved={user && hit.saved && hit.saved.includes(user.uid)}
+                                        disabled={!user}
                                         objectId={hit.objectID}
                                         saveFunc={saveFeatureToUser}
                                         unsaveFunc={unsaveFeatureFromUser}

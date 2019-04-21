@@ -60,7 +60,8 @@ const AspectHits =
                                 </Card.Content>
                                 <Card.Content>
                                     <SaveButton
-                                        saved={hit.saved.includes(user.uid)}
+                                        saved={user && hit.saved.includes(user.uid)}
+                                        disabled={!user}
                                         objectId={hit.objectID}
                                         saveFunc={saveAspectToUser}
                                         unsaveFunc={unsaveAspectFromUser}

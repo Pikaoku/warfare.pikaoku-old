@@ -35,6 +35,7 @@ class SaveButton extends Component {
         return (
             <div className={'grid-center'}>
                 <Icon
+                    disabled={this.props.disabled}
                     onClick={saved ? this.unsave : this.save}
                     name={saved ? 'heart' : 'heart outline'}
                     {...sharedProps}
@@ -48,7 +49,8 @@ SaveButton.propTypes = {
     objectId: PropTypes.string.isRequired,
     saved: PropTypes.bool,
     saveFunc: PropTypes.func.isRequired,
-    unsaveFunc: PropTypes.func.isRequired
+    unsaveFunc: PropTypes.func.isRequired,
+    disabled: PropTypes.bool
 };
 
 const mapStateToProps = (state) => ({
