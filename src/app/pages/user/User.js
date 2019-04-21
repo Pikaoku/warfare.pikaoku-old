@@ -9,12 +9,13 @@ import {signInSuccess, signOut} from "../../../store/auth/authActions";
 import UserAspectTable from "./components/UserAspectTable";
 import UserFeatureTable from "./components/UserFeatureTable";
 import UserSettings from "./components/UserSettings";
-import {AUTH} from "../../../store/reducer";
+import {AUTH, SETTINGS} from "../../../store/reducer";
 import {AUTH_USER} from "../../../store/auth/authReducer";
+import {SETTINGS_USERNAME} from "../../../store/settings/settingsReducer";
 
 class User extends Component {
     render() {
-        const {user, signOut, signInSuccess} = this.props;
+        const {user, username, signOut, signInSuccess} = this.props;
         const authConfig = {
             signInFlow: 'popup',
             signInOptions: [
@@ -37,7 +38,7 @@ class User extends Component {
         }
 
         return (
-            <StandardPage title={user.displayName} subtitle={'Look at all the cool stuff you made!'} icon={'users'}>
+            <StandardPage title={username} subtitle={'Look at all the cool stuff you made!'} icon={'users'}>
                 <Grid stackable>
                     <Grid.Row columns={3}>
                         <Grid.Column>
@@ -59,7 +60,10 @@ class User extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({user: state[AUTH][AUTH_USER]});
+const mapStateToProps = (state) => ({
+    user: state[AUTH][AUTH_USER],
+    username: state[SETTINGS][SETTINGS_USERNAME]
+});
 
 export default connect(
     mapStateToProps,

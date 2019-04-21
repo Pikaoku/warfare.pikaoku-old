@@ -15,9 +15,9 @@ class UserSettings extends Component {
 
         const {username, settings, updateUserSetting} = this.props;
 
-        if (this.props.settings === {}) {
-            return '';
-        }
+        // if (this.props.settings === {}) {
+        //     return '';
+        // }
 
         const updateFunc =
             (field, numeric) => ({target: {value}}) => (updateUserSetting(field, (numeric ? parseInt(value) : value)));
@@ -54,7 +54,7 @@ class UserSettings extends Component {
                                         step={1}
                                         defaultValue={settings[SETTINGS_BASE_DEFENSE]}
                                         label={'Base Defense'}
-                                        onBlur={updateFunc('warfare.settings.baseDefense', true)}
+                                        onBlur={updateFunc('warfare.baseDefense', true)}
                                         onKeyDown={blurOnKeyDown}
                                     />
                                     <Form.Input
@@ -63,7 +63,7 @@ class UserSettings extends Component {
                                         step={1}
                                         defaultValue={settings[SETTINGS_BASE_TOUGHNESS]}
                                         label={'Base Toughness'}
-                                        onBlur={updateFunc('warfare.settings.baseToughness', true)}
+                                        onBlur={updateFunc('warfare.baseToughness', true)}
                                         onKeyDown={blurOnKeyDown}
                                     />
                                 </>

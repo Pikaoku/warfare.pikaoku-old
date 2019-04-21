@@ -13,20 +13,28 @@ import {UNITMAKER_ACTIVE, UNITMAKER_ACTIVE_ID, UNITMAKER_CREATE_UNIT_SUCCESS} fr
 import {UNITMAKER} from "../reducer";
 
 export const createAspect = (aspect) =>
-    (dispatch, getState, firebase) => fsAdd(FS_COL_ASPECTS, aspect, getState().settings.username);
+    (dispatch, getState, firebase) =>
+        fsAdd(FS_COL_ASPECTS, aspect, getState().settings.username);
 
 export const updateAspect = (id, data) =>
-    fsUpdate(FS_COL_ASPECTS, id, data);
+    (dispatch, getState, firebase) =>
+        fsUpdate(FS_COL_ASPECTS, id, data);
 
 export const deleteAspect = id =>
-    fsDelete(FS_COL_ASPECTS, id);
+    (dispatch, getState, firebase) =>
+        fsDelete(FS_COL_ASPECTS, id);
 
 export const createFeature = feature =>
-    (dispatch, getState, firebase) => fsAdd(FS_COL_FEATURES, feature, getState().settings.username);
+    (dispatch, getState, firebase) =>
+        fsAdd(FS_COL_FEATURES, feature, getState().settings.username);
 
-export const updateFeature = (id, feature) => fsUpdate(FS_COL_FEATURES, id, feature);
+export const updateFeature = (id, feature) =>
+    (dispatch, getState, firebase) =>
+        fsUpdate(FS_COL_FEATURES, id, feature);
 
-export const deleteFeature = id => fsDelete(FS_COL_FEATURES, id);
+export const deleteFeature = id =>
+    (dispatch, getState, firebase) =>
+        fsDelete(FS_COL_FEATURES, id);
 
 export const createUnit = () =>
     (dispatch, getState, firebase) =>
@@ -45,13 +53,17 @@ export const createUnit = () =>
                 failure => true
             );
 
-export const updateUnit = (id, data) => fsUpdate(FS_COL_UNITS, id, data);
+export const updateUnit = (id, data) =>
+    (dispatch, getState, firebase) =>
+        fsUpdate(FS_COL_UNITS, id, data);
 
 export const updateUnitmakerUnit = () =>
     (dispatch, getState, firebase) =>
         updateUnit(getState()[UNITMAKER][UNITMAKER_ACTIVE_ID], getState()[UNITMAKER][UNITMAKER_ACTIVE]);
 
-export const deleteUnit = id => fsDelete(FS_COL_UNITS, id);
+export const deleteUnit = id =>
+    (dispatch, getState, firebase) =>
+        fsDelete(FS_COL_UNITS, id);
 
 export const addUserToRecordSaved = (collection, recordId, userId) =>
     (dispatch, getState, firebase) =>

@@ -2,28 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {sortByField} from "../../../../store/unitmaker/unitmakerUtils";
 import {DATA} from "../../../../store/reducer";
-import {Button, Checkbox, Placeholder, Popup, Table} from "semantic-ui-react";
+import {Button, Checkbox, Popup, Table} from "semantic-ui-react";
 import EditFeature from "../../../components/crud/EditFeature";
 import {deleteFeature} from "../../../../store/data/dataActions";
 import {FEATURES, SAVED, USER} from "../../../../store/data/dataReducer";
-
-const PlaceholderFeatureRows = () =>
-    [1, 2, 3, 4, 5].map(loop =>
-        <Table.Row key={loop}>
-            <Table.Cell textAlign={'center'}><Checkbox disabled/></Table.Cell>
-            <Table.Cell><Placeholder><Placeholder.Line/></Placeholder></Table.Cell>
-            <Table.Cell textAlign={'center'}>
-                <Button icon={'angle down'} color={'grey'}/>
-            </Table.Cell>
-            <Table.Cell><Placeholder><Placeholder.Line/></Placeholder></Table.Cell>
-            <Table.Cell textAlign={'center'}>
-                <Button icon={'edit outline'} color={'grey'}/>
-            </Table.Cell>
-            <Table.Cell textAlign={'center'}>
-                <Button icon={'trash alternate outline'} color={'grey'}/>
-            </Table.Cell>
-        </Table.Row>
-    );
 
 class UserFeatureTable extends Component {
     render() {
@@ -49,10 +31,7 @@ class UserFeatureTable extends Component {
                 </Table.Header>
                 <Table.Body>
                     {
-                        !fetched && <PlaceholderFeatureRows/>
-                    }
-                    {
-                        fetched &&
+                        (features.length > 0) &&
                         features.map(
                             value =>
                                 <Table.Row key={value.id}>
@@ -101,7 +80,7 @@ class UserFeatureTable extends Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     // features: (state[FEATURES][USER].concat(state[FEATURES][SAVED])).sort(sortByField('name')),
     features:
         (state[DATA][FEATURES][USER].concat(state[DATA][FEATURES][SAVED]))
