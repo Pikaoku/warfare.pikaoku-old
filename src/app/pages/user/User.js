@@ -29,7 +29,14 @@ class User extends Component {
 
         if (user === false) {
             return (
-                <StandardPage title={'User'} subtitle={'Look at all the cool stuff you made!'} icon={'users'}>
+                <StandardPage
+                    title={'User'}
+                    subtitle={'Look at all the cool stuff you made!'}
+                    icon={'users'}
+                    canonical={'https://warfare.pikaoku.com/user'}
+                    description={'User generated content management and settings for warfare.pikaoku'}
+                    metaTitle={'User'}
+                >
                     <div id={'login'}>
                         <StyledFirebaseAuth uiConfig={authConfig} firebaseAuth={firebase.auth()}/>
                     </div>
@@ -38,7 +45,13 @@ class User extends Component {
         }
 
         return (
-            <StandardPage title={username} subtitle={'Look at all the cool stuff you made!'} icon={'users'}>
+            <StandardPage
+                canonical={'https://warfare.pikaoku.com/user'}
+                description={'User generated content management and settings for warfare.pikaoku'}
+                metaTitle={'User'}
+                title={username}
+                icon={'users'}
+            >
                 <Grid stackable>
                     <Grid.Row columns={3}>
                         <Grid.Column>

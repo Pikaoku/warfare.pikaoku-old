@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StandardPage from "../../components/layout/StandardPage";
-import {Button, Checkbox, Container, Divider, Grid, Popup, Segment} from "semantic-ui-react";
+import {Button, Checkbox, Container, Divider, Grid, Segment} from "semantic-ui-react";
 import BasicUnitCard from "../../components/unitCards/BasicUnitCard";
 import './UnitMaker.css';
 import AspectManager from "./components/AspectManager";
@@ -48,7 +48,14 @@ class UnitMaker extends Component {
         const {unitCardImage, backgroundColor, borderColor, cardType} = this.state;
 
         return (
-            <StandardPage title={'Unit Maker'} subtitle={'Make all those awesome units, yo!'} icon={'pencil'}>
+            <StandardPage
+                title={'Unit Maker'}
+                subtitle={'Make all those awesome units, yo!'}
+                icon={'pencil'}
+                canonical={'https://warfare.pikaoku.com/'}
+                description={"A unit creator based on Matt Colville's Strongholds & Followers supplament for Dungeons & Dragons 5th Edition"}
+                metaTitle={'Unit Maker'}
+            >
                 <Grid stackable>
                     <Grid.Row columns={2}>
                         <Grid.Column>

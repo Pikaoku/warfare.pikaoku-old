@@ -44,9 +44,9 @@ class Navigation extends Component {
                                                content={'warfare.pikaoku'}/>
                                     <Menu.Item to={'/'} active={path === '/'} as={Link} content={'Unit Maker'}/>
                                     <Menu.Item to={'/shared'} active={path === '/shared'} as={Link} content={'Shared'}/>
-                                    <Menu.Item to={'/rules'} active={path === '/rules'} as={Link} content={'Rules'}/>
-                                    <Menu.Item to={'/compare'} active={path === '/compare'} as={Link}
-                                               content={'Compare'}/>
+                                    {/*<Menu.Item to={'/rules'} active={path === '/rules'} as={Link} content={'Rules'}/>*/}
+                                    {/*<Menu.Item to={'/compare'} active={path === '/compare'} as={Link}*/}
+                                    {/*           content={'Compare'}/>*/}
                                 </Menu.Menu>
                                 <Menu.Menu position={'right'}>
                                     {authItem}

@@ -64,7 +64,12 @@ class Shared extends Component {
         ];
 
         return (
-            <StandardPage title={'Shared'} subtitle={'This needs a better name!'} icon={'globe'}>
+            <StandardPage
+                title={'Shared'}
+                icon={'globe'} canonical={'https://warfare.pikaoku.com/shared'}
+                description={"Community created and shared assets for Matt Colville's Stronghold & Followers"}
+                metaTitle={'Shared'}
+            >
                 <Tab
                     menu={{secondary: true, pointing: true}}
                     activeIndex={this.state.activeIndex}

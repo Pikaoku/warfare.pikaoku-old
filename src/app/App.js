@@ -14,6 +14,7 @@ import Shared from "./pages/shared/Shared";
 import {handleAuthStateChange} from "../store/auth/authActions";
 import {connect} from "react-redux";
 import {fetchCoreData} from "../store/data/dataActions";
+import FourOhFour from "./pages/errors/FourOhFour";
 
 class App extends Component {
     componentWillMount() {
@@ -46,10 +47,13 @@ class App extends Component {
                 <BrowserRouter>
                     <Navigation/>
                     <Switch>
-                        <Route exact path={'/info'} component={Home}/>
                         <Route exact path={'/'} component={UnitMaker}/>
+                        <Route exact path={'/info'} component={Home}/>
                         <Route exact path={'/user'} component={User}/>
                         <Route exact path={'/shared'} component={Shared}/>
+                        <Route exact path={'/sitemap.xml'}/>
+                        <Route exact path={'/robots.txt'}/>
+                        <Route component={FourOhFour} status={404}/>
                     </Switch>
                 </BrowserRouter>
             </div>
