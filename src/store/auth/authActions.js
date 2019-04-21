@@ -14,7 +14,8 @@ export const signInSuccess =
         (dispatch, getState, firebase) => {
             if (response.additionalUserInfo.isNewUser) {
                 firebase.firestore()
-                    .doc('users/' + response.user.uid)
+                    .collection('users')
+                    .doc(response.user.uid)
                     .set({
                         username: response.user.displayName,
                         warfare: {

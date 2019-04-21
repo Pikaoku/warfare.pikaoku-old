@@ -44,6 +44,9 @@ class UserAspectTable extends Component {
                 </Table.Header>
                 <Table.Body>
                     {
+
+                    }
+                    {
                         (aspects.length > 0) &&
                         aspects.map(
                             aspect =>

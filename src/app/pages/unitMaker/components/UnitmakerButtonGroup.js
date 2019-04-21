@@ -41,7 +41,9 @@ class UnitmakerButtonGroup extends Component {
                     loading={loading}
                     value={''}
                     onChange={
-                        (a, {value}) => {umLoadUnit(value)}
+                        (a, {value}) => {
+                            umLoadUnit(value)
+                        }
                     }
                     options={createUnitDropdownOptions(units)}
                     disabled={units.length === 0}
@@ -49,7 +51,10 @@ class UnitmakerButtonGroup extends Component {
                 <Popup
                     trigger={
                         <Button
-                            disabled={(currentId !== false) && (currentUnit.authorId !== user.uid)}
+                            disabled={
+                                !user ||
+                                ((currentId !== false) && (currentUnit.authorId !== user.uid))
+                            }
                             onClick={
                                 !!currentId
                                     ? () => updateUnitmakerUnit(currentId,)
