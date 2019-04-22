@@ -21,9 +21,9 @@ class UnitMaker extends Component {
     state = {
         unitCardImage: false,
         backgroundColor: 'white',
-        borderColor: 'black',
+        borderColor: 'teal',
         cardType: 'saf',
-        closedMessage: window.localStorage.getItem('closedMessage')
+        closedMessage: window.localStorage.getItem('closedMessage') || !!this.props.user
     };
 
     generateImage = () => {
@@ -76,13 +76,27 @@ class UnitMaker extends Component {
                                 <Message
                                     size={'large'}
                                     color={'teal'}
-                                    content={<div><p>You can create custom ancestries, experiences, equipments, types,
-                                        traits, actions etc on your user page if you login. This will be saved to your
-                                        account and can be applied to any unit in the unit maker, on any device you log
-                                        in on.</p><p>You can also find stuff other people created in the Shared tab, hit
-                                        the heart to save it to your account and use those in the unit maker!</p></div>}
+                                    content={
+                                        <div>
+                                            <p>
+                                                You can create custom ancestries, experiences, equipments, types,
+                                                traits, actions etc on your user page if you login. Once saved, your
+                                                stuff will popup in the below dropdowns.
+                                            </p>
+                                            <p>
+                                                Settings such as Base Defense and Base Toughness can also be set on your
+                                                user page.
+                                                If you load a unit made by someone with different settings the unit will
+                                                still use your settings.
+                                            </p>
+                                            <p>
+                                                You can also find stuff other people created in the Shared tab, hit
+                                                the heart to save it to your account and use those in the unit
+                                                maker!
+                                            </p>
+                                        </div>}
                                     onDismiss={() => {
-                                        this.setState('closedMessage', true);
+                                        this.setState({'closedMessage': true});
                                         window.localStorage.setItem('closedMessage', true);
                                     }}
                                 />
@@ -93,6 +107,7 @@ class UnitMaker extends Component {
                         <Grid.Column width={8}>
                             <Segment>
                                 <ColorPicker
+                                    color={borderColor}
                                     label={'Border Color'}
                                     onChange={(color) => this.setState({borderColor: color})}
                                 />

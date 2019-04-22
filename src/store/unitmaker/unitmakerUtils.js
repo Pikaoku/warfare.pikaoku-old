@@ -101,15 +101,18 @@ export const emptyFeature = (type) => ({
 export const composeUnitFeatures = (unit, uniq = false) => {
     let features = [];
     (ASPECT_TYPES_WITH_CUSTOMIZATION).map(
-        aspect => unit[aspect][UNIT_ITEM_FEATURES].map(
-            feature => features.push({...feature, source: aspect})
-        )
+        aspect =>
+            unit[aspect][UNIT_ITEM_FEATURES].map(
+                feature =>
+                    features.push({...feature, source: aspect})
+            )
     );
     return uniq ? enforceArrayUniqueness(features) : features;
 };
 
-export const enforceArrayUniqueness = array =>
-    array.filter((c, i, a) => a.filter(x => x.id === c.id).length === 1);
+export const enforceArrayUniqueness = arr =>
+    // arr.filter((c, i, a) => a.filter(filterByField('id', c.id)).length === 1);
+    arr.filter((c, i, a) => a.map(e => e.id).indexOf(c.id) === i);
 
 export const calculateUnitCost = (unit, features) => {
     return Math.round(

@@ -1,5 +1,4 @@
 import {fsUpdate} from "../firestoreUtils";
-import {fetchFailure} from "../data/dataActions";
 import {FETCH_SETTINGS_SUCCESS} from "./settingsReducer";
 
 export const fetchUserSettings = () =>
@@ -15,9 +14,7 @@ export const fetchUserSettings = () =>
                             settings: {...response.data().warfare}
                         }
                     }),
-                failure => {
-                    debugger;
-                }
+                failure => false
             );
 
 export const updateUserSetting = (field, value) =>

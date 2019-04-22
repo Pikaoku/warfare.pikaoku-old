@@ -1,11 +1,15 @@
 import {fetchFailure} from "../data/dataActions";
 import {
-    UNITMAKER_ADD_CUSTOM_FEATURE,
+    UNITMAKER_ACTIVE,
     UNITMAKER_LOAD_UNIT_SUCCESS,
     UNITMAKER_RESET,
+    UNITMAKER_UPDATE_CUSTOM_FEATURES,
     UNITMAKER_UPDATE_FIELD,
     UNITMAKER_UPDATE_NESTED_FIELD
 } from "./unitmakerReducer";
+import {UNITMAKER} from "../reducer";
+import {ASPECT_TYPE_CUSTOMIZATION, enforceArrayUniqueness} from "./unitmakerUtils";
+import {FEATURES} from "../data/dataReducer";
 
 export const saveUmField = (field, value) => ({
     type: UNITMAKER_UPDATE_FIELD,
@@ -18,11 +22,16 @@ export const saveUmNestedField = (outer, inner, value) => ({
 });
 
 export const umAddFeature = feature =>
-    (dispatch, getState, firebase) =>
+    (dispatch, getState, firebase) => {
+        const newFeature = {...feature.data(), id: feature.id};
+        let features = getState()[UNITMAKER][UNITMAKER_ACTIVE][ASPECT_TYPE_CUSTOMIZATION][FEATURES]
+        features.push(newFeature);
+        features = enforceArrayUniqueness(features);
         dispatch({
-            type: UNITMAKER_ADD_CUSTOM_FEATURE,
-            payload: {feature: feature}
-        });
+            type: UNITMAKER_UPDATE_CUSTOM_FEATURES,
+            payload: {features: features}
+        })
+    };
 
 export const umLoadUnit = id =>
     (dispatch, getState, firebase) => {

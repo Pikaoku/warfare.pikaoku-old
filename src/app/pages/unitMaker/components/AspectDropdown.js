@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {Dropdown, Header} from "semantic-ui-react";
-import {stringifyObjectStats} from "../../../../store/unitmaker/unitmakerUtils";
+import {sortByField, stringifyObjectStats} from "../../../../store/unitmaker/unitmakerUtils";
 import {saveUmField} from "../../../../store/unitmaker/unitmakerActions";
 import {AUTH, DATA} from "../../../../store/reducer";
 import {AUTH_USER} from "../../../../store/auth/authReducer";
@@ -49,6 +49,8 @@ class AspectDropdown extends PureComponent {
                 selection
                 defaultValue={aspect + '.none'}
                 options={options}
+                selectOnNavigation={false}
+                selectOnBlur={false}
                 placeholder={'Choose ' + aspect}
                 onChange={onChange}
             />
@@ -58,7 +60,10 @@ class AspectDropdown extends PureComponent {
 
 const mapStateToProps = (state, props) => ({
     user: state[AUTH][AUTH_USER],
-    values: state[DATA][ASPECTS][ALL].filter(x => x.data().type === props.aspect)
+    values:
+        state[DATA][ASPECTS][ALL]
+        .filter(x => x.data().type === props.aspect)
+            .sort(sortByField('name'))
 });
 
 export default connect(

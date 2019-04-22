@@ -2,7 +2,7 @@ import React from 'react';
 import {Form, Popup} from "semantic-ui-react";
 import PropTypes from "prop-types";
 
-const ColorPicker = ({onChange, label}) => {
+const ColorPicker = ({onChange, label, color}) => {
 
     const ColorSwatch = ({color}) => (
         <div
@@ -25,7 +25,7 @@ const ColorPicker = ({onChange, label}) => {
                     trigger={
                         <input
                             style={{display: 'inline-block', width: '30%'}}
-                            placeholder='HTML Color'
+                            value={color}
                             onChange={({target: {value}}) => onChange(value)}
                         />
                     }

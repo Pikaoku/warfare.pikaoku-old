@@ -4,7 +4,7 @@ import StandardPage from "../../components/layout/StandardPage";
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import {StyledFirebaseAuth} from "react-firebaseui";
-import {Button, Grid} from "semantic-ui-react";
+import {Button, Container, Grid, Message} from "semantic-ui-react";
 import {signInSuccess, signOut} from "../../../store/auth/authActions";
 import UserAspectTable from "./components/UserAspectTable";
 import UserFeatureTable from "./components/UserFeatureTable";
@@ -37,6 +37,21 @@ class User extends Component {
                     description={'User generated content management and settings for warfare.pikaoku'}
                     metaTitle={'User'}
                 >
+                    <Container text>
+                        <Message
+                            size={'large'}
+                            color={'teal'}
+                            content={<div><p>You can create custom ancestries, experiences, equipments, types,
+                                traits, actions etc on your user page if you login. This will be saved to your
+                                account and can be applied to any unit in the unit maker, on any device you log
+                                in on.</p><p>You can also find stuff other people created in the Shared tab, hit
+                                the heart to save it to your account and use those in the unit maker!</p></div>}
+                            onDismiss={() => {
+                                this.setState('closedMessage', true);
+                                window.localStorage.setItem('closedMessage', true);
+                            }}
+                        />
+                    </Container>
                     <div id={'login'}>
                         <StyledFirebaseAuth uiConfig={authConfig} firebaseAuth={firebase.auth()}/>
                     </div>

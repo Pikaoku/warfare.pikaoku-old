@@ -5,6 +5,7 @@ import {umAddFeature} from "../../../../store/unitmaker/unitmakerActions";
 import {createFeatureDropdownOptions} from "../../../components/searching/FeatureDropdownResult";
 import {DATA} from "../../../../store/reducer";
 import {ALL, FEATURES} from "../../../../store/data/dataReducer";
+import {filterByField} from "../../../../store/unitmaker/unitmakerUtils";
 
 class FeatureDropdown extends PureComponent {
     state = {
@@ -17,7 +18,7 @@ class FeatureDropdown extends PureComponent {
 
 
         const onChange = (a, {value}) => {
-            umAddFeature(features.find(x => x.id === value).data());
+            umAddFeature(features.find(filterByField('id', value)));
             this.setState({search: ''})
         };
 
@@ -28,8 +29,6 @@ class FeatureDropdown extends PureComponent {
                 deburr
                 selection
                 onChange={onChange}
-                searchQuery={search}
-                value={''}
                 options={createFeatureDropdownOptions(features)}
                 selectOnNavigation={false}
                 selectOnBlur={false}

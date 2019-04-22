@@ -52,7 +52,7 @@ const BasicUnitCard = (
         baseToughness,
         labelFeatureGroups
     }) => {
-    const name = unit.ancestry.name == 'None' ? '' : unit.ancestry.name;
+    const name = unit.ancestry.name === 'None' ? '' : unit.ancestry.name;
     return (
         <div id={'UnitCard'} className={'basic-unit-card ' + (styles || '')}
              style={{borderColor: borderColor, color: borderColor}}
