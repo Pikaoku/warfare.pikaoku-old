@@ -70,7 +70,7 @@ class Shared extends Component {
                 metaTitle={'Shared'}
             >
                 <Tab
-                    menu={{secondary: true, pointing: true}}
+                    menu={{secondary: true, color: 'teal', pointing: true}}
                     activeIndex={this.state.activeIndex}
                     panes={panes}
                 />

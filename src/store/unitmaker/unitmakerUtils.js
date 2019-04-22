@@ -163,7 +163,7 @@ export const stringifyObjectStats = (object) => {
 
 export const stringifyUnitObjectStats = unit => {
     let stats = [0, 0, 0, 0, 0];
-    ASPECT_TYPES.map(
+    ASPECT_TYPES_WITH_CUSTOMIZATION.map(
         aspect =>
             UNIT_STAT_TYPES.map((stat, index) =>
                 stats[index] += unit[aspect][stat]

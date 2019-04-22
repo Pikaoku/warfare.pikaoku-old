@@ -35,14 +35,11 @@ class App extends Component {
         return (
             <div>
                 <Helmet>
-                    {/*Should always have at least some SEO acceptable meta data*/}
-                    {/* ALOGOLIA */}
-                    <link rel="stylesheet"
-                          href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/reset-min.css"
-                          integrity="sha256-JQ2nnTmybhOWSjfV3sa8mG0ZVhTCcORER4cyXc5HL10=" crossOrigin="anonymous"/>
+                    {/*/!* ALOGOLIA *!/*/}
                     <link rel="stylesheet"
                           href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/algolia-min.css"
-                          integrity="sha256-nkldBwBn2NQqRL1mod7BqHsJ6cEOn6u/ln6F/lI4CFo=" crossOrigin="anonymous"/>
+                          integrity="sha256-nkldBwBn2NQqRL1mod7BqHsJ6cEOn6u/ln6F/lI4CFo="
+                          crossOrigin="anonymous"></link>
                 </Helmet>
                 <BrowserRouter>
                     <Navigation/>
