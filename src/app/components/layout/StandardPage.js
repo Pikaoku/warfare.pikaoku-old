@@ -2,6 +2,7 @@ import React from 'react';
 import {Container, Divider, Header, Icon} from "semantic-ui-react";
 import {Helmet} from "react-helmet";
 import PropTypes from "prop-types";
+import ReactGA from 'react-ga';
 
 const StandardPage = (
     {
@@ -14,6 +15,9 @@ const StandardPage = (
         color
     }
 ) => {
+
+    ReactGA.pageview(window.location.pathname);
+
     return (
         <div className={'m0'}>
             <Helmet>

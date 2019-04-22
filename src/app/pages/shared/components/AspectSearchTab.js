@@ -16,11 +16,11 @@ const AspectHits =
         {saveAspectToUser, unsaveAspectFromUser}
     )(connectHits(
         ({hits, user, saveAspectToUser, unsaveAspectFromUser}) =>
-            <Card.Group centered itemsPerRow={4} doubling>
+            <Card.Group centered stacking>
                 {
                     hits.map(
                         hit =>
-                            <Card key={hit.objectID}>
+                            <Card key={hit.objectID} raised>
                                 <Card.Content>
                                     <Header textAlign={'center'} size={'medium'} color={'blue'}>
                                         {hit.name}

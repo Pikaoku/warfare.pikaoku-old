@@ -18,22 +18,24 @@ class Navigation extends Component {
         };
 
         const authItem = user === false
-                ? <Menu.Item content={'Log In'} {...authItemProps}/>
-                : <NavUserLink navProps={authItemProps}/>;
+            ? <Menu.Item content={'Log In'} {...authItemProps}/>
+            : <NavUserLink navProps={authItemProps}/>;
 
         return (
             <nav>
                 <Segment attached color={'teal'} inverted style={{border: 0}}>
                     <Responsive {...Responsive.onlyMobile}>
-                        <Menu pointing secondary inverted color={'teal'} size={'large'} className={'attached'}>
-                            <Menu.Menu position={'left'}>
-                                {/*<Menu.Item {...NAV_LOGO}/>*/}
-                                <Menu.Item>
-                                    <Menu borderless size={'large'}>
-                                    </Menu>
-                                </Menu.Item>
-                            </Menu.Menu>
-                            <Menu.Menu position={'right'}>{authItem}</Menu.Menu>
+                        <Menu vertical fluid secondary inverted color={'teal'} size={'large'} className={'attached'}>
+                            <Menu.Item
+                                to={'/info'} active={path === '/info'} as={Link}
+                                content={'warfare.pikaoku'}
+                                icon={'info'}
+                            />
+                            <Menu.Item icon={'pencil'}
+                                to={'/'} active={path === '/'} as={Link} content={'Unit Maker'}/>
+                            <Menu.Item icon={'globe'}
+                                to={'/shared'} active={path === '/shared'} as={Link} content={'Shared'}/>
+                            {authItem}
                         </Menu>
                     </Responsive>
                     <Responsive minWidth={Responsive.onlyTablet.minWidth}>

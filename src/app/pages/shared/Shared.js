@@ -22,7 +22,6 @@ class Shared extends Component {
     }
 
     render() {
-
         const SearchTabMenuItem = ({label, index}) =>
             <Menu.Item active={this.state.activeIndex === index}>
                 <Header

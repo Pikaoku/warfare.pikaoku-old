@@ -16,7 +16,7 @@ const UnitHits =
         {saveUnitToUser, unsaveUnitFromUser}
     )(connectHits(
         ({hits, user, saveUnitToUser, unsaveUnitFromUser}) => (
-            <Card.Group centered itemsPerRow={4} doubling>
+            <Card.Group centered stacking>
                 {
                     hits.map(
                         hit =>
