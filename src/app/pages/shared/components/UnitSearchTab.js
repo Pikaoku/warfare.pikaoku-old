@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Divider, Header, Tab} from "semantic-ui-react";
+import {Card, Divider, Header, Label, Tab} from "semantic-ui-react";
 import {connectHits, InstantSearch, Panel, SearchBox} from "react-instantsearch-dom";
 import {connect} from 'react-redux';
 import SaveButton from "../../../components/searching/SaveButton";
@@ -22,7 +22,7 @@ const UnitHits =
                         hit =>
                             <Card key={hit.objectID}>
                                 <Card.Content>
-                                    <Header textAlign={'center'} size={'medium'} color={'blue'}>
+                                    <Header textAlign={'center'} size={'medium'} color={'teal'}>
                                         {hit.name}
                                         <Header.Subheader>
                                             {hit.authorId ? 'by ' : 'from '} <b>{hit.author}</b>
@@ -37,6 +37,17 @@ const UnitHits =
                                     <div><b>Equipment: </b> {hit.experience.name}</div>
                                     <div><b>Experience: </b> {hit.equipment.name}</div>
                                     <div><b>Type: </b> {hit.type.name}</div>
+                                    <div><b>Features:</b></div>
+                                    {
+                                        composeUnitFeatures(hit).map(
+                                            feature =>
+                                                <Label
+                                                    color={'teal'}
+                                                    content={feature.name}
+                                                />
+
+                                        )
+                                    }
                                 </Card.Content>
                                 <Card.Content>
                                     <SaveButton

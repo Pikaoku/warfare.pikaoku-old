@@ -1,6 +1,6 @@
 import React from 'react';
 import {connectHits, InstantSearch, Panel, SearchBox} from "react-instantsearch-dom";
-import {Card, Divider, Header, Tab, Table} from "semantic-ui-react";
+import {Card, Divider, Header, Label, Tab, Table} from "semantic-ui-react";
 import WarfareRefinementList from "./WarfareRefinementList";
 import {UNIT_STAT_TYPES, withSign} from "../../../../store/unitmaker/unitmakerUtils";
 import {connect} from "react-redux";
@@ -22,7 +22,7 @@ const AspectHits =
                         hit =>
                             <Card key={hit.objectID} raised>
                                 <Card.Content>
-                                    <Header textAlign={'center'} size={'medium'} color={'blue'}>
+                                    <Header textAlign={'center'} size={'medium'} color={'teal'}>
                                         {hit.name}
                                         <Header.Subheader>
                                             {hit.authorId ? 'by ' : 'from '} <b>{hit.author}</b>
@@ -55,6 +55,26 @@ const AspectHits =
                                                         </Table.Row>
                                                 )
                                             }
+                                            <Table.Row>
+                                                <Table.Cell textAlign={'right'} width={8}>
+                                                    Features
+                                                </Table.Cell>
+                                                <Table.Cell width={8}>
+                                                    {
+                                                        hit.features.length > 0
+                                                            ? hit.features.map(
+                                                            feature =>
+                                                                <div>
+                                                                    <Label
+                                                                        content={feature.name}
+                                                                        color={'teal'}
+                                                                    />
+                                                                </div>
+                                                            )
+                                                            : <span>None</span>
+                                                    }
+                                                </Table.Cell>
+                                            </Table.Row>
                                         </Table.Body>
                                     </Table>
                                 </Card.Content>

@@ -19,7 +19,7 @@ const FeatureHits =
                         hit => (
                             <Card key={hit.objectID}>
                                 <Card.Content>
-                                    <Header textAlign={'center'} size={'medium'} color={'blue'}>
+                                    <Header textAlign={'center'} size={'medium'} color={'teal'}>
                                         {hit.name}
                                         <Header.Subheader>
                                             {hit.authorId ? 'by ' : 'from '} <b>{hit.author}</b>
