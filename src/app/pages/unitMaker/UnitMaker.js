@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StandardPage from "../../components/layout/StandardPage";
-import {Button, Checkbox, Container, Divider, Grid, Segment} from "semantic-ui-react";
+import {Button, Checkbox, Container, Divider, Grid, Message, Segment} from "semantic-ui-react";
 import BasicUnitCard from "../../components/unitCards/BasicUnitCard";
 import './UnitMaker.css';
 import AspectManager from "./components/AspectManager";
@@ -14,7 +14,6 @@ import ColorPicker from "../../components/ColorPicker";
 import {AUTH, SETTINGS, UNITMAKER} from "../../../store/reducer";
 import {UNITMAKER_ACTIVE} from "../../../store/unitmaker/unitmakerReducer";
 import {AUTH_USER} from "../../../store/auth/authReducer";
-import {Link} from "react-router-dom";
 import {SETTINGS_LABEL_FEATURE_GROUPS, TOGGLE_LABEL_FEATURE_GROUPS} from "../../../store/settings/settingsReducer";
 
 
@@ -23,7 +22,8 @@ class UnitMaker extends Component {
         unitCardImage: false,
         backgroundColor: 'white',
         borderColor: 'black',
-        cardType: 'saf'
+        cardType: 'saf',
+        closedMessage: window.localStorage.getItem('closedMessage')
     };
 
     generateImage = () => {
@@ -45,7 +45,7 @@ class UnitMaker extends Component {
 
     render() {
         const {labelGroups, updateFeatureGroupLabelSetting} = this.props;
-        const {unitCardImage, backgroundColor, borderColor, cardType} = this.state;
+        const {unitCardImage, backgroundColor, borderColor, cardType, closedMessage} = this.state;
 
         return (
             <StandardPage
@@ -62,14 +62,31 @@ class UnitMaker extends Component {
                             <UnitmakerButtonGroup/>
                         </Grid.Column>
                         <Grid.Column textAlign={'right'} verticalAlign={'middle'}>
-                            <Link to={'https://www.kickstarter.com/projects/255133215/strongholds-and-streaming'}>
+                            <a style={{color: 'teal'}}
+                               href={'https://www.kickstarter.com/projects/255133215/strongholds-and-streaming'}>
                                 Made using <em>Strongholds & Followers</em> by <b>Matt Colville</b>
-                            </Link>
+                            </a>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row columns={2}>
                         <Grid.Column width={8}>
                             <UnitMakerCore/>
+                            {
+                                !closedMessage &&
+                                <Message
+                                    size={'large'}
+                                    color={'teal'}
+                                    content={<div><p>You can create custom ancestries, experiences, equipments, types,
+                                        traits, actions etc on your user page if you login. This will be saved to your
+                                        account and can be applied to any unit in the unit maker, on any device you log
+                                        in on.</p><p>You can also find stuff other people created in the Shared tab, hit
+                                        the heart to save it to your account and use those in the unit maker!</p></div>}
+                                    onDismiss={() => {
+                                        this.setState('closedMessage', true);
+                                        window.localStorage.setItem('closedMessage', true);
+                                    }}
+                                />
+                            }
                             <AspectManager/>
                             <FeatureManager/>
                         </Grid.Column>

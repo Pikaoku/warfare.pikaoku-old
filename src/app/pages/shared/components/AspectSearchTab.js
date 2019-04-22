@@ -16,7 +16,7 @@ const AspectHits =
         {saveAspectToUser, unsaveAspectFromUser}
     )(connectHits(
         ({hits, user, saveAspectToUser, unsaveAspectFromUser}) =>
-            <Card.Group centered stacking>
+            <Card.Group centered>
                 {
                     hits.map(
                         hit =>

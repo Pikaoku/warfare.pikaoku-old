@@ -13,7 +13,7 @@ const FeatureHits =
         {saveFeatureToUser, unsaveFeatureFromUser}
     )(connectHits(
         ({hits, user, saveFeatureToUser, unsaveFeatureFromUser}) => (
-            <Card.Group centered stacking>
+            <Card.Group centered>
                 {
                     hits.map(
                         hit => (

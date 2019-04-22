@@ -16,7 +16,7 @@ const UnitHits =
         {saveUnitToUser, unsaveUnitFromUser}
     )(connectHits(
         ({hits, user, saveUnitToUser, unsaveUnitFromUser}) => (
-            <Card.Group centered stacking>
+            <Card.Group centered>
                 {
                     hits.map(
                         hit =>
@@ -34,8 +34,8 @@ const UnitHits =
                                     <div><b>Size: </b> {'d' + hit.size}</div>
                                     <div><b>Cost: </b> {calculateUnitCost(hit, composeUnitFeatures(hit))}</div>
                                     <div><b>Ancestry: </b> {hit.ancestry.name}</div>
-                                    <div><b>Experience: </b> {hit.equipment.name}</div>
                                     <div><b>Equipment: </b> {hit.experience.name}</div>
+                                    <div><b>Experience: </b> {hit.equipment.name}</div>
                                     <div><b>Type: </b> {hit.type.name}</div>
                                 </Card.Content>
                                 <Card.Content>
