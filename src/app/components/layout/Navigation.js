@@ -27,14 +27,30 @@ class Navigation extends Component {
                     <Responsive {...Responsive.onlyMobile}>
                         <Menu vertical fluid secondary inverted color={'teal'} size={'large'} className={'attached'}>
                             <Menu.Item
-                                to={'/info'} active={path === '/info'} as={Link}
+                                to={'/info'}
+                                active={path === '/info'}
+                                as={Link}
                                 content={'warfare.pikaoku'}
                                 icon={'info'}
                             />
-                            <Menu.Item icon={'pencil'}
-                                to={'/'} active={path === '/'} as={Link} content={'Unit Maker'}/>
-                            <Menu.Item icon={'globe'}
-                                to={'/shared'} active={path === '/shared'} as={Link} content={'Shared'}/>
+                            <Menu.Item
+                                icon={'pencil'}
+                                to={'/'}
+                                active={path === '/'}
+                                as={Link}
+                                content={'Unit Maker'}/>
+                            <Menu.Item
+                                icon={'globe'}
+                                to={'/shared'}
+                                active={path === '/shared'} as={Link}
+                                content={'Shared'}
+                            />
+                            <Menu.Item
+                                icon={'book'}
+                                to={'/rules'}
+                                active={path === '/rules'}
+                                as={Link}
+                                content={'Rules'}/>
                             {authItem}
                         </Menu>
                     </Responsive>
@@ -46,7 +62,7 @@ class Navigation extends Component {
                                                content={'warfare.pikaoku'}/>
                                     <Menu.Item to={'/'} active={path === '/'} as={Link} content={'Unit Maker'}/>
                                     <Menu.Item to={'/shared'} active={path === '/shared'} as={Link} content={'Shared'}/>
-                                    {/*<Menu.Item to={'/rules'} active={path === '/rules'} as={Link} content={'Rules'}/>*/}
+                                    <Menu.Item to={'/rules'} active={path === '/rules'} as={Link} content={'Rules'}/>
                                     {/*<Menu.Item to={'/compare'} active={path === '/compare'} as={Link}*/}
                                     {/*           content={'Compare'}/>*/}
                                 </Menu.Menu>

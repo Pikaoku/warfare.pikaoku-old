@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /$
+Allow: /compare
+Allow: /info
+Allow: /shared
+Allow: /rules
+Allow: /user
+Allow: /contact
+Allow: /sitemap
+Disallow: /
+Sitemap: https://warfare.pikaoku.com/sitemap.xml

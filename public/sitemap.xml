@@ -26,8 +26,18 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>https://warfare.pikaoku.com/sitemap</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://warfare.pikaoku.com/contact</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>https://warfare.pikaoku.com/shared</loc>
         <changefreq>daily</changefreq>
-        <priority>0.1</priority>
+        <priority>1</priority>
     </url>
 </urlset>

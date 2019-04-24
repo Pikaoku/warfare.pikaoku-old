@@ -19,7 +19,7 @@ const StandardPage = (
     ReactGA.pageview(window.location.pathname);
 
     return (
-        <div className={'m0'}>
+        <div className={'m0'} style={{minHeight: '80vh'}}>
             <Helmet>
                 <link rel="canonical" href={canonical}/>
                 <meta name="description" content={description}/>
@@ -28,9 +28,9 @@ const StandardPage = (
             <div style={{backgroundColor: color || 'teal'}} className={'m0'}>
                 <Container>
                     <Divider hidden fitted/>
-                    <Header inverted as={'h1'}>
+                    <Header inverted>
                         <Icon name={icon}/>
-                        <Header.Content>
+                        <Header.Content as={'h1'}>
                             {title}
                         </Header.Content>
                     </Header>
@@ -40,6 +40,8 @@ const StandardPage = (
             <Divider hidden/>
             <Container>
                 {children}
+                <Divider hidden/>
+                <Divider hidden/>
             </Container>
         </div>
     );

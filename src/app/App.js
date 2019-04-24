@@ -15,6 +15,10 @@ import {handleAuthStateChange} from "../store/auth/authActions";
 import {connect} from "react-redux";
 import {fetchCoreData} from "../store/data/dataActions";
 import FourOhFour from "./pages/errors/FourOhFour";
+import Rules from "./pages/rules/Rules";
+import Footer from "./components/layout/Footer";
+import SiteMap from "./pages/sitemap/SiteMap";
+import Contact from "./pages/contact/Contact";
 
 class App extends Component {
     componentWillMount() {
@@ -39,7 +43,7 @@ class App extends Component {
                     <link rel="stylesheet"
                           href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.1.1/themes/algolia-min.css"
                           integrity="sha256-nkldBwBn2NQqRL1mod7BqHsJ6cEOn6u/ln6F/lI4CFo="
-                          crossOrigin="anonymous"></link>
+                          crossOrigin="anonymous"/>
                 </Helmet>
                 <BrowserRouter>
                     <Navigation/>
@@ -48,10 +52,14 @@ class App extends Component {
                         <Route exact path={'/info'} component={Home}/>
                         <Route exact path={'/user'} component={User}/>
                         <Route exact path={'/shared'} component={Shared}/>
+                        <Route exact path={'/rules'} component={Rules}/>
                         <Route exact path={'/sitemap.xml'}/>
+                        <Route exact path={'/sitemap'} component={SiteMap}/>
+                        <Route exact path={'/contact'} component={Contact}/>
                         <Route exact path={'/robots.txt'}/>
-                        <Route component={FourOhFour} status={404}/>
+                        <Route path={'/'} component={FourOhFour} status={404}/>
                     </Switch>
+                    <Footer/>
                 </BrowserRouter>
             </div>
         );
