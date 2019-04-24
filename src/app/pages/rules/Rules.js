@@ -7,7 +7,7 @@ import RulesDisplaySimple from "./Components/RulesDisplaySimple";
 
 class Rules extends Component {
     state = {
-        activeIndex: 1
+        activeIndex: 0
     };
 
     render() {

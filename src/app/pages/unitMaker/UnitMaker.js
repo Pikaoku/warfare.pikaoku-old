@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StandardPage from "../../components/layout/StandardPage";
 import {Button, Checkbox, Container, Divider, Grid, Message, Segment} from "semantic-ui-react";
-import BasicUnitCard from "../../components/unitCards/BasicUnitCard";
 import './UnitMaker.css';
 import AspectManager from "./components/AspectManager";
 import UnitMakerCore from "./components/UnitMakerCore";
@@ -15,6 +14,7 @@ import {AUTH, SETTINGS, UNITMAKER} from "../../../store/reducer";
 import {UNITMAKER_ACTIVE} from "../../../store/unitmaker/unitmakerReducer";
 import {AUTH_USER} from "../../../store/auth/authReducer";
 import {SETTINGS_LABEL_FEATURE_GROUPS, TOGGLE_LABEL_FEATURE_GROUPS} from "../../../store/settings/settingsReducer";
+import BasicUnitCard from "../../components/unitCards/BasicUnitCard";
 
 
 class UnitMaker extends Component {
@@ -122,6 +122,7 @@ class UnitMaker extends Component {
                             <Container textAlign={'center'}>
                                 <div className={'grid-center'}>
                                     <BasicUnitCard borderColor={borderColor}/>
+                                    {/*<PikaokuSimpleUnitCard borderColor={borderColor}/>*/}
                                 </div>
                                 <Divider hidden/>
                                 <Button.Group size={'large'} color={'teal'}>

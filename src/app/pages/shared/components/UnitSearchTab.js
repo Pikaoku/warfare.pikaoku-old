@@ -15,6 +15,8 @@ import {
 } from "../../../../store/unitmaker/unitmakerUtils";
 import {saveUnitToUser, unsaveUnitFromUser} from "../../../../store/data/dataActions";
 import WarfareSearchBar from "./WarfareSearchBar";
+import {AUTH} from "../../../../store/reducer";
+import {AUTH_USER} from "../../../../store/auth/authReducer";
 
 const UnitHits =
     connect(
@@ -72,7 +74,7 @@ const UnitHits =
 
 const UnitHitsTwo =
     connect(
-        state => ({user: state.user}),
+        state => ({user: state[AUTH][AUTH_USER]}),
         {saveUnitToUser, unsaveUnitFromUser}
     )(connectHits(
         ({hits, user, saveUnitToUser, unsaveUnitFromUser}) => (

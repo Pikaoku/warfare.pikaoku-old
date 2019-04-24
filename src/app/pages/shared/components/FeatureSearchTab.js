@@ -6,6 +6,8 @@ import {connect} from "react-redux";
 import SaveButton from "../../../components/searching/SaveButton";
 import {saveFeatureToUser, unsaveFeatureFromUser} from "../../../../store/data/dataActions";
 import WarfareSearchBar from "./WarfareSearchBar";
+import {AUTH} from "../../../../store/reducer";
+import {AUTH_USER} from "../../../../store/auth/authReducer";
 
 
 const FeatureHits =
@@ -77,7 +79,7 @@ const FeatureHits =
 
 const FeatureHitsTwo =
     connect(
-        state => ({user: state.user}),
+        state => ({user: state[AUTH][AUTH_USER]}),
         {saveFeatureToUser, unsaveFeatureFromUser}
     )(connectHits(
         ({hits, user, saveFeatureToUser, unsaveFeatureFromUser}) => (

@@ -3,8 +3,9 @@ import {Container, Divider, Header, Icon} from "semantic-ui-react";
 import {Helmet} from "react-helmet";
 import PropTypes from "prop-types";
 import ReactGA from 'react-ga';
+import {pure} from "recompose";
 
-const StandardPage = (
+const StandardPage = pure((
     {
         children,
         title,
@@ -19,7 +20,7 @@ const StandardPage = (
     ReactGA.pageview(window.location.pathname);
 
     return (
-        <div className={'m0'} style={{minHeight: '80vh'}}>
+        <div className={'m0'} style={{minHeight: '85vh'}}>
             <Helmet>
                 <link rel="canonical" href={canonical}/>
                 <meta name="description" content={description}/>
@@ -45,7 +46,7 @@ const StandardPage = (
             </Container>
         </div>
     );
-};
+});
 
 StandardPage.propTypes = {
     title: PropTypes.string.isRequired,
