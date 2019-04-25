@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {Button, Form, Header, Segment, TransitionablePortal} from "semantic-ui-react";
-import {umAddFeature} from "../../../../store/unitmaker/unitmakerActions";
+import {umAddFeature, umAddTempFeature} from "../../../../store/unitmaker/unitmakerActions";
 import {emptyFeature} from "../../../../store/unitmaker/unitmakerUtils";
 
 class AddCustomFeaturePopup extends PureComponent {
@@ -26,7 +26,7 @@ class AddCustomFeaturePopup extends PureComponent {
 
     handleCustomFeatureConfirm = () => {
         const {customFeature} = this.state;
-        this.props.umAddFeature({...customFeature, cost: parseInt(customFeature.cost)});
+        this.props.umAddTempFeature({...customFeature, cost: parseInt(customFeature.cost)});
         this.setState({customFeature: emptyFeature('trait'), open: false})
     };
 
@@ -90,5 +90,5 @@ const mapStateToProps = (state) => ({});
 
 export default connect(
     mapStateToProps,
-    {umAddFeature}
+    {umAddTempFeature}
 )(AddCustomFeaturePopup);

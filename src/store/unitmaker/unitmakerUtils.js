@@ -119,16 +119,21 @@ export const calculateUnitCost = (unit, features) => {
         (
             (
                 (
-                    extractStat(unit, UNIT_STAT_ATTACK)
-                    + extractStat(unit, UNIT_STAT_POWER)
-                    + extractStat(unit, UNIT_STAT_DEFENSE)
-                    + extractStat(unit, UNIT_STAT_POWER)
-                    + (extractStat(unit, UNIT_STAT_MORALE) * 2)
-                ) * (unit[ASPECT_TYPE_TYPE][UNIT_ITEM_COST_MOD] || 1)
+                    (
+                        (
+                            extractStat(unit, UNIT_STAT_ATTACK)
+                            + extractStat(unit, UNIT_STAT_POWER)
+                            + extractStat(unit, UNIT_STAT_DEFENSE)
+                            + extractStat(unit, UNIT_STAT_TOUGHNESS)
+                            + (extractStat(unit, UNIT_STAT_MORALE) * 2)
+                        ) * (unit[ASPECT_TYPE_TYPE][UNIT_ITEM_COST_MOD] || 1)
+                    )
+                    * (Math.floor((unit[UNIT_SIZE] / 6) * 100) / 100)
+                ) * 10
             )
-            * ((unit[UNIT_SIZE] / 6) * 10)
             + features.reduce((acc, cur) => acc + (cur.cost), 0)
-            + unit[ASPECT_TYPE_CUSTOMIZATION][UNIT_ITEM_COST] + 30
+            + unit[ASPECT_TYPE_CUSTOMIZATION][UNIT_ITEM_COST]
+            + 30
         ) * unit[ASPECT_TYPE_CUSTOMIZATION][UNIT_ITEM_COST_MOD]
     )
 };

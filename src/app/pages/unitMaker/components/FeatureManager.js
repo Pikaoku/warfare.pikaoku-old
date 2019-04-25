@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import {Button, Segment, Table} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {composeUnitFeatures} from "../../../../store/unitmaker/unitmakerUtils";
-import {saveUmNestedField, umAddFeature} from "../../../../store/unitmaker/unitmakerActions";
+import {saveUmNestedField, umAddFeature, umAddTempFeature} from "../../../../store/unitmaker/unitmakerActions";
 import FeatureDropdown from "./FeatureDropdown";
 import AddCustomFeaturePopup from "./AddCustomFeaturePopup";
 import {UNITMAKER} from "../../../../store/reducer";
@@ -65,5 +65,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
     mapStateToProps,
-    {saveUmNestedField, umAddFeature}
+    {saveUmNestedField}
 )(FeatureManager);

@@ -24,7 +24,19 @@ export const saveUmNestedField = (outer, inner, value) => ({
 export const umAddFeature = feature =>
     (dispatch, getState, firebase) => {
         const newFeature = {...feature.data(), id: feature.id};
-        let features = getState()[UNITMAKER][UNITMAKER_ACTIVE][ASPECT_TYPE_CUSTOMIZATION][FEATURES]
+        let features = [...(getState()[UNITMAKER][UNITMAKER_ACTIVE][ASPECT_TYPE_CUSTOMIZATION][FEATURES])];
+        features.push(newFeature);
+        features = enforceArrayUniqueness(features);
+        dispatch({
+            type: UNITMAKER_UPDATE_CUSTOM_FEATURES,
+            payload: {features: features}
+        })
+    };
+
+export const umAddTempFeature = feature =>
+    (dispatch, getState, firebase) => {
+        const newFeature = {...feature};
+        let features = [...(getState()[UNITMAKER][UNITMAKER_ACTIVE][ASPECT_TYPE_CUSTOMIZATION][FEATURES])];
         features.push(newFeature);
         features = enforceArrayUniqueness(features);
         dispatch({
