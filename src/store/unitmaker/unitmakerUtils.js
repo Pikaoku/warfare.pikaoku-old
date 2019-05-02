@@ -111,7 +111,6 @@ export const composeUnitFeatures = (unit, uniq = false) => {
 };
 
 export const enforceArrayUniqueness = arr =>
-    // arr.filter((c, i, a) => a.filter(filterByField('id', c.id)).length === 1);
     arr.filter((c, i, a) => a.map(e => e.id).indexOf(c.id) === i);
 
 export const calculateUnitCost = (unit, features) => {
