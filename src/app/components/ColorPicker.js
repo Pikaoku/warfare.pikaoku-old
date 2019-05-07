@@ -2,7 +2,15 @@ import React from 'react';
 import {Form, Popup} from "semantic-ui-react";
 import PropTypes from "prop-types";
 
-const ColorPicker = ({onChange, label, color}) => {
+const defaultColors = [
+    '#000000',
+    '#AA0000',
+    '#0000cd',
+    '#2e8b57',
+    'hotpink'
+];
+
+const ColorPicker = ({onChange, label, color, colors = defaultColors}) => {
 
     const ColorSwatch = ({color}) => (
         <div
@@ -13,7 +21,8 @@ const ColorPicker = ({onChange, label, color}) => {
                 width: '38px',
                 margin: '0 5px',
                 background: color,
-                display: 'inline-block'
+                display: 'inline-block',
+                border: color.includes('white') ? '2px solid black' : 0
             }}/>
     );
 
@@ -32,11 +41,9 @@ const ColorPicker = ({onChange, label, color}) => {
                     content={'You can use hex values such as #AA0000, or html-standard colour names such as "red" or "darkblue".'}
                     on={'hover'}
                 />
-                <ColorSwatch color={'#000000'}/>
-                <ColorSwatch color={'#AA0000'}/>
-                <ColorSwatch color={'#0000cd'}/>
-                <ColorSwatch color={'#2e8b57'}/>
-                <ColorSwatch color={'hotpink'}/>
+                {
+                    colors.map(color => <ColorSwatch key={color} color={color}/>)
+                }
             </Form.Field>
         </Form>
     );

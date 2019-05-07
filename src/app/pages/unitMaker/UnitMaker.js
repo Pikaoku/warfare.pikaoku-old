@@ -111,6 +111,12 @@ class UnitMaker extends Component {
                                     label={'Border Color'}
                                     onChange={(color) => this.setState({borderColor: color})}
                                 />
+                                <ColorPicker
+                                    color={backgroundColor}
+                                    label={'Background Color'}
+                                    onChange={(color) => this.setState({backgroundColor: color})}
+                                    colors={['white', 'whitesmoke', 'beige', 'indianred', 'black',]}
+                                />
                                 <Divider/>
                                 <Checkbox
                                     toggle
@@ -121,7 +127,7 @@ class UnitMaker extends Component {
                             </Segment>
                             <Container textAlign={'center'}>
                                 <div className={'grid-center'}>
-                                    <BasicUnitCard borderColor={borderColor}/>
+                                    <BasicUnitCard borderColor={borderColor} backgroundColor={backgroundColor}/>
                                     {/*<PikaokuSimpleUnitCard borderColor={borderColor}/>*/}
                                 </div>
                                 <Divider hidden/>

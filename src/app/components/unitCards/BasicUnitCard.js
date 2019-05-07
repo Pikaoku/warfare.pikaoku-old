@@ -48,6 +48,7 @@ const BasicUnitCard = (
         cost,
         styles,
         borderColor,
+        backgroundColor,
         baseDefense,
         baseToughness,
         labelFeatureGroups
@@ -55,7 +56,7 @@ const BasicUnitCard = (
     const name = unit.ancestry.name === 'None' ? '' : unit.ancestry.name;
     return (
         <div id={'UnitCard'} className={'basic-unit-card ' + (styles || '')}
-             style={{borderColor: borderColor, color: borderColor}}
+             style={{borderColor: borderColor, color: borderColor, background: backgroundColor}}
         >
             <div className={'buc-title'}>{unit.name || 'Unit Name'}</div>
             <BucUnitDefinition
