@@ -19,6 +19,8 @@ import Rules from "./pages/rules/Rules";
 import Footer from "./components/layout/Footer";
 import SiteMap from "./pages/sitemap/SiteMap";
 import Contact from "./pages/contact/Contact";
+import SimpleWarfare from "./pages/simpleWarfare/SimpleWarfare";
+import { loggedIn$ } from '../firebase'
 
 class App extends Component {
     componentWillMount() {
@@ -28,6 +30,12 @@ class App extends Component {
     componentDidMount() {
         this.coreDataListeners = this.props.fetchCoreData();
         this.authStateChangeListener = firebase.auth().onAuthStateChanged(this.props.handleAuthStateChange)
+
+        loggedIn$.subscribe(
+            user => {
+                console.log(user.displayName)
+            }
+        )
     }
 
     componentWillUnmount() {
@@ -53,10 +61,12 @@ class App extends Component {
                         <Route exact path={'/user'} component={User}/>
                         <Route exact path={'/shared'} component={Shared}/>
                         <Route exact path={'/rules'} component={Rules}/>
-                        <Route exact path={'/sitemap.xml'}/>
                         <Route exact path={'/sitemap'} component={SiteMap}/>
                         <Route exact path={'/contact'} component={Contact}/>
+                        <Route exact path={'/simple'} component={SimpleWarfare}/>
+                        {/*<Route exact path={'/compare'} component={SimpleWarfare}/>*/}
                         <Route exact path={'/robots.txt'}/>
+                        <Route exact path={'/sitemap.xml'}/>
                         <Route path={'/'} component={FourOhFour} status={404}/>
                     </Switch>
                     <Footer/>

@@ -61,3 +61,7 @@ body {
 .testcolor {
     color: blue;
 }
+
+.um-segment {
+    max-width: 400px;
+}

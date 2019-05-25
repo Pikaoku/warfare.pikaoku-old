@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StandardPage from "../../components/layout/StandardPage";
 import {Button, Checkbox, Container, Divider, Grid, Message, Segment} from "semantic-ui-react";
-import './UnitMaker.css';
 import AspectManager from "./components/AspectManager";
 import UnitMakerCore from "./components/UnitMakerCore";
 import FeatureManager from "./components/FeatureManager";

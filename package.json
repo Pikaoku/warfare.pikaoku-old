@@ -24,7 +24,10 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
+    "redux-observable": "^1.1.0",
     "redux-thunk": "^2.3.0",
+    "rxfire": "^3.4.8",
+    "rxjs": "^6.5.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.86.0",
     "string-hash": "^1.1.3"
