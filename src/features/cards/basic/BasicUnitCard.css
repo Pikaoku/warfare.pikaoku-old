@@ -1,0 +1,86 @@
+.buc-wrapper {
+    width: 300px;
+}
+
+.basic-unit-card {
+    background: white;
+    border-width: 4px;
+    border-style: solid;
+    width: 300px;
+    padding: 10px;
+    font-family: 'ModestoText-Medium', sans-serif;
+}
+
+.buc-title {
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    margin: 0 0 5px;
+}
+
+.buc-subtitle {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bolder;
+    margin: 0 5px 5px;
+}
+
+.buc-lore {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.buc-stat-line {
+    font-size: large;
+    border-top-width: 2px;
+    border-top-style: solid;
+    display: grid;
+    grid-template-columns: 90px 30px 20px 100px 30px;
+    grid-template-rows: 30px;
+    align-items: center;
+}
+
+.buc-cost {
+    padding: 10px 0;
+    font-size: larger;
+}
+
+.buc-stats .buc-stat-line:last-child {
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+}
+
+.buc-stat-line-label {
+    justify-self: start;
+}
+
+.buc-stat-line-data {
+    justify-self: end;
+}
+
+.buc-extras {
+    text-align: left;
+    font-size: medium;
+}
+
+.buc-subheader {
+    font-size: 16px;
+    font-weight: bolder;
+    margin: 15px 0 5px;
+}
+
+.buc-subheader-first {
+    margin-top: 0;
+}
+
+.buc-extras-item span:first-child {
+    font-weight: bold;
+}
+
+.buc-extras-item span:first-child:after {
+    content: ". ";
+}
+
+.buc-commander {
+    margin-top: 10px;
+}
