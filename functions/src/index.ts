@@ -42,3 +42,16 @@ exports.onDelete =
             return indexes[context.params.category]
                 .deleteObject(context.params.objectID)
         });
+
+exports.onNewUser =
+    functions.auth.user().onCreate(
+        user => {
+            admin.firestore().doc('users/' + user.uid).set({
+                username: user.displayName,
+                warfare: {
+                    baseDefense: 10,
+                    baseToughness: 10
+                }
+            })
+        }
+    )
