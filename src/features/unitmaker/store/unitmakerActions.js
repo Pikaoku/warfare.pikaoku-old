@@ -44,7 +44,7 @@ export const umAddTempFeature = feature =>
 export const umLoadUnit = id =>
     (dispatch, getState, firebase) => {
         dispatch(umReset());
-        let unit = getState().units.all.find(findByField('id'))
+        let unit = getState().units.all.find(findByField('id', id))
         if (unit) {
             dispatch({
                 type: UNITMAKER_LOAD_UNIT_SUCCESS,

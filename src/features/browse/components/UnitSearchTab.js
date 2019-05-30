@@ -103,11 +103,10 @@ const UnitHitsTwo =
                                 </Grid.Column>
                                 <Grid.Column width={1}>
                                     <SaveButton
-                                        saved={user && hit.saved && hit.saved.includes(user.uid)}
-                                        disabled={!user}
-                                        objectId={hit.objectID}
-                                        saveFunc={saveUnitToUser}
-                                        unsaveFunc={unsaveUnitFromUser}
+                                        alreadySaved={hit.saved.includes(user.uid)}
+                                        authenticated={!!user}
+                                        saveFunc={() => saveUnitToUser(hit.objectID, user.id)}
+                                        unsaveFunc={() => unsaveUnitFromUser(hit.objectID, user.id)}
                                     />
                                 </Grid.Column>
                             </Grid.Row>

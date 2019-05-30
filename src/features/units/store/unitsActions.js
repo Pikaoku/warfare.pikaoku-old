@@ -6,10 +6,11 @@ import {
 } from "../../unitmaker/store/unitmakerReducer";
 import { UNITMAKER } from "../../../reducer";
 import { fsAdd } from '../../common/utils/firebase/fsAdd';
+import { UNITS_CORE_UPDATED, UNITS_USER_UPDATED, UNITS_SAVED_UPDATED } from './unitsReducer';
 
 export const createUnit = () =>
     (dispatch, getState, firebase) =>
-        fsAdd(FS_COL_UNITS, getState().unitmaker.active, getState().auth.settings.username)
+        fsAdd(FS_COL_UNITS, getState().unitmaker.active, getState().auth.username)
             .then(
                 success =>
                     success.get().then(
@@ -55,3 +56,19 @@ export const saveUnitToUser = (unitId, userId) =>
 
 export const unsaveUnitFromUser = (unitId, userId) =>
     removeUserFromRecordSaved(FS_COL_UNITS, unitId, userId);
+
+
+const updateUnitCatagory = (category, type) => docs => ({
+        type: type,
+        payload: {
+            category: category,
+            values: docs
+        }
+    })
+
+    // Core is not actually used... yet?
+const updateCoreUnits = updateUnitCatagory('core', UNITS_CORE_UPDATED)
+const updateUserUnits = updateUnitCatagory('user', UNITS_USER_UPDATED)
+const updateSavedUnits = updateUnitCatagory('saved', UNITS_SAVED_UPDATED)
+
+export { updateCoreUnits, updateUserUnits, updateSavedUnits }

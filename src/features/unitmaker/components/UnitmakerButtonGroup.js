@@ -1,14 +1,10 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Button, Dropdown, Popup} from "semantic-ui-react";
-import {AUTH, DATA, UNITMAKER} from "../../../reducer";
-import {createUnitDropdownOptions} from "../../units/components/UnitDropdownResult";
-import {createUnit} from "../../units/store/unitsActions";
-import {AUTH_USER} from "../../auth/store/authReducer";
-import {SAVED, UNITS, USER} from "../../../store/data/dataReducer";
-import {umLoadUnit, umReset} from "../store/unitmakerActions";
-import {UNITMAKER_ACTIVE, UNITMAKER_ACTIVE_ID, UNITMAKER_LOADING} from "../store/unitmakerReducer";
-import {deleteUnit, updateUnitmakerUnit} from "../../units/store/unitsActions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Button, Dropdown, Popup } from "semantic-ui-react";
+import { createUnitDropdownOptions } from "../../units/components/UnitDropdownResult";
+import { createUnit } from "../../units/store/unitsActions";
+import { umLoadUnit, umReset } from "../store/unitmakerActions";
+import { deleteUnit, updateUnitmakerUnit } from "../../units/store/unitsActions";
 import { sortByField } from '../../common/utils/array/sortByField';
 
 class UnitmakerButtonGroup extends Component {
@@ -17,14 +13,15 @@ class UnitmakerButtonGroup extends Component {
             user,
             units,
             loading,
-            currentId,
             currentUnit,
             umLoadUnit,
             umReset,
             createUnit,
             updateUnitmakerUnit,
             deleteUnit,
-        } = this.props;
+        } = this.props
+
+        const currentId = currentUnit.id
 
         return (
             <Button.Group icon size={'large'}>
@@ -32,7 +29,7 @@ class UnitmakerButtonGroup extends Component {
                     trigger={
                         <Popup
                             trigger={
-                                <Button color={'blue'} icon={'file'}/>
+                                <Button color={'blue'} icon={'file'} />
                             }
                             content={'Load unit'}
                             on={'hover'}
@@ -42,7 +39,7 @@ class UnitmakerButtonGroup extends Component {
                     loading={loading}
                     value={''}
                     onChange={
-                        (a, {value}) => {
+                        (a, { value }) => {
                             umLoadUnit(value)
                         }
                     }
@@ -54,11 +51,11 @@ class UnitmakerButtonGroup extends Component {
                         <Button
                             disabled={
                                 !user ||
-                                ((currentId !== false) && (currentUnit.authorId !== user.uid))
+                                ((currentId !== false) && (currentUnit.authorId !== user.id))
                             }
                             onClick={
                                 !!currentId
-                                    ? () => updateUnitmakerUnit(currentId,)
+                                    ? () => updateUnitmakerUnit(currentUnit.id)
                                     : createUnit
                             }
                             icon={'save'}
@@ -75,7 +72,7 @@ class UnitmakerButtonGroup extends Component {
                             icon={'copy'}
                             color={'yellow'}
                             onClick={createUnit}
-                            disabled={!currentId}
+                            disabled={!currentUnit.id}
                             loading={loading}
                         />
                     }
@@ -99,8 +96,8 @@ class UnitmakerButtonGroup extends Component {
                         <Button
                             icon={'delete'}
                             color={'red'}
-                            onClick={() => deleteUnit(currentId)}
-                            disabled={!currentId}
+                            onClick={() => { umReset(); return deleteUnit(currentUnit.id) }}
+                            disabled={!currentUnit.id}
                             loading={loading}
                         />
                     }
@@ -122,5 +119,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
     mapStateToProps,
-    {createUnit, updateUnitmakerUnit, deleteUnit, umLoadUnit, umReset}
+    { createUnit, updateUnitmakerUnit, deleteUnit, umLoadUnit, umReset }
 )(UnitmakerButtonGroup);

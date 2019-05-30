@@ -86,7 +86,7 @@ const savedUnits$ = createObservableForUserSavedData(COLLECTION_UNITS)
 
 
 // FUNCTIONS
-const getCurrentUser = () => auth.getCurrentUser() || false
+const getCurrentUser = () => auth().getCurrentUser() || false
 
 
 /**

@@ -13,6 +13,8 @@ import {AUTH, UNITMAKER} from "../../../reducer";
 import {UNITMAKER_ACTIVE} from "../store/unitmakerReducer";
 import {AUTH_USER} from "../../auth/store/authReducer";
 import BasicUnitCard from "../../cards/basic/BasicUnitCard";
+import '../../cards/saf/SafUnitCard.css';
+import { SafUnitCard } from '../../cards/saf/SafUnitCard';
 
 
 class UnitMaker extends Component {
@@ -125,7 +127,8 @@ class UnitMaker extends Component {
                             </Segment>
                             <Container textAlign={'center'}>
                                 <div className={'grid-center'}>
-                                    <BasicUnitCard borderColor={borderColor} backgroundColor={backgroundColor}/>
+                                    <SafUnitCard borderColor={borderColor} backgroundColor={backgroundColor}/>
+                                    {/* <BasicUnitCard borderColor={borderColor} backgroundColor={backgroundColor}/> */}
                                     {/*<PikaokuSimpleUnitCard borderColor={borderColor}/>*/}
                                 </div>
                                 <Divider hidden/>

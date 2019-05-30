@@ -1,7 +1,7 @@
 import firebase from '../../../../firebase';
+
 export const fsAdd =
-    (collection, data, author) => {
-        debugger;
+    (collection, data, username) =>
         firebase
             .firestore()
             .collection(collection)
@@ -11,7 +11,8 @@ export const fsAdd =
                 ...data,
                 created: firebase.firestore.FieldValue.serverTimestamp(),
                 updated: firebase.firestore.FieldValue.serverTimestamp(),
-                author: author,
+                author: username,
                 authorId: firebase.auth().currentUser.uid,
             })
-    };
+
+export default fsAdd

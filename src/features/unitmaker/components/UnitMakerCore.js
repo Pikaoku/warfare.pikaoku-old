@@ -1,13 +1,17 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {Form, Grid, Segment} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {saveUmField, saveUmNestedField} from "../store/unitmakerActions";
 import {UNITMAKER} from "../../../reducer";
 import {UNITMAKER_ACTIVE} from "../store/unitmakerReducer";
 import {CUSTOMIZATION} from "../../../store/data/dataReducer";
+import { blurOnKeyDown } from '../store/unitmakerUtils';
 
-class UnitMakerCore extends PureComponent {
+class UnitMakerCore extends Component {
     state = {
+        name: this.props.unit.name,
+        commander: this.props.unit.commander,
+        lore: this.props.unit.lore,
         attack: this.props.unit[CUSTOMIZATION].attack || 0,
         defense: this.props.unit[CUSTOMIZATION].defense || 0,
         power: this.props.unit[CUSTOMIZATION].power || 0,
@@ -17,8 +21,19 @@ class UnitMakerCore extends PureComponent {
         costMod: this.props.unit[CUSTOMIZATION].costMod || 1
     };
 
+    componentDidUpdate (prevProps, prevSatae) {
+        if (prevProps.unit.id !== this.props.unit.id) {
+            this.setState({
+                name: this.props.unit.name, 
+                commander: this.props.unit.commander, 
+                lore: this.props.unit.lore
+            })
+        }
+    }
+
     render() {
         const
+            {name, commander, lore} = this.state,
             {unit, saveUmField, saveUmNestedField} = this.props,
             tinkerInputProps = {
                 width: 5,
@@ -38,6 +53,8 @@ class UnitMakerCore extends PureComponent {
         const updateFloatField = (field) => ({target: {value}}) => saveUmNestedField('customization', field, parseFloat(value));
         const updateSize = (a, {value}) => saveUmField('size', value);
 
+        const updateStateFor = (field) => (e) => this.setState({[field]: e.target.value})
+
         const propsFor = (stat) => ({
             value: unit[CUSTOMIZATION][stat],
             onChange: updateCField(stat),
@@ -55,22 +72,28 @@ class UnitMakerCore extends PureComponent {
                                     <Form.Input
                                         fluid
                                         label={'Unit Name'}
-                                        value={unit.name}
-                                        onChange={updateField('name')}
+                                        value={name}
+                                        onKeyDown={blurOnKeyDown}
+                                        onBlur={updateField('name')}
+                                        onChange={updateStateFor('name')}
                                     />
                                     <Form.Input
                                         fluid
                                         label={'Commander'}
-                                        value={unit.commander}
-                                        onChange={updateField('commander')}
+                                        value={commander}
+                                        onKeyDown={blurOnKeyDown}
+                                        onBlur={updateField('commander')}
+                                        onChange={updateStateFor('commander')}
                                     />
                                 </Form.Group>
                                 <Form.Field
                                     control={'textarea'}
                                     label={'Lore'}
                                     rows={4}
-                                    value={unit.lore}
-                                    onChange={updateField('lore')}
+                                    value={lore}
+                                    onKeyDown={blurOnKeyDown}
+                                    onBlur={updateField('lore')}
+                                    onChange={updateStateFor('lore')}
                                 />
                             </Form>
                         </Grid.Column>

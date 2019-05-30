@@ -12,7 +12,9 @@ import {
     userSettings$,
     coreFeatures$,
     userFeatures$,
-    savedFeatures$
+    savedFeatures$,
+    userUnits$,
+    savedUnits$
 } from './firebase';
 
 // REDUX ACTIONS
@@ -38,12 +40,14 @@ import Account from "./features/auth/pages/Account";
 // LAYOUT
 import Navigation from "./features/common/components/Navigation";
 import Footer from "./features/common/components/Footer";
+import { updateUserUnits, updateSavedUnits } from './features/units/store/unitsActions';
 
 class App extends Component {
     componentWillMount() {
         const {
             updateCoreAspects, updateUserAspects, updateSavedAspects,
             updateCoreFeatures, updateUserFeatures, updateSavedFeatures,
+            updateUserUnits, updateSavedUnits,
             updateUserSettings
         } = this.props
 
@@ -55,6 +59,8 @@ class App extends Component {
         coreFeatures$.subscribe(updateCoreFeatures)
         userFeatures$.subscribe(updateUserFeatures)
         savedFeatures$.subscribe(updateSavedFeatures)
+        userUnits$.subscribe(updateUserUnits)
+        savedUnits$.subscribe(updateSavedUnits)
     }
 
     componentWillUnmount() {
@@ -66,6 +72,8 @@ class App extends Component {
         coreFeatures$.unsubscribe()
         userFeatures$.unsubscribe()
         savedFeatures$.unsubscribe()
+        userUnits$.unsubscribe()
+        savedUnits$.unsubscribe()
     }
 
     render() {
@@ -106,6 +114,7 @@ export default connect(
         onSignIn, onSignOut,
         updateCoreAspects, updateUserAspects, updateSavedAspects,
         updateCoreFeatures, updateUserFeatures, updateSavedFeatures,
+        updateUserUnits, updateSavedUnits,
         updateUserSettings
     }
 )(App);
