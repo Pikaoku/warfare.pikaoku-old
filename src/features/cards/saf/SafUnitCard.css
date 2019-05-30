@@ -31,3 +31,17 @@
     width: 40px;
     transform: rotate(180deg)
 }
+
+.type-flag {
+    position: absolute;
+    width: 40px;
+    top: -8px;
+    left: 60px;
+}
+
+.race-flag {
+    position: absolute;
+    width: 40px;
+    top: -8px;
+    left: 10px;
+}
