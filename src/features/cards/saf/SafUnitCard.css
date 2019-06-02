@@ -7,6 +7,7 @@
     border-color: brown;
     position: relative;
     box-shadow: inset 0 0 5px 5px rgba(0,0,0,.25);
+    margin-bottom: -15px;
 }
 
 .saf-corner-arrow-tr {
@@ -36,12 +37,23 @@
     position: absolute;
     width: 40px;
     top: -8px;
-    left: 60px;
+    left: 50px;
+    fill: #1a2b3c;
 }
 
 .race-flag {
     position: absolute;
     width: 40px;
     top: -8px;
-    left: 10px;
+    left: 5px;
+    fill: brown;
+}
+
+.saf-w-40 {
+    width: 35px;
+}
+
+.saf-experience {
+    top: -12px;
+    position: relative;
 }

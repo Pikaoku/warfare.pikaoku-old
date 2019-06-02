@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { pure } from "recompose";
+import CustomIcon from '../../common/components/CustomIcon';
+import firebase from '../../../firebase';
 
 const TypeFlag = pure(
-    ({ className, fill }) => (
-        <div className={'type-flag'}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 339"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polygon points="73.67 0 73.67 15.74 25.33 15.74 25.33 0 0 0 7.33 339 50 239.75 93.33 339 100 0 73.67 0"/></g></g></svg>
-        </div>
-    )
+    ({ className, fill, icon }) => {
+
+        const [iconSrc, setIconSrc] = useState(false);
+
+        return (
+            <div className={'type-flag'}>
+                <img className={'saf-w-40'} src={'https://firebasestorage.googleapis.com/v0/b/pikaoku-tools.appspot.com/o/warfare%2Fcards%2Fsaf%2Ftype%2Farcher-heavy.png?alt=media&token=664e93b2-c79a-462b-aee0-a75b7cb84cef'} alt={''}/>
+            </div>
+        )
+    }
 )
 
 TypeFlag.propTypes = {}

@@ -15,8 +15,8 @@ export const SafUnitCard = ({ unit, features, cost, styles, borderColor }) => {
             <CornerArrow className={'saf-corner-arrow-tr'} fill={borderColor} />
             <CornerArrow className={'saf-corner-arrow-br'} fill={borderColor} />
             <CornerArrow className={'saf-corner-arrow-bl'} fill={borderColor} />
-            <TypeFlag />
             <RaceFlag />
+            <TypeFlag icon={'aerial'}/>
         </div>
     );
 };

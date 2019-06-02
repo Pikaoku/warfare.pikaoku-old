@@ -4,7 +4,8 @@ import { pure } from "recompose";
 const RaceFlag = pure(
     ({ className, fill }) => (
         <div className={'race-flag'}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 268"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polygon points="73.33 0 73.33 19.33 24.67 19.33 24.67 0 0 0 0 268 50 238 100 268 100 0 73.33 0"/></g></g></svg>
+            <img className={'saf-w-40'} src={'https://firebasestorage.googleapis.com/v0/b/pikaoku-tools.appspot.com/o/warfare%2Fcards%2Fsaf%2Fancestry%2Fdragonborn.png?alt=media&token=0b9181ef-6a2f-4c42-a871-a86c1d27a864'} alt={'loading...'} />
+            <img className={'saf-experience saf-w-40'} src={'https://firebasestorage.googleapis.com/v0/b/pikaoku-tools.appspot.com/o/warfare%2Fcards%2Fsaf%2Fexperience%2Fveteran.png?alt=media&token=80fc3299-b774-4dfe-83cb-bea5a4c46770'} alt={''} />
         </div>
     )
 )

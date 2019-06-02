@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app";
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage'
 
 import { authState } from 'rxfire/auth'
 import { collectionData, doc } from 'rxfire/firestore';
@@ -34,6 +35,9 @@ firestore
     )
 
 const auth = firebase.auth(app)
+
+app.storage().refFromURL('https://firebasestorage.googleapis.com/v0/b/pikaoku-tools.appspot.com/o/noun_wings_1113796.svg?alt=media&token=27c4eee5-dde0-424e-8696-b77c554055fa')
+
 
 /**
  *          STREAMS
