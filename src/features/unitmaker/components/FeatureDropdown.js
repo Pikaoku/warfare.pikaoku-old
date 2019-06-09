@@ -14,8 +14,6 @@ class FeatureDropdown extends PureComponent {
             this.setState({ search: '' })
         };
 
-        console.log(features)
-
         return (
             <Dropdown
                 button

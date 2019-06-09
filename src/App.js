@@ -6,10 +6,11 @@ import { connect } from "react-redux";
 // FIREBASE STREAMS
 import {
     login$,
+    userSettings$,
+    siteSettings$,
     coreAspects$,
     userAspects$,
     savedAspects$,
-    userSettings$,
     coreFeatures$,
     userFeatures$,
     savedFeatures$,
@@ -21,6 +22,7 @@ import {
 import { updateCoreAspects, updateUserAspects, updateSavedAspects } from './features/aspects/store/aspectsActions'
 import { updateCoreFeatures, updateUserFeatures, updateSavedFeatures } from './features/features/store/featuresActions';
 import { onSignIn, onSignOut, updateUserSettings } from "./features/auth/store/authActions";
+import {updateSiteSettingsAction} from './features/common/store/siteSettingsReducer'
 
 // Styles
 import 'semantic-ui-css/semantic.min.css'
@@ -48,11 +50,12 @@ class App extends Component {
             updateCoreAspects, updateUserAspects, updateSavedAspects,
             updateCoreFeatures, updateUserFeatures, updateSavedFeatures,
             updateUserUnits, updateSavedUnits,
-            updateUserSettings
+            updateUserSettings, updateSiteSettingsAction
         } = this.props
 
         login$.subscribe(user => this.props.onSignIn(user))
         userSettings$.subscribe(updateUserSettings)
+        siteSettings$.subscribe(updateSiteSettingsAction)
         coreAspects$.subscribe(updateCoreAspects)
         userAspects$.subscribe(updateUserAspects)
         savedAspects$.subscribe(updateSavedAspects)
@@ -66,6 +69,7 @@ class App extends Component {
     componentWillUnmount() {
         login$.unsubscribe()
         userSettings$.unsubscribe()
+        siteSettings$.unsubscribe()
         coreAspects$.unsubscribe()
         userAspects$.unsubscribe()
         savedAspects$.unsubscribe()
@@ -115,6 +119,6 @@ export default connect(
         updateCoreAspects, updateUserAspects, updateSavedAspects,
         updateCoreFeatures, updateUserFeatures, updateSavedFeatures,
         updateUserUnits, updateSavedUnits,
-        updateUserSettings
+        updateUserSettings, updateSiteSettingsAction
     }
 )(App);

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StandardPage from "../../common/components/StandardPage";
 import {StyledFirebaseAuth} from "react-firebaseui";
-import {Button, Container, Grid, Message} from "semantic-ui-react";
+import {Button, Container, Grid, Message, Divider} from "semantic-ui-react";
 import {onSignOut} from "../store/authActions";
 import AccountAspectTable from "../components/AccountAspectTable";
 import AccountFeatureTable from "../components/AccountFeatureTable";
@@ -13,7 +13,7 @@ import firebase from '../../../firebase'
 
 class Account extends Component {
     render() {
-        const {user, signOut: onSignOut} = this.props;
+        const {user, onSignOut} = this.props;
         const authConfig = {
             signInFlow: 'popup',
             signInOptions: [
@@ -45,6 +45,16 @@ class Account extends Component {
                                 this.setState('closedMessage', true);
                                 window.localStorage.setItem('closedMessage', true);
                             }}
+                        />
+                    </Container>
+
+                    <Divider hidden/>
+
+                    <Container text>
+                        <Message
+                            size={'large'}
+                            color={'yellow'}
+                            content={<div>If Twitter signin fails just try again, it's a twitter problem.</div>}
                         />
                     </Container>
                     <div id={'login'}>

@@ -13,10 +13,10 @@ const onSignIn = user => ({
 const onSignOut = () =>
     (dispatch, getState, firebase) => {
         firebase.auth().signOut()
-        return {
+        dispatch({
             type: AUTH_SIGN_OUT,
             payload: {}
-        }
+        })
     }
 
 const updateUserSettings = (snapshot) => ({

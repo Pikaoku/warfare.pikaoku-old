@@ -1,9 +1,10 @@
 import React from 'react';
-import {Container, Divider, Header, Icon} from "semantic-ui-react";
-import {Helmet} from "react-helmet";
+import { Container, Divider, Header, Icon } from "semantic-ui-react";
+import { Helmet } from "react-helmet";
 import PropTypes from "prop-types";
 import ReactGA from 'react-ga';
-import {pure} from "recompose";
+import { pure } from "recompose";
+import { connect } from 'react-redux';
 
 const StandardPage = pure(
     (
@@ -14,36 +15,52 @@ const StandardPage = pure(
             metaTitle,
             description,
             icon,
-            color
+            color,
+            notification
         }
     ) => {
 
         ReactGA.pageview(window.location.pathname);
 
         return (
-            <div className={'m0'} style={{minHeight: '85vh'}}>
+            <div className={'m0'} style={{ minHeight: '85vh' }}>
                 <Helmet>
-                    <link rel="canonical" href={canonical}/>
-                    <meta name="description" content={description}/>
+                    <link rel="canonical" href={canonical} />
+                    <meta name="description" content={description} />
                     <title>{metaTitle} | warfare.pikaoku</title>
                 </Helmet>
-                <div style={{backgroundColor: color || 'teal'}} className={'m0'}>
+                <div style={{ backgroundColor: color || 'teal' }} className={'m0'}>
                     <Container>
-                        <Divider hidden fitted/>
+                        <Divider hidden fitted />
                         <Header inverted>
-                            <Icon name={icon}/>
+                            <Icon name={icon} />
                             <Header.Content as={'h1'}>
                                 {title}
                             </Header.Content>
                         </Header>
-                        <Divider hidden fitted/>
+                        <Divider hidden fitted />
                     </Container>
                 </div>
-                <Divider hidden/>
+                {
+                    !!notification &&
+                    <div style={{ backgroundColor: '#9cc' }} className={'m0'}>
+                        <Container style={{paddingTop: '15px'}}>
+                            <Header inverted size={'small'}>
+                                <Icon name={'warning sign'} />
+                                <Header.Content>
+                                    {notification}
+                                </Header.Content>
+                            </Header>
+                            <Divider hidden fitted />
+                        </Container>
+                    </div>
+                }
+                <Divider hidden />
                 <Container>
+
                     {children}
-                    <Divider hidden/>
-                    <Divider hidden/>
+                    <Divider hidden />
+                    <Divider hidden />
                 </Container>
             </div>
         );
@@ -59,4 +76,10 @@ StandardPage.propTypes = {
     color: PropTypes.string
 };
 
-export default StandardPage;
+const mapStateToProps = state => ({
+    notification: state.settings.notification
+})
+
+export default connect(
+    mapStateToProps, null
+)(StandardPage);

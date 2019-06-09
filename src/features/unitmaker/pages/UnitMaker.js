@@ -1,20 +1,29 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import StandardPage from "../../common/components/StandardPage";
-import {Button, Checkbox, Container, Divider, Grid, Message, Segment} from "semantic-ui-react";
+import {
+    Button,
+    Checkbox,
+    Container,
+    Divider,
+    Grid,
+    Message,
+    Segment,
+    Dropdown
+} from 'semantic-ui-react';
 import AspectManager from "../components/AspectManager";
 import UnitMakerCore from "../components/UnitMakerCore";
 import FeatureManager from "../components/FeatureManager";
 import UnitmakerButtonGroup from "../components/UnitmakerButtonGroup";
 import * as domtoimage from "dom-to-image";
-import {saveAs} from 'file-saver';
+import { saveAs } from 'file-saver';
 import ColorPicker from "../../common/components/ColorPicker";
-import {AUTH, UNITMAKER} from "../../../reducer";
-import {UNITMAKER_ACTIVE} from "../store/unitmakerReducer";
-import {AUTH_USER} from "../../auth/store/authReducer";
+import { AUTH, UNITMAKER } from "../../../reducer";
+import { UNITMAKER_ACTIVE } from "../store/unitmakerReducer";
+import { AUTH_USER } from "../../auth/store/authReducer";
 import BasicUnitCard from "../../cards/basic/BasicUnitCard";
 import '../../cards/saf/SafUnitCard.css';
-import { SafUnitCard } from '../../cards/saf/SafUnitCard';
+import SafUnitCard from '../../cards/saf/SafUnitCard';
 
 
 class UnitMaker extends Component {
@@ -22,7 +31,7 @@ class UnitMaker extends Component {
         unitCardImage: false,
         backgroundColor: 'white',
         borderColor: 'teal',
-        cardType: 'saf',
+        cardType: 'basic',
         closedMessage: window.localStorage.getItem('closedMessage') || !!this.props.user
     };
 
@@ -30,7 +39,7 @@ class UnitMaker extends Component {
         domtoimage
             .toPng(document.getElementById('UnitCard'))
             .then(dataUrl => {
-                this.setState({unitCardImage: dataUrl})
+                this.setState({ unitCardImage: dataUrl })
             });
     };
 
@@ -44,8 +53,8 @@ class UnitMaker extends Component {
     };
 
     render() {
-        const {labelGroups, updateFeatureGroupLabelSetting} = this.props;
-        const {unitCardImage, backgroundColor, borderColor, cardType, closedMessage} = this.state;
+        const { labelGroups, updateFeatureGroupLabelSetting } = this.props;
+        const { unitCardImage, backgroundColor, borderColor, cardType, closedMessage } = this.state;
 
         return (
             <StandardPage
@@ -59,18 +68,18 @@ class UnitMaker extends Component {
                 <Grid stackable>
                     <Grid.Row columns={2}>
                         <Grid.Column>
-                            <UnitmakerButtonGroup/>
+                            <UnitmakerButtonGroup />
                         </Grid.Column>
                         <Grid.Column textAlign={'right'} verticalAlign={'middle'}>
-                            <a style={{color: 'teal'}}
-                               href={'https://www.kickstarter.com/projects/255133215/strongholds-and-streaming'}>
+                            <a style={{ color: 'teal' }}
+                                href={'https://www.kickstarter.com/projects/255133215/strongholds-and-streaming'}>
                                 Made using <em>Strongholds & Followers</em> by <b>Matt Colville</b>
                             </a>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row columns={2}>
                         <Grid.Column width={8}>
-                            <UnitMakerCore/>
+                            <UnitMakerCore />
                             {
                                 !closedMessage &&
                                 <Message
@@ -96,52 +105,70 @@ class UnitMaker extends Component {
                                             </p>
                                         </div>}
                                     onDismiss={() => {
-                                        this.setState({'closedMessage': true});
+                                        this.setState({ 'closedMessage': true });
                                         window.localStorage.setItem('closedMessage', true);
                                     }}
                                 />
                             }
-                            <AspectManager/>
-                            <FeatureManager/>
+                            <AspectManager />
+                            <FeatureManager />
                         </Grid.Column>
                         <Grid.Column width={8}>
                             <Segment>
                                 <ColorPicker
                                     color={borderColor}
                                     label={'Border Color'}
-                                    onChange={(color) => this.setState({borderColor: color})}
+                                    onChange={(color) => this.setState({ borderColor: color })}
                                 />
                                 <ColorPicker
                                     color={backgroundColor}
                                     label={'Background Color'}
-                                    onChange={(color) => this.setState({backgroundColor: color})}
+                                    onChange={(color) => this.setState({ backgroundColor: color })}
                                     colors={['white', 'whitesmoke', 'beige', 'indianred', 'black',]}
                                 />
-                                <Divider/>
+                                <Divider />
                                 <Checkbox
                                     toggle
                                     label={'Label Feature Groups'}
                                     checked={labelGroups}
                                     onChange={updateFeatureGroupLabelSetting}
                                 />
+                                <Divider />
+                                <div>Card Type:</div>
+                                <Dropdown
+                                    onChange={(a, { value }) => this.setState({ cardType: value })}
+                                    selection
+                                    defaultValue='basic'
+                                    options={
+                                        [
+                                            { key: 'basic', value: 'basic', text: 'Basic' },
+                                            { key: 'saf', value: 'saf', text: 'S&F (Beta)' }
+                                        ]
+                                    }
+                                />
                             </Segment>
                             <Container textAlign={'center'}>
                                 <div className={'grid-center'}>
-                                    <SafUnitCard borderColor={borderColor} backgroundColor={backgroundColor}/>
-                                    {/* <BasicUnitCard borderColor={borderColor} backgroundColor={backgroundColor}/> */}
-                                    {/*<PikaokuSimpleUnitCard borderColor={borderColor}/>*/}
+                                    {
+                                        this.state.cardType === 'saf' &&
+                                        <SafUnitCard borderColor={borderColor} backgroundColor={backgroundColor} />
+                                    }
+                                    {
+                                        this.state.cardType === 'basic' &&
+                                        <BasicUnitCard borderColor={borderColor} backgroundColor={backgroundColor} />
+                                    }
                                 </div>
-                                <Divider hidden/>
+                                <Divider hidden />
                                 <Button.Group size={'large'} color={'teal'}>
                                     <Button icon={'cog'} content={'Generate'}
-                                            onClick={this.generateImage}/>
+                                        onClick={this.generateImage} />
                                     <Button icon={'download'} content={'Download'}
-                                            onClick={this.downloadImage}/>
+                                        onClick={this.downloadImage} />
                                 </Button.Group>
-                                <Divider hidden/>
+                                <Divider hidden />
                                 {
                                     unitCardImage &&
-                                    <img id={'UnitCardImage'} src={this.state.unitCardImage} alt={'broke'}/>
+                                    <img id={'UnitCardImage'} src={this.state.unitCardImage} alt={'broke'} />
                                 }
                             </Container>
                         </Grid.Column>

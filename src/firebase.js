@@ -88,6 +88,7 @@ const savedAspects$ = createObservableForUserSavedData(COLLECTION_ASPECTS)
 const savedFeatures$ = createObservableForUserSavedData(COLLECTION_FEATURES)
 const savedUnits$ = createObservableForUserSavedData(COLLECTION_UNITS)
 
+const siteSettings$ = doc(firestore.doc('sites/warfare'))
 
 // FUNCTIONS
 const getCurrentUser = () => auth().getCurrentUser() || false
@@ -103,7 +104,7 @@ export { app, auth, firestore }
 // Streams
 export {
     login$,
-    userSettings$,
+    userSettings$, siteSettings$,
     coreAspects$, coreFeatures$,
     userAspects$, userFeatures$,
     userUnits$,

@@ -4,10 +4,11 @@
     background-color: white;
     border-width: 8px;
     border-style: solid;
-    border-color: brown;
     position: relative;
-    box-shadow: inset 0 0 5px 5px rgba(0,0,0,.25);
+    box-shadow: inset 0 0 5px 5px rgba(0, 0, 0, .25);
     margin-bottom: -15px;
+    font-family: ModestoText-Medium, sans-serif;
+    padding-bottom: 15px;
 }
 
 .saf-corner-arrow-tr {
@@ -37,7 +38,7 @@
     position: absolute;
     width: 40px;
     top: -8px;
-    left: 50px;
+    left: 40px;
     fill: #1a2b3c;
 }
 
@@ -45,7 +46,7 @@
     position: absolute;
     width: 40px;
     top: -8px;
-    left: 5px;
+    left: 0px;
     fill: brown;
 }
 
@@ -56,4 +57,102 @@
 .saf-experience {
     top: -12px;
     position: relative;
+}
+
+.saf-unit-name {
+    text-align: left;
+    margin-left: 85px;
+    margin-top: 20px;
+    font-size: 17px;
+    font-weight: bold;
+    margin-right: 20px;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    padding-bottom: 4px;
+    text-transform: uppercase;
+    border-bottom-color: inherit;
+}
+
+.saf-unit-aspects-wrapper {
+    padding-top: 4px;
+}
+
+.saf-unit-aspects {
+    text-align: left;
+    margin-left: 85px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 20px;
+    text-transform: uppercase;
+}
+
+.saf-upper {
+    height: 90px;
+    border-color: inherit;
+}
+
+.saf-stat-line {
+    font-size: 16px;
+    border-top-width: 3px;
+    border-top-style: solid;
+    display: grid;
+    grid-template-columns: 90px 30px 14px 100px 30px;
+    grid-template-rows: 30px;
+    align-items: center;
+}
+
+.saf-stats {
+    padding: 0 20px;
+    border-color: inherit;
+}
+
+.saf-stat-line {
+    border-color: inherit;
+}
+
+.saf-stats .saf-stat-line:last-child {
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+}
+
+.saf-stat-line-label {
+    justify-self: start;
+}
+
+.saf-stat-line-data {
+    justify-self: end;
+}
+
+.saf-cost {
+    text-align: right;
+    padding-right: 20px;
+}
+
+.saf-extras {
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.saf-subheader {
+    font-size: 16px;
+    margin: 15px 0 5px;
+}
+
+.saf-subheader-first {
+    margin-top: 0;
+}
+
+.saf-extras-item span:first-child {
+    font-weight: bold;
+}
+
+.saf-extras-item span:first-child:after {
+    content: ". ";
+}
+
+.buc-commander {
+    margin-top: 10px;
 }
