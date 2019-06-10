@@ -4,6 +4,8 @@
     src: url('./static/fonts/webfonts/384667_1_0.eot?#iefix') format('embedded-opentype'), url('./static/fonts/webfonts/384667_1_0.woff2') format('woff2'), url('./static/fonts/webfonts/384667_1_0.woff') format('woff'), url('./static/fonts/webfonts/384667_1_0.ttf') format('truetype');
 }
 
+@import url('https://fonts.googleapis.com/css?family=Domine&display=swap');
+
 body {
     margin: 0;
     padding: 0;

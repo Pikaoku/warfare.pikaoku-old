@@ -15,7 +15,7 @@ import AspectManager from "../components/AspectManager";
 import UnitMakerCore from "../components/UnitMakerCore";
 import FeatureManager from "../components/FeatureManager";
 import UnitmakerButtonGroup from "../components/UnitmakerButtonGroup";
-import * as domtoimage from "dom-to-image";
+import { toPng, toBlob, toJpeg } from 'html-to-image';
 import { saveAs } from 'file-saver';
 import ColorPicker from "../../common/components/ColorPicker";
 import { AUTH, UNITMAKER } from "../../../reducer";
@@ -24,6 +24,7 @@ import { AUTH_USER } from "../../auth/store/authReducer";
 import BasicUnitCard from "../../cards/basic/BasicUnitCard";
 import '../../cards/saf/SafUnitCard.css';
 import SafUnitCard from '../../cards/saf/SafUnitCard';
+import { toSvg } from 'dom-to-image';
 
 
 class UnitMaker extends Component {
@@ -36,16 +37,14 @@ class UnitMaker extends Component {
     };
 
     generateImage = () => {
-        domtoimage
-            .toPng(document.getElementById('UnitCard'))
+        toSvg(document.getElementById('UnitCard'), {style: {color: 'red'}})
             .then(dataUrl => {
                 this.setState({ unitCardImage: dataUrl })
             });
     };
 
     downloadImage = () => {
-        domtoimage
-            .toBlob(document.getElementById('UnitCard'))
+        toBlob(document.getElementById('UnitCard'))
             .then(blob => {
                 saveAs(blob, (this.props.unit.name.replace(/[^a-z0-9.-]/gi, '') || 'unit') + '.png')
             });

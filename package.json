@@ -8,6 +8,7 @@
     "dom-to-image": "^2.6.0",
     "file-saver": "^2.0.1",
     "firebase": "^5.9.4",
+    "html-to-image": "^0.1.0",
     "immutability-helper": "^3.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
