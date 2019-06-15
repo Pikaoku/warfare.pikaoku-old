@@ -23,6 +23,7 @@ import { updateCoreAspects, updateUserAspects, updateSavedAspects } from './feat
 import { updateCoreFeatures, updateUserFeatures, updateSavedFeatures } from './features/features/store/featuresActions';
 import { onSignIn, onSignOut, updateUserSettings } from "./features/auth/store/authActions";
 import {updateSiteSettingsAction} from './features/common/store/siteSettingsReducer'
+import { updateUserUnits, updateSavedUnits } from './features/units/store/unitsActions';
 
 // Styles
 import 'semantic-ui-css/semantic.min.css'
@@ -38,12 +39,11 @@ import Contact from "./features/common/pages/Contact";
 import SiteMap from "./features/common/pages/SiteMap";
 import Rules from "./features/rules/pages/Rules";
 import Account from "./features/auth/pages/Account";
+import ViewFeature from './features/features/pages/ViewFeature';
 
 // LAYOUT
 import Navigation from "./features/common/components/Navigation";
 import Footer from "./features/common/components/Footer";
-import { updateUserUnits, updateSavedUnits } from './features/units/store/unitsActions';
-import ViewFeature from './features/features/pages/ViewFeature';
 
 class App extends Component {
     componentWillMount() {
