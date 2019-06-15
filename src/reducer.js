@@ -14,7 +14,6 @@ export const UNITMAKER = 'unitmaker';
 
 const reducer = combineReducers({
     [AUTH]: authReducer,
-    [DATA]: dataReducer,
     [UNITMAKER]: unitmakerReducer,
     aspects: aspectsReducer,
     features: featuresReducer,
