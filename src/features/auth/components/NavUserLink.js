@@ -4,13 +4,13 @@ import {Menu} from "semantic-ui-react"
 
 class NavUserLink extends Component {
     render() {
-        const {user, navProps} = this.props;
-        return (<Menu.Item content={user.username} {...navProps}/>)
+        const {username, navProps} = this.props;
+        return (<Menu.Item content={username} {...navProps}/>)
     }
 }
 
 const mapStateToProps = (state) => ({
-    user: state.auth.user
+    username: state.auth.username
 });
 
 export default connect(

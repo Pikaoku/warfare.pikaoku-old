@@ -91,7 +91,7 @@ const savedUnits$ = createObservableForUserSavedData(COLLECTION_UNITS)
 const siteSettings$ = doc(firestore.doc('sites/warfare'))
 
 // FUNCTIONS
-const getCurrentUser = () => auth().getCurrentUser() || false
+const getCurrentUser = () => app.auth().getCurrentUser || false
 
 
 /**

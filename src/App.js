@@ -43,6 +43,7 @@ import Account from "./features/auth/pages/Account";
 import Navigation from "./features/common/components/Navigation";
 import Footer from "./features/common/components/Footer";
 import { updateUserUnits, updateSavedUnits } from './features/units/store/unitsActions';
+import ViewFeature from './features/features/pages/ViewFeature';
 
 class App extends Component {
     componentWillMount() {
@@ -100,6 +101,7 @@ class App extends Component {
                         <Route exact path={'/rules'} component={Rules} />
                         <Route exact path={'/sitemap'} component={SiteMap} />
                         <Route exact path={'/contact'} component={Contact} />
+                        <Route exact path={'/features/:id'} component={ViewFeature} />
                         {/* <Route exact path={'/simple'} component={SimpleWarfare} /> */}
                         <Route exact path={'/robots.txt'} />
                         <Route exact path={'/sitemap.xml'} />

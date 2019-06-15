@@ -166,15 +166,15 @@ const blurOnKeyDown =
     e => ((e.keyCode === 27) || (e.keyCode === 13)) && e.target.blur();
 
 export {
-    blurOnKeyDown, 
-    stringifyObjectStats, 
-    stringifyUnitObjectStats, 
-    extractStat, 
-    withSign, 
-    calculateUnitCost, 
-    composeUnitFeatures, 
-    enforceArrayUniqueness, 
-    emptyAspect, 
-    emptyFeature, 
+    blurOnKeyDown,
+    stringifyObjectStats,
+    stringifyUnitObjectStats,
+    extractStat,
+    withSign,
+    calculateUnitCost,
+    composeUnitFeatures,
+    enforceArrayUniqueness,
+    emptyAspect,
+    emptyFeature,
     emptyUnitObject
 }
