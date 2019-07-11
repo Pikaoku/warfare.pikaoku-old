@@ -1,50 +1,46 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Helmet } from "react-helmet";
-import { connect } from "react-redux";
+import './App.css'
+import 'semantic-ui-css/semantic.min.css'
+
+import React, { Component } from 'react'
+import { Helmet } from 'react-helmet'
+import { connect } from 'react-redux'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+
+import { updateCoreAspects, updateSavedAspects, updateUserAspects } from './features/aspects/store/aspectsActions'
+import Account from './features/auth/pages/Account'
+import { onSignIn, onSignOut, updateUserSettings } from './features/auth/store/authActions'
+import Browse from './features/browse/pages/Browse'
+import Footer from './features/common/components/Footer'
+import Navigation from './features/common/components/Navigation'
+import Contact from './features/common/pages/Contact'
+import FourOhFour from './features/common/pages/FourOhFour'
+import Home from './features/common/pages/Home'
+import SiteMap from './features/common/pages/SiteMap'
+import { updateSiteSettingsAction } from './features/common/store/siteSettingsReducer'
+import ViewFeature from './features/features/pages/ViewFeature'
+import { updateCoreFeatures, updateSavedFeatures, updateUserFeatures } from './features/features/store/featuresActions'
+import Rules from './features/rules/pages/Rules'
+import UnitMaker from './features/unitmaker/pages/UnitMaker'
+import { updateSavedUnits, updateUserUnits } from './features/units/store/unitsActions'
+import {
+    coreAspects$,
+    coreFeatures$,
+    login$,
+    savedAspects$,
+    savedFeatures$,
+    savedUnits$,
+    siteSettings$,
+    userAspects$,
+    userFeatures$,
+    userSettings$,
+    userUnits$,
+} from './firebase'
 
 // FIREBASE STREAMS
-import {
-    login$,
-    userSettings$,
-    siteSettings$,
-    coreAspects$,
-    userAspects$,
-    savedAspects$,
-    coreFeatures$,
-    userFeatures$,
-    savedFeatures$,
-    userUnits$,
-    savedUnits$
-} from './firebase';
-
 // REDUX ACTIONS
-import { updateCoreAspects, updateUserAspects, updateSavedAspects } from './features/aspects/store/aspectsActions'
-import { updateCoreFeatures, updateUserFeatures, updateSavedFeatures } from './features/features/store/featuresActions';
-import { onSignIn, onSignOut, updateUserSettings } from "./features/auth/store/authActions";
-import {updateSiteSettingsAction} from './features/common/store/siteSettingsReducer'
-import { updateUserUnits, updateSavedUnits } from './features/units/store/unitsActions';
-
 // Styles
-import 'semantic-ui-css/semantic.min.css'
-import './App.css';
-
 // Pages
-import Home from "./features/common/pages/Home";
-import UnitMaker from "./features/unitmaker/pages/UnitMaker";
-import Browse from "./features/browse/pages/Browse";
-import FourOhFour from "./features/common/pages/FourOhFour";
-import SimpleWarfare from "./features/battle/simple/pages/SimpleWarfare";
-import Contact from "./features/common/pages/Contact";
-import SiteMap from "./features/common/pages/SiteMap";
-import Rules from "./features/rules/pages/Rules";
-import Account from "./features/auth/pages/Account";
-import ViewFeature from './features/features/pages/ViewFeature';
-
 // LAYOUT
-import Navigation from "./features/common/components/Navigation";
-import Footer from "./features/common/components/Footer";
-
 class App extends Component {
     componentWillMount() {
         const {
@@ -97,7 +93,7 @@ class App extends Component {
                         <Route exact path={'/'} component={UnitMaker} />
                         <Route exact path={'/info'} component={Home} />
                         <Route exact path={'/user'} component={Account} />
-                        <Route exact path={'/shared'} component={Browse} />
+                        <Route exact path={'/shared/:tab'} component={Browse} />
                         <Route exact path={'/rules'} component={Rules} />
                         <Route exact path={'/sitemap'} component={SiteMap} />
                         <Route exact path={'/contact'} component={Contact} />

@@ -1,16 +1,13 @@
-import React from 'react';
-import { connectHits, InstantSearch, Panel } from "react-instantsearch-dom";
-import { Divider, Grid, Header, Label, Popup, Responsive, Tab, Icon } from 'semantic-ui-react';
-import WarfareRefinementList from "./WarfareRefinementList";
-import { connect } from "react-redux";
-import SaveButton from "../../common/components/SaveButton";
-import { saveAspectToUser } from "../../aspects/store/aspectsActions";
-import { AUTH } from "../../../reducer";
-import { AUTH_USER } from "../../auth/store/authReducer";
-import WarfareSearchBar from "./WarfareSearchBar";
+import React from 'react'
+import { connectHits, InstantSearch, Pagination, Panel } from 'react-instantsearch-dom'
+import { connect } from 'react-redux'
+import { Divider, Grid, Header, Label, Popup, Responsive, Tab } from 'semantic-ui-react'
 
-import { withSign, UNIT_STAT_TYPES } from '../../unitmaker/store/unitmakerUtils'
-import { unsaveAspectFromUser } from "../../aspects/store/aspectsActions";
+import { saveAspectToUser, unsaveAspectFromUser } from '../../aspects/store/aspectsActions'
+import SaveButton from '../../common/components/SaveButton'
+import { UNIT_STAT_TYPES, withSign } from '../../unitmaker/store/unitmakerUtils'
+import WarfareRefinementList from './WarfareRefinementList'
+import WarfareSearchBar from './WarfareSearchBar'
 
 const AspectHitsTwo =
     connect(
@@ -113,6 +110,8 @@ const AspectSearchTab = ({ searchClient }) => (
                 </Panel>
                 <Divider hidden />
                 <AspectHitsTwo />
+                <Divider hidden />
+                <Pagination />
             </InstantSearch>
         </div>
         <br />

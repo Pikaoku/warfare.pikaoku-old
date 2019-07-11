@@ -1,8 +1,19 @@
-import React, { Component, useState } from 'react';
-import { connect } from 'react-redux';
-import { Input, Form, Header, Segment, Table, TableHeader, TableRow, TableCell, TableBody, TableHeaderCell, Button } from "semantic-ui-react";
-import { blurOnKeyDown } from "../../../unitmaker/store/unitmakerUtils";
-import { saveUserSetting } from "../../store/authActions";
+import React, { Component, useState } from 'react'
+import { connect } from 'react-redux'
+import {
+    Button,
+    Input,
+    Segment,
+    Table,
+    TableBody,
+    TableCell,
+    TableHeader,
+    TableHeaderCell,
+    TableRow,
+} from 'semantic-ui-react'
+
+import { blurOnKeyDown } from '../../../unitmaker/store/unitmakerUtils'
+import { saveUserSetting } from '../../store/authActions'
 
 class AccountSettings extends Component {
     constructor(props) {

@@ -1,6 +1,7 @@
-import React from 'react';
-import StandardPage from "../components/StandardPage";
-import {Button, Container, Divider} from "semantic-ui-react";
+import React from 'react'
+import { Button, Container, Divider } from 'semantic-ui-react'
+
+import StandardPage from '../components/StandardPage'
 
 const Contact = () => {
     return (
@@ -11,14 +12,14 @@ const Contact = () => {
             metaTitle={'Contact Me | warfare.pikaoku'} title={'Contact Me'}
         >
             <Container text textAlign={'center'}>
-                <Button fluid color={'twitter'} size={'massive'} icon={'twitter'} as={'a'}
-                        href={'https://twitter.com/Pikaoku'} content={'On Twitter'}/>
-                <Divider hidden/>
                 <Button fluid color={'vk'} size={'massive'} icon={'discord'} as={'a'}
-                        href={'https://discordapp.com/'} content={'On Discord at Pikaoku#1234'}/>
-                <Divider hidden/>
+                    href={'https://discord.gg/njeuFWp'} content={'On My Discord'} />
+                <Divider hidden />
+                <Button fluid color={'twitter'} size={'massive'} icon={'twitter'} as={'a'}
+                    href={'https://twitter.com/Pikaoku'} content={'On Twitter'} />
+                <Divider hidden />
                 <Button fluid color={'google plus'} size={'massive'} icon={'patreon'} as={'a'}
-                        href={'https://www.patreon.com/pikaoku'} content={'On Patreon'}/>
+                    href={'https://www.patreon.com/pikaoku'} content={'On Patreon'} />
 
             </Container>
         </StandardPage>

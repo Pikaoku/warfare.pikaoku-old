@@ -1,23 +1,21 @@
-import React from 'react';
-import { Card, Divider, Grid, Header, Label, Popup, Responsive, Tab } from "semantic-ui-react";
-import { connectHits, InstantSearch, Panel } from "react-instantsearch-dom";
-import { connect } from 'react-redux';
-import SaveButton from "../../common/components/SaveButton";
+import React from 'react'
+import { connectHits, InstantSearch, Pagination, Panel } from 'react-instantsearch-dom'
+import { connect } from 'react-redux'
+import { Divider, Grid, Header, Label, Popup, Responsive, Tab } from 'semantic-ui-react'
+
+import { AUTH } from '../../../reducer'
+import { AUTH_USER } from '../../auth/store/authReducer'
+import SaveButton from '../../common/components/SaveButton'
 import {
     ASPECT_TYPES,
-    calculateUnitCost,
     composeUnitFeatures,
     extractStat,
-    stringifyUnitObjectStats,
     UNIT_ITEM_NAME,
     UNIT_STAT_TYPES,
-    withSign
-} from "../../unitmaker/store/unitmakerUtils";
-import { saveUnitToUser } from "../../units/store/unitsActions";
-import WarfareSearchBar from "./WarfareSearchBar";
-import { AUTH } from "../../../reducer";
-import { AUTH_USER } from "../../auth/store/authReducer";
-import { unsaveUnitFromUser } from "../../units/store/unitsActions";
+    withSign,
+} from '../../unitmaker/store/unitmakerUtils'
+import { saveUnitToUser, unsaveUnitFromUser } from '../../units/store/unitsActions'
+import WarfareSearchBar from './WarfareSearchBar'
 
 const UnitHitsTwo =
     connect(
@@ -124,6 +122,8 @@ const UnitSearchTab = ({ searchClient }) =>
                 </Panel>
                 <Divider hidden />
                 <UnitHitsTwo />
+                <Divider hidden />
+                <Pagination />
             </InstantSearch>
         </div>
         <br />

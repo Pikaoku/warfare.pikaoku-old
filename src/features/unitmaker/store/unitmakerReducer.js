@@ -1,6 +1,7 @@
-import update from "immutability-helper";
-import {ASPECT_TYPE_CUSTOMIZATION, emptyUnitObject} from "./unitmakerUtils";
-import {FEATURES} from "../../../store/data/dataReducer";
+import update from 'immutability-helper'
+
+import { FEATURES } from '../../../store/data/dataReducer'
+import { ASPECT_TYPE_CUSTOMIZATION, emptyUnitObject } from './unitmakerUtils'
 
 export const UNITMAKER_UPDATE_FIELD = 'UNITMAKER UPDATE FIELD';
 export const UNITMAKER_UPDATE_NESTED_FIELD = 'UNITMAKER UPDATE NESTED FIELD';
@@ -21,16 +22,16 @@ const initialState = {
     [UNITMAKER_LOADING]: false
 };
 
-export const unitmakerReducer = (state = initialState, {type, payload}) => {
+export const unitmakerReducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case UNITMAKER_UPDATE_FIELD:
-            return update(state, {[UNITMAKER_ACTIVE]: {[payload.field]: {$set: payload.value}}});
+            return update(state, { [UNITMAKER_ACTIVE]: { [payload.field]: { $set: payload.value } } });
         case UNITMAKER_UPDATE_NESTED_FIELD:
-            return update(state, {[UNITMAKER_ACTIVE]: {[payload.outer]: {[payload.inner]: {$set: payload.value}}}});
+            return update(state, { [UNITMAKER_ACTIVE]: { [payload.outer]: { [payload.inner]: { $set: payload.value } } } });
         case UNITMAKER_UPDATE_CUSTOM_FEATURES:
             return update(
                 state,
-                {[UNITMAKER_ACTIVE]: {[ASPECT_TYPE_CUSTOMIZATION]: {[FEATURES]: {$set: payload.features}}}}
+                { [UNITMAKER_ACTIVE]: { [ASPECT_TYPE_CUSTOMIZATION]: { [FEATURES]: { $set: payload.features } } } }
             );
         case UNITMAKER_RESET:
             return initialState;
@@ -45,7 +46,7 @@ export const unitmakerReducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 [UNITMAKER_ACTIVE_ID]: payload.id,
-                [UNITMAKER_ACTIVE]: payload.unit,
+                [UNITMAKER_ACTIVE]: { ...payload.unit, id: payload.id },
                 [UNITMAKER_LOADING]: false,
 
             };

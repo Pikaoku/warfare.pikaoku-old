@@ -1,15 +1,16 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Container, Menu, Responsive, Segment} from "semantic-ui-react";
-import {Link, withRouter} from 'react-router-dom';
-import NavUserLink from "../../auth/components/NavUserLink";
-import {AUTH} from "../../../reducer";
-import {AUTH_USER} from "../../auth/store/authReducer";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Link, withRouter } from 'react-router-dom'
+import { Container, Menu, Responsive, Segment } from 'semantic-ui-react'
+
+import { AUTH } from '../../../reducer'
+import NavUserLink from '../../auth/components/NavUserLink'
+import { AUTH_USER } from '../../auth/store/authReducer'
 
 class Navigation extends Component {
     render() {
         const
-            {user, location} = this.props,
+            { user, location } = this.props,
             path = location.pathname,
             isActive = (to) => path.startsWith(to);
 
@@ -18,12 +19,12 @@ class Navigation extends Component {
         };
 
         const authItem = user === false
-            ? <Menu.Item content={'Log In'} {...authItemProps}/>
-            : <NavUserLink navProps={authItemProps}/>;
+            ? <Menu.Item content={'Log In'} {...authItemProps} />
+            : <NavUserLink navProps={authItemProps} />;
 
         return (
             <nav>
-                <Segment attached color={'teal'} inverted style={{border: 0}}>
+                <Segment attached color={'teal'} inverted style={{ border: 0 }}>
                     <Responsive {...Responsive.onlyMobile}>
                         <Menu vertical fluid secondary inverted color={'teal'} size={'large'} className={'attached'}>
                             <Menu.Item
@@ -38,11 +39,11 @@ class Navigation extends Component {
                                 to={'/'}
                                 active={path === '/'}
                                 as={Link}
-                                content={'Unit Maker'}/>
+                                content={'Unit Maker'} />
                             <Menu.Item
                                 icon={'globe'}
-                                to={'/shared'}
-                                active={path === '/shared'} as={Link}
+                                to={'/shared/aspects'}
+                                active={path.includes('/shared')} as={Link}
                                 content={'Shared'}
                             />
                             <Menu.Item
@@ -50,7 +51,7 @@ class Navigation extends Component {
                                 to={'/rules'}
                                 active={path === '/rules'}
                                 as={Link}
-                                content={'Rules'}/>
+                                content={'Rules'} />
                             {authItem}
                         </Menu>
                     </Responsive>
@@ -59,13 +60,10 @@ class Navigation extends Component {
                             <Container>
                                 <Menu.Menu position={'left'}>
                                     <Menu.Item to={'/info'} active={path === '/info'} as={Link}
-                                               content={'warfare.pikaoku'}/>
-                                    <Menu.Item to={'/'} active={path === '/'} as={Link} content={'Unit Maker'}/>
-                                    <Menu.Item to={'/shared'} active={path === '/shared'} as={Link} content={'Shared'}/>
-                                    <Menu.Item to={'/rules'} active={path === '/rules'} as={Link} content={'Rules'}/>
-                                    {/* <Menu.Item to={'/simple'} active={path === '/simple'} as={Link} content={'Simple Warfare'}/> */}
-                                    {/*<Menu.Item to={'/compare'} active={path === '/compare'} as={Link}*/}
-                                    {/*           content={'Compare'}/>*/}
+                                        content={'warfare.pikaoku'} />
+                                    <Menu.Item to={'/'} active={path === '/'} as={Link} content={'Unit Maker'} />
+                                    <Menu.Item to={'/shared/aspects'} active={path.includes('/shared/aspects')} as={Link} content={'Shared'} />
+                                    <Menu.Item to={'/rules'} active={path === '/rules'} as={Link} content={'Rules'} />
                                 </Menu.Menu>
                                 <Menu.Menu position={'right'}>
                                     {authItem}

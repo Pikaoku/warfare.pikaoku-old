@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { pure } from "recompose";
-import CustomIcon from '../../common/components/CustomIcon';
-import firebase from '../../../firebase';
+import { pure } from 'recompose'
 
 const TypeFlag = pure(
     ({ className, fill, icon, typeSrc }) => {
@@ -10,7 +8,7 @@ const TypeFlag = pure(
 
         return (
             <div className={'type-flag'}>
-                <img className={'saf-w-40'} src={typeSrc} alt={''}/>
+                <img className={'saf-w-40'} src={typeSrc} alt={''} />
             </div>
         )
     }

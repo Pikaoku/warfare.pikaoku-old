@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Button, Dropdown, Popup } from "semantic-ui-react";
-import { createUnitDropdownOptions } from "../../units/components/UnitDropdownResult";
-import { createUnit } from "../../units/store/unitsActions";
-import { umLoadUnit, umReset } from "../store/unitmakerActions";
-import { deleteUnit, updateUnitmakerUnit } from "../../units/store/unitsActions";
-import { sortByField } from '../../common/utils/array/sortByField';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Button, Dropdown, Popup } from 'semantic-ui-react'
+
+import { sortByField } from '../../common/utils/array/sortByField'
+import { createUnitDropdownOptions } from '../../units/components/UnitDropdownResult'
+import { createUnit, deleteUnit, updateUnitmakerUnit } from '../../units/store/unitsActions'
+import { umLoadUnit, umReset } from '../store/unitmakerActions'
 
 class UnitmakerButtonGroup extends Component {
     render() {
@@ -22,6 +22,9 @@ class UnitmakerButtonGroup extends Component {
         } = this.props
 
         const currentId = currentUnit.id
+
+        console.log('current unit', currentUnit);
+        console.log('current unit id', currentUnit.id)
 
         return (
             <Button.Group icon size={'large'}>
@@ -49,10 +52,7 @@ class UnitmakerButtonGroup extends Component {
                 <Popup
                     trigger={
                         <Button
-                            disabled={
-                                !user ||
-                                ((currentId !== false) && (currentUnit.authorId !== user.id))
-                            }
+                            disabled={!user}
                             onClick={
                                 !!currentId
                                     ? () => updateUnitmakerUnit(currentUnit.id)

@@ -1,12 +1,12 @@
-import React from 'react';
-import { Card, Divider, Grid, Header, Tab, Table } from "semantic-ui-react";
-import { connectHits, InstantSearch, Panel, SearchBox } from "react-instantsearch-dom";
-import WarfareRefinementList from "./WarfareRefinementList";
-import { connect } from "react-redux";
-import SaveButton from "../../common/components/SaveButton";
-import { saveFeatureToUser } from "../../features/store/featuresActions";
-import WarfareSearchBar from "./WarfareSearchBar";
-import { unsaveFeatureFromUser } from "../../features/store/featuresActions";
+import React from 'react'
+import { connectHits, InstantSearch, Pagination, Panel } from 'react-instantsearch-dom'
+import { connect } from 'react-redux'
+import { Divider, Grid, Header, Tab } from 'semantic-ui-react'
+
+import SaveButton from '../../common/components/SaveButton'
+import { saveFeatureToUser, unsaveFeatureFromUser } from '../../features/store/featuresActions'
+import WarfareRefinementList from './WarfareRefinementList'
+import WarfareSearchBar from './WarfareSearchBar'
 
 const FeatureHits =
     connect(
@@ -62,6 +62,8 @@ const FeatureSearchTab = ({ searchClient }) => (
                 </Panel>
                 <Divider hidden />
                 <FeatureHits />
+                <Divider hidden />
+                <Pagination />
             </InstantSearch>
         </div>
         <br />
