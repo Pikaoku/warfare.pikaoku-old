@@ -52,6 +52,13 @@ class Navigation extends Component {
                                 active={path === '/rules'}
                                 as={Link}
                                 content={'Rules'} />
+                            <Menu.Item
+                                icon={"flag"}
+                                to={"/initiative"}
+                                active={path === "/initiative"}
+                                as={Link}
+                                content={"Warfare"}
+                            />
                             {authItem}
                         </Menu>
                     </Responsive>
@@ -64,6 +71,12 @@ class Navigation extends Component {
                                     <Menu.Item to={'/'} active={path === '/'} as={Link} content={'Unit Maker'} />
                                     <Menu.Item to={'/shared/aspects'} active={path.includes('/shared/aspects')} as={Link} content={'Shared'} />
                                     <Menu.Item to={'/rules'} active={path === '/rules'} as={Link} content={'Rules'} />
+                                    <Menu.Item
+                                        to={"/initiative"}
+                                        active={path === "/initiative"}
+                                        as={Link}
+                                        content={"Warfare"}
+                                    />
                                 </Menu.Menu>
                                 <Menu.Menu position={'right'}>
                                     {authItem}

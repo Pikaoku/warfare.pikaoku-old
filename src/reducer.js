@@ -5,6 +5,7 @@ import {unitmakerReducer} from "./features/unitmaker/store/unitmakerReducer";
 import aspectsReducer from './features/aspects/store/aspectsReducer';
 import featuresReducer from './features/features/store/featuresReducer';
 import unitsReducer from './features/units/store/unitsReducer';
+import armiesReducer from "./features/battle/initiative/store/armiesReducer";
 import siteSettingsReducer from './features/common/store/siteSettingsReducer';
 
 export const AUTH = 'auth';
@@ -18,7 +19,8 @@ const reducer = combineReducers({
     aspects: aspectsReducer,
     features: featuresReducer,
     units: unitsReducer,
-    settings: siteSettingsReducer
+    settings: siteSettingsReducer,
+    armies: armiesReducer
 });
 
 export default reducer;

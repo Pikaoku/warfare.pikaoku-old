@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/lodash": "^4.14.137",
+    "@types/node": "^12.7.2",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-helmet": "^5.0.9",
+    "@types/react-redux": "^7.1.2",
+    "@types/uuid": "^3.4.5",
     "algoliasearch": "^3.32.1",
     "array-move": "^2.1.0",
     "dom-to-image": "^2.6.0",
@@ -10,6 +18,7 @@
     "firebase": "^5.9.4",
     "html-to-image": "^0.1.0",
     "immutability-helper": "^3.0.0",
+    "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-color": "^2.17.0",
@@ -22,6 +31,7 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "react-sortable-hoc": "^1.8.3",
+    "react-storage-hooks": "^3.0.3",
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
@@ -31,7 +41,11 @@
     "rxjs": "^6.5.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.86.0",
-    "string-hash": "^1.1.3"
+    "string-hash": "^1.1.3",
+    "ts-optchain": "^0.1.8",
+    "typesafe-actions": "^4.4.2",
+    "typescript": "^3.5.3",
+    "uuid": "^3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
